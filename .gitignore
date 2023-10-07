@@ -1,6 +1,7 @@
 /build
 /.vscode
 /.idea
+.DS_Store
 CMakeLists.txt.user
 CMakeCache.txt
 CMakeFiles
