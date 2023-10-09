@@ -13,7 +13,7 @@ add_executable(Crow
 list(APPEND CMAKE_PREFIX_PATH "/opt")
 target_link_libraries(Crow PRIVATE pthread)
 include_directories(/usr/local/include)
-# include_directories(/opt/homebrew/Cellar/asio/1.28.1/include)
+include_directories(/opt/homebrew/Cellar/asio/1.28.1/include)
 
 
 file(COPY ${CMAKE_SOURCE_DIR}/public DESTINATION ${CMAKE_BINARY_DIR})
