@@ -20,16 +20,16 @@
                 }
             ],
             "preLaunchTask": "build",
-            "miDebuggerPath": "/usr/bin/gdb",
             "linux": {
-                "MIMode": "gdb"
+                "MIMode": "gdb",
+                "miDebuggerPath": "/usr/bin/gdb",
             },
             "windows": {
                 "MIMode": "gdb",
                 "miDebuggerPath": "/path/to/gdb.exe"
             },
             "osx": {
-                "MIMode": "lldb"
+                "MIMode": "lldb",
             }
         }
     ]
