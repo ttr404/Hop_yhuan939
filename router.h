@@ -8,7 +8,7 @@
 class Router {
     public:
         Router(crow::SimpleApp& app);
-        crow::json handleQuery(std::string query, std::string route);
+        crow::json::wvalue handleQuery(std::string query);
         void NavigateTo(std::string route);
     private:
         crow::SimpleApp& app;
@@ -17,5 +17,5 @@ class Router {
         std::string content;
         std::stringstream buffer;
         crow::mustache::context ctx;
-}
+};
 #endif
