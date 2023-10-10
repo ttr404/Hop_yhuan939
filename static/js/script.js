@@ -14,13 +14,25 @@ window.onload = (() => {
                         suggestion.innerHTML = '';
                         for (let i = 0; i < 5; i++) {
                             const option = document.createElement('li');
-                            option.innerHTML = data[1][i];
+                            option.innerText = data[1][i];
                             suggestion.appendChild(option);
                         }
                     }
                     );
                 } else {
-                    suggestion.innerHTML = '';
+                    fetch('/suggestion'), {
+                        mode: 'cors'
+                    }.then(response => response.text()).then(data => {
+                        const parser = new DOMParser();
+                        const xml = parser.parseFromString(data, 'text/xml');
+                        const items = xml.querySelectorAll('item');
+                        suggestion.innerHTML = '';
+                        for (let i = 0; i < 5; i++) {
+                            const option = document.createElement('li');
+                            option.innerText = items[i].querySelector('title').innerText;
+                            suggestion.appendChild(option);
+                        }
+                    });
                 }
             }
         );
