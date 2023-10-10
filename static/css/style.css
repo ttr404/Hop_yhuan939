@@ -18,7 +18,12 @@ body {
     transition: .25s;
 }
 
-body, main, main .form, .bg {
+body,
+main,
+main ul,
+main li,
+main .form,
+.bg {
     display: grid;
 }
 
@@ -101,12 +106,25 @@ main h1 span:nth-child(3) {
 
 main .container {
     position: relative;
-    margin: auto auto 0 auto;
+    margin: auto auto 6em auto;
 }
 
 main .form {
     opacity: 0;
     animation: floatUp .5s 1s forwards;
+}
+
+main .form div {
+    position: absolute;
+    top: -6em;
+    width: 50%;
+    padding: 1em;
+    background: rgb(0 0 0 /.1);
+    border-radius: 1em 1em 1em 0;
+}
+
+main .form>div:before {
+    content: "I'm an AI assistant that helps you get more done. What can I help you with?";
 }
 
 main .form::after {
@@ -121,14 +139,15 @@ main textarea {
     overflow: hidden;
     outline: none;
     padding: .75rem 1rem;
-    width: 20em;
+    width: 32em;
     border-radius: 1em;
-    box-shadow: rgb(0 0 0  /.1) 0 -1px 0, rgb(0 0 0 /.1) 0 0 1em;
+    box-shadow: rgb(0 0 0 /.1) 0 -1px 0, rgb(0 0 0 /.1) 0 0 1em;
     border: 1px solid rgb(0 0 0 /.1);
     transition: box-shadow .3s ease-in-out, border .3s ease-in-out;
 }
 
-main textarea, main .form::after {
+main textarea,
+main .form::after {
     padding: .5em 1em;
     font: inherit;
     grid-area: 1 / 1 / 2 / 2;
@@ -150,9 +169,39 @@ main button {
     border: none;
 }
 
+main button i {
+    position: absolute;
+    left: 0.5em;
+    top: 0.5em;
+}
+
 main ul {
+    grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
+    gap: 1em;
     list-style: none;
     padding: 0;
+}
+
+main li {
+    position: relative;
+    align-items: center;
+    height: 2em;
+    border-radius: 1em;
+    padding: 0 1em;
+    background: #e3e3e3;
+    backdrop-filter: blur(2em);
+}
+
+main li:after {
+    content: "\ea66";
+    font-family: 'remixicon';
+    right: 1em;
+    position: absolute;
+}
+
+main li:hover {
+    cursor: pointer;
+    background: #c5cde8;
 }
 
 @keyframes zoomIn {

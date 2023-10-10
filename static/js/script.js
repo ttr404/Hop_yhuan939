@@ -1,16 +1,28 @@
 "use strict";
+
 window.onload = (() => {
-    let timeout;
     const form = document.querySelector('.form');
     const suggestion = document.querySelector('.suggestion');
+    const trending = (() => {
+        fetch('/suggestion')
+            .then(response => response.text()).then(data => {
+                const parser = new DOMParser();
+                const xml = parser.parseFromString(data, 'text/xml');
+                const items = xml.querySelectorAll('item');
+                suggestion.innerHTML = '';
+                for (let i = 0; i < 3; i++) {
+                    const option = document.createElement('li');
+                    option.innerText = items[i].querySelector('title').innerHTML;
+                    suggestion.appendChild(option);
+                }
+            });
+    });
     const observer = new MutationObserver(mutations => {
-        console.log(mutations);
         mutations.forEach(mutation => {
-                const value = mutation.target.getAttribute('data-replicated-value');
-                if (value.length > 0) {
-                    fetch('https://liberty.akamaized.net/suggestion/' + value, {
-                        mode: 'cors'
-                    }).then(response => response.json()).then(data => {
+            const value = mutation.target.getAttribute('data-replicated-value');
+            if (value.length > 0) {
+                fetch('/autocomplete/' + value)
+                    .then(response => response.json()).then(data => {
                         suggestion.innerHTML = '';
                         for (let i = 0; i < 5; i++) {
                             const option = document.createElement('li');
@@ -19,22 +31,10 @@ window.onload = (() => {
                         }
                     }
                     );
-                } else {
-                    fetch('/suggestion'), {
-                        mode: 'cors'
-                    }.then(response => response.text()).then(data => {
-                        const parser = new DOMParser();
-                        const xml = parser.parseFromString(data, 'text/xml');
-                        const items = xml.querySelectorAll('item');
-                        suggestion.innerHTML = '';
-                        for (let i = 0; i < 5; i++) {
-                            const option = document.createElement('li');
-                            option.innerText = items[i].querySelector('title').innerText;
-                            suggestion.appendChild(option);
-                        }
-                    });
-                }
+            } else {
+                trending();
             }
+        }
         );
     });
 
@@ -43,4 +43,6 @@ window.onload = (() => {
         attributes: true,
         attributeFilter: ['data-replicated-value']
     });
+
+    trending();
 })
