@@ -82,6 +82,11 @@ nav i:hover {
     animation: zoomIn 1s forwards;
 }
 
+main {
+    width: 90%;
+    max-width: 720px;
+}
+
 main h1 {
     position: fixed;
     font-size: 6em;
