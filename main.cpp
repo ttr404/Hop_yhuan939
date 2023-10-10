@@ -28,7 +28,7 @@ int main()
         ctx["title"] = "HOP.cheap: Shop without Search - Hop in shopping experience";
         return crow::mustache::compile(content).render(ctx); });
 
-    // define your endpoint at the root directory
+    // TODO: delete this route
     CROW_ROUTE(app, "/drink/<int>")
     ([](int count)
      {
@@ -39,6 +39,28 @@ int main()
         os << count << " bottle" << (count > 1 ? "s" : "") << " of beer!";
         return crow::response(os.str()); });
 
+    // TODO: move to router class
+    CROW_ROUTE(app, "/autocomplete/<string>")
+    ([](std::string query)
+     {
+        std::string url = "https://www.bing.com/osjson.aspx?query=" + query;
+        CURL *curl;
+        CURLcode res;
+        std::string response;
+        curl = curl_easy_init();
+        if (curl)
+        {
+            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+            curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+            res = curl_easy_perform(curl);
+            curl_easy_cleanup(curl);
+        }
+
+        return crow::response(response); });
+
+    // TODO: move to router class
     CROW_ROUTE(app, "/suggestion")
     ([]()
      {
@@ -60,5 +82,5 @@ int main()
         return crow::response(response); });
 
     // set the port, set the app to run on multiple threads, and run the app
-    app.port(8081).multithreaded().run();
+    app.port(8080).multithreaded().run();
 }
