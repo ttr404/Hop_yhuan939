@@ -183,13 +183,17 @@ main ul {
 }
 
 main li {
+    display: block;
     position: relative;
-    align-items: center;
     height: 2em;
     border-radius: 1em;
     padding: 0 1em;
     background: #e3e3e3;
     backdrop-filter: blur(2em);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    line-height: 2em;
 }
 
 main li:after {
