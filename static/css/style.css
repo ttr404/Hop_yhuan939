@@ -106,7 +106,7 @@ main h1 span:nth-child(3) {
 
 main .container {
     position: relative;
-    margin: auto auto 6em auto;
+    margin: auto auto 0 auto;
 }
 
 main .form {
