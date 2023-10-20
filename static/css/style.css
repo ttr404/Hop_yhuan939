@@ -84,6 +84,7 @@ nav i:hover {
 
 main h1 {
     position: fixed;
+    font-family: "Cleancut W90 Regular", sans-serif;
     font-size: 6em;
     top: 30%;
     left: 50%;
