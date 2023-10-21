@@ -247,3 +247,12 @@ main li:hover {
         opacity: 1;
     }
 }
+
+@media (max-width: 40em) {
+    main textarea {
+        width: 80vw;
+    }
+    main .form div {
+        width: 60vw;
+    }
+}
