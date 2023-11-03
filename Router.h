@@ -14,5 +14,6 @@ class Router {
         crow::SimpleApp& app;
         std::string currRoute;
         std::string prevRoute;
+        crow::mustache::context ctx;
 };
 #endif
