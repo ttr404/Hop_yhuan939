@@ -92,6 +92,9 @@
         "utility": "cpp",
         "stop_token": "cpp",
         "thread": "cpp",
-        "cinttypes": "cpp"
+        "cinttypes": "cpp",
+        "ranges": "cpp",
+        "typeindex": "cpp",
+        "*.ipp": "cpp"
     }
 }
