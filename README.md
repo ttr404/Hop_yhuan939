@@ -13,6 +13,14 @@ Dev servers:
 * dev-t.hop.cheap
 * dev-x.hop.cheap
 
+## Dependencies
+
+* gcc
+* boost
+* libcurl
+* cmake/v3.11 or higher
+* emscripten/v2.0 or higher
+
 ## UI
 
 ![UI](https://res.cloudinary.com/alt/image/upload/f_auto,q_auto/v1696910668/assets/bfbba6foxurlge1aska0.png)
