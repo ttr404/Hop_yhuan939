@@ -7,7 +7,9 @@ include_directories(.)
 
 add_executable(Crow
         include/crow_all.h
-        main.cpp)
+        main.cpp
+        Webserver.cpp
+        Router.cpp)
 
 # Find the CURL library
 find_package(CURL REQUIRED)
@@ -27,5 +29,5 @@ include_directories(/usr/local/include)
 include_directories(/opt/homebrew/Cellar/asio/1.28.1/include)
 
 # Copy public and static folders to build directory
-file(COPY ${CMAKE_SOURCE_DIR}/public DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${CMAKE_SOURCE_DIR}/templates DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/static DESTINATION ${CMAKE_BINARY_DIR})
