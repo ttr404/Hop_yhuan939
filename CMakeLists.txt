@@ -22,6 +22,17 @@ else()
     message(FATAL_ERROR "CURL library not found")
 endif()
 
+# Manually set the paths to the MySQL Connector/C++ headers and libraries
+include_directories(/usr/include/cppconn)
+find_library(MYSQLCPPCONN_LIB mysqlcppconn)
+
+# Link the MySQL Connector/C++ library
+if(MYSQLCPPCONN_LIB)
+    target_link_libraries(Crow PRIVATE ${MYSQLCPPCONN_LIB})
+else()
+    message(FATAL_ERROR "MySQL Connector/C++ library not found")
+endif()
+
 # Find Asio library
 list(APPEND CMAKE_PREFIX_PATH "/opt")
 target_link_libraries(Crow PRIVATE pthread)
