@@ -25,15 +25,33 @@ int Router::enroute(crow::SimpleApp &app)
             auto page = crow::mustache::load("index.html");
             ctx["title"] = "HOP - Home";
             ctx["description"] = "HOP.cheap: Shop without Search, hop in shopping experience.";
-            return page.render(ctx);
-        });
-        
+            return page.render(ctx); });
+
         CROW_ROUTE(app, "/admin")
         ([&](const crow::request &req)
          {
             auto page = crow::mustache::load("dash.html");
-            return page.render(ctx);
-        });
+            return page.render(ctx); });
+
+        CROW_ROUTE(app, "/search")
+        ([&](const crow::request &req)
+         {
+            // get query
+            std::string query = req.url_params.get("q") ? req.url_params.get("q") : "",
+                        type = req.url_params.get("type") ? req.url_params.get("type") : "";
+            if(type == "json")
+            {
+                crow::json::wvalue json;
+                json["query"] = query;
+                json["type"] = type;
+                return crow::response(json);
+            }
+            auto page = crow::mustache::load("search.html");
+            ctx["title"] = query + " - HOP";
+            ctx["description"] = "Search results for " + query;
+            ctx["query"] = query;
+            auto response = page.render(ctx);
+            return crow::response(response); });
 
         CROW_ROUTE(app, "/autocomplete/<string>")
         ([](std::string query)
@@ -79,4 +97,8 @@ int Router::enroute(crow::SimpleApp &app)
         std::cout << e.what() << std::endl;
     }
     return 0;
+}
+
+crow::json::wvalue handleQuery(std::string query)
+{
 }
