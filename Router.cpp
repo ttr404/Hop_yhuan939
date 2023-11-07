@@ -27,6 +27,13 @@ int Router::enroute(crow::SimpleApp &app)
             ctx["description"] = "HOP.cheap: Shop without Search, hop in shopping experience.";
             return page.render(ctx);
         });
+        
+        CROW_ROUTE(app, "/admin")
+        ([&](const crow::request &req)
+         {
+            auto page = crow::mustache::load("dash.html");
+            return page.render(ctx);
+        });
 
         CROW_ROUTE(app, "/autocomplete/<string>")
         ([](std::string query)
