@@ -76,34 +76,18 @@ nav i:hover {
 }
 
 .loader {
-    font-family: "Cleancut W90 Regular", sans-serif;
-    font-size: 6em;
-    margin: auto;
-    color: var(--midnight);
-    animation: zoomIn 1s forwards;
+    background: center url(../img/milkyway.svg) no-repeat;
+    animation: zoomIn 2s forwards;
 }
 
-main h1 {
+main object {
     position: fixed;
-    font-family: "Cleancut W90 Regular", sans-serif;
-    font-size: 6em;
-    top: 30%;
+    top: 50%;
     left: 50%;
-    color: var(--midnight);
-    transform: translate(-50%, -50%);
-}
-
-main h1 span {
+    max-width: 20em;
     opacity: 0;
-    animation: type 1s 1s forwards;
-}
-
-main h1 span:nth-child(2) {
-    animation-delay: 1.2s;
-}
-
-main h1 span:nth-child(3) {
-    animation-delay: 1.4s;
+    transform: translate(-50%, -50%);
+    animation: fadeIn 1s 1s forwards;
 }
 
 main .container {
@@ -212,7 +196,7 @@ main li:hover {
 
 @keyframes zoomIn {
     0% {
-        transform: scale(1);
+        transform: scale(.1);
     }
 
     99% {
@@ -238,7 +222,7 @@ main li:hover {
     }
 }
 
-@keyframes type {
+@keyframes fadeIn {
     0% {
         opacity: 0;
     }
