@@ -177,7 +177,7 @@ main button i {
     position: relative;
     height: 2em;
     border-radius: 1em;
-    padding: 0 2em 0 1em;
+    padding: 0 1.6em 0 .6em;
     background: #e3e3e3;
     backdrop-filter: blur(2em);
     text-overflow: ellipsis;
