@@ -1,9 +1,11 @@
 "use strict";
 
-window.onload = (() => {
+const init = () => {
     const form = document.querySelector('.form');
+    const query = document.querySelector('.form textarea');
     const suggestion = document.querySelector('.suggestion');
-    const trending = (() => {
+    const search = document.querySelector('.form button');
+    const trending = () => {
         fetch('/suggestion')
             .then(response => response.text()).then(data => {
                 const parser = new DOMParser();
@@ -13,10 +15,13 @@ window.onload = (() => {
                 for (let i = 0; i < 3; i++) {
                     const option = document.createElement('li');
                     option.innerText = items[i].querySelector('title').innerHTML;
+                    option.onclick = () => {
+                        pjax("search?q=" + option.innerText);
+                    }
                     suggestion.appendChild(option);
                 }
             });
-    });
+    };
     const observer = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
             const value = mutation.target.getAttribute('data-replicated-value');
@@ -27,6 +32,9 @@ window.onload = (() => {
                         for (let i = 0; i < 5; i++) {
                             const option = document.createElement('li');
                             option.innerText = data[1][i];
+                            option.onclick = () => {
+                                pjax("search?q=" + option.innerText);
+                            };
                             suggestion.appendChild(option);
                         }
                     }
@@ -44,5 +52,17 @@ window.onload = (() => {
         attributeFilter: ['data-replicated-value']
     });
 
+    search.onclick = () => {
+        pjax("search?q=" + query.value);
+    }
+
     trending();
-})
+};
+
+window.onload = () => {
+    init();
+};
+
+window.onpopstate = () => {
+    init();
+};

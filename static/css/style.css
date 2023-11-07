@@ -63,6 +63,10 @@ nav i:hover {
     color: var(--indigo);
 }
 
+nav img {
+    max-height: 1em;
+}
+
 
 .bg {
     position: fixed;
@@ -161,14 +165,14 @@ main button i {
     top: 0.5em;
 }
 
-main ul {
+.form ul {
     grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
     gap: 1em;
     list-style: none;
     padding: 0;
 }
 
-main li {
+.form li {
     display: block;
     position: relative;
     height: 2em;
@@ -182,14 +186,14 @@ main li {
     line-height: 2em;
 }
 
-main li:after {
+.form li:after {
     content: "\ea66";
     font-family: 'remixicon';
     right: .5em;
     position: absolute;
 }
 
-main li:hover {
+.form li:hover {
     cursor: pointer;
     background: #c5cde8;
 }

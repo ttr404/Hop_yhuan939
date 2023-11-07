@@ -22,11 +22,25 @@ const pjax = (url) => {
                 oldHead.appendChild(newStyle);
             });
 
+            // // Replace the entire body's content
+            // document.body.innerHTML = doc.body.innerHTML;
+
             // Replace the entire body's content
-            document.body.innerHTML = doc.body.innerHTML;
+            const oldBody = document.body;
+            const newBody = doc.body;
+            oldBody.innerHTML = newBody.innerHTML;
 
             // Check if the pjax.js script has already been loaded
             if (typeof window.pjax === 'undefined') {
+                // Append scripts from the new page
+                Array.from(newBody.querySelectorAll('script')).forEach(newScript => {
+                    const script = document.createElement('script');
+                    script.textContent = newScript.textContent;
+                    script.src = newScript.src;
+                    script.async = false; // Scripts are loaded synchronously by default
+                    oldBody.appendChild(script);
+                });
+
                 // Append pjax.js script to the body
                 const pjaxScript = document.createElement('script');
                 pjaxScript.src = '/static/js/pjax.js';
@@ -43,6 +57,7 @@ const pjax = (url) => {
         .catch(error => {
             console.error('Failed to load page: ', error);
         });
+
     // Avoid duplicated declaration of pjax
     window.pjax = true;
 }
