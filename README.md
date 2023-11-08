@@ -4,15 +4,19 @@
 ## Live Demo
 
 Main stream:
-[https://hop.cheap](https://hop.cheap)
+## [https://hop.cheap](https://hop.cheap)
 
-Dev servers:
-[Task automation file]: [.vscode/launch.json](.vscode/launch.json)
+Dev servers: (Only online when developers run the project)
 * dev.hop.cheap
 * dev-f.hop.cheap
 * dev-o.hop.cheap
 * dev-t.hop.cheap
 * dev-x.hop.cheap
+
+
+Task automation file: 
+
+[.vscode/launch.json](.vscode/launch.json)
 
 ## Dependencies
 
