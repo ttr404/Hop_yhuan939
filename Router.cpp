@@ -1,5 +1,14 @@
 #include "Router.h"
 
+/**
+ * @brief write_callback writes data and re
+ * 
+ * @param ptr 
+ * @param size 
+ * @param nmemb 
+ * @param data 
+ * @return size_t 
+ */
 size_t write_callback(char *ptr, size_t size, size_t nmemb, std::string *data)
 {
     data->append(ptr, size * nmemb);
@@ -15,6 +24,12 @@ Router::~Router()
     std::cout << "Router destroyed" << std::endl;
 }
 
+/**
+ * @brief enroute routes the app to the specified path
+ * 
+ * @param app 
+ * @return int 
+ */
 int Router::enroute(crow::SimpleApp &app)
 {
     try
@@ -158,16 +173,19 @@ std::string Router::RequestToOpenAI(const std::string& prompt) {
         // Convert your parameters to JSON
         crow::json::wvalue json_payload = {
             {"prompt", prompt},
-            {"max_tokens", 150}
-            {"model": "gpt-3.5-turbo",
-                "messages": [{"role": "system", "content": "You are a summary writer."},
-                    {"role": "user", "content": "Write me a summary for tag red, bag, schoolbag, backpack"},
-                    {"role": "assistant", "content": "This is a summary about a red backpack: Embrace the boldness of red with this versatile and durable backpack designed to cater to every student's needs. Our red schoolbag isn't just a statement piece, but a practical companion for the daily hustle of academic life. It features multiple compartments to keep books, devices, and personal items organized. The padded straps provide comfort for those long days, while the sturdy fabric ensures it can handle the weight of textbooks and laptops alike. Whether it's for school, travel, or casual use, this backpack combines functionality with style, making it an essential for anyone who wants to stand out in a crowd while having everything they need within reach."},
-                    {"role": "user", "content": "Write me a summary for keychain"}]
-            }
-            
-            
-             // Example parameter, add others as needed
+            {"max_tokens", 150},
+            {"model", "gpt-3.5-turbo"},
+            {"messages", {
+                {"role", "system"},
+                {"content", "You are a summary writer."},
+                {"role", "user"},
+                {"content", "Write me a summary for tag red, bag, schoolbag, backpack"},
+                {"role", "assistant"},
+                {"content", "This is a summary about a red backpack: Embrace the boldness of red with this versatile and durable backpack designed to cater to every student's needs. Our red schoolbag isn't just a statement piece, but a practical companion for the daily hustle of academic life. It features multiple compartments to keep books, devices, and personal items organized. The padded straps provide comfort for those long days, while the sturdy fabric ensures it can handle the weight of textbooks and laptops alike. Whether it's for school, travel, or casual use, this backpack combines functionality with style, making it an essential for anyone who wants to stand out in a crowd while having everything they need within reach."},
+                {"role", "user"},
+                {"content", "Write me a summary for keychain"}
+            }}
+            // Example parameter, add others as needed
         };
         //std::string post_data = json_payload.dump();
 
