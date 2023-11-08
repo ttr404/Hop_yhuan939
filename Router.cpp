@@ -23,7 +23,7 @@ int Router::enroute(crow::SimpleApp &app)
         ([&](const crow::request &req)
          {
             auto page = crow::mustache::load("index.html");
-            ctx["title"] = "HOP - Home";
+            ctx["title"] = "Home - HOP";
             ctx["description"] = "HOP.cheap: Shop without Search, hop in shopping experience.";
             return page.render(ctx); });
 
