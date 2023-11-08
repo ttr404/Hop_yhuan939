@@ -27,11 +27,13 @@ endif()
 include_directories(/usr/include/cppconn)
 find_library(MYSQLCPPCONN_LIB mysqlcppconn)
 
-# Link the MySQL Connector/C++ library
-if(MYSQLCPPCONN_LIB)
-    target_link_libraries(Crow PRIVATE ${MYSQLCPPCONN_LIB})
+# If json library is found, add it to the project
+find_package(nlohmann_json 3.0.0 REQUIRED)
+if(nlohmann_json_FOUND)
+    # The target should already be set up with include directories, etc.
+    target_link_libraries(Crow PRIVATE nlohmann_json::nlohmann_json)
 else()
-    message(FATAL_ERROR "MySQL Connector/C++ library not found")
+    message(FATAL_ERROR "nlohmann_json not found")
 endif()
 
 # Find Asio library
