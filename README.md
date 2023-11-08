@@ -76,11 +76,21 @@ make
 
 ## UI
 
-![UI](https://res.cloudinary.com/alt/image/upload/f_auto,q_auto/v1696910668/assets/bfbba6foxurlge1aska0.png)
+![home-page.png](screenshots/home-page.png)
+![trending-api.png](screenshots/trending-api.png)
+![login-with-a-random-email.png](screenshots/login-with-a-random-email.png)
+![login-with-github-1.png](screenshots/login-with-github-1.png)
+![login-with-github-2.png](screenshots/login-with-github-2.png)
+![database-query-result.png](screenshots/database-query-result.png)
+
+[Demo Video](screenshots/demo.mp4)
 
 ## Web Stack
 
+* Debian 11 Bullseye (OS)
 * Caddy/v2.7.5 (web server)
+* Argo Tunnel (reverse proxy)
+* Cloudflare (DNS/CDN)
 
 ## Database
 
