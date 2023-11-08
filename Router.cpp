@@ -91,6 +91,13 @@ int Router::enroute(crow::SimpleApp &app)
         }
 
         return crow::response(response); });
+        
+        CROW_ROUTE(app, "/db")
+        ([](){
+            Database db;
+            db.connect();
+            return db.query();
+            });
     }
     catch (const std::exception &e)
     {

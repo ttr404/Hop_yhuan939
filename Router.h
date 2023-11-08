@@ -2,6 +2,7 @@
 #define ROUTER_H
 #include <curl/curl.h>
 #include "include/crow_all.h"
+#include "Database.h"
 
 class Router {
     public:
