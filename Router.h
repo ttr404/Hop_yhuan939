@@ -11,6 +11,7 @@ class Router {
         int enroute(crow::SimpleApp& app);
         crow::json::wvalue handleQuery(std::string query);
         void NavigateTo(std::string route);
+        std::string RequestToOpenAI(const std::string& prompt);
     private:
         crow::SimpleApp& app;
         std::string currRoute;
