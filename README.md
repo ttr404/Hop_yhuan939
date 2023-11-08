@@ -27,37 +27,53 @@ Dev servers:
 ## How to Install
 ### MacOS
 **Install Homebrew (if not already installed)**
+```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
 
 **Install dependencies**
+```
 brew install gcc boost libcurl cmake emscripten nlohmann_json mysql-connector-c++
+```
 
 ### Linux
 #### apt based
 **Update package lists**
+```
 sudo apt-get update
+```
 
 **Install dependencies**
+```
 sudo apt-get install -y gcc libboost-all-dev libcurl4-openssl-dev cmake emscripten nlohmann-json-dev libmysqlcppconn-dev
+```
 
 
 ### yum based
 **Update package lists**
+```
 sudo apt-get update
+```
 
 **Install dependencies**
+```
 sudo yum install -y gcc boost-devel libcurl-devel cmake emscripten nlohmann-json-devel mysql-connector-c++
+```
 
 ### arch based
 **Update package lists**
+```
 sudo pacman -Syu
+```
 
 **Install dependencies**
+```
 sudo pacman -Syu gcc boost curl cmake emscripten jsoncpp mariadb-connector-c++
+```
 
 ## How to RUN
 
-> Press F5 to run the project in VSCode
+> Press `F5` to run the project in VSCode
 
 The server will be available at [http://localhost:8081](http://localhost:8081)
 
