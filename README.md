@@ -102,6 +102,9 @@ make
 ![login-with-github-1.png](screenshots/login-with-github-1.png)
 ![login-with-github-2.png](screenshots/login-with-github-2.png)
 ![database-query-result.png](screenshots/database-query-result.png)
+![database-login-page.png](screenshots/database-login-page.png)
+![database-dashboard.png](screenshots/database-dashboard.png)
+![database-table.png](screenshots/database-table.png)
 
 [Demo Video](screenshots/demo.mp4)
 
