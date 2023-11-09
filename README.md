@@ -60,7 +60,7 @@ sudo apt-get install -y gcc libboost-all-dev libcurl4-openssl-dev cmake emscript
 ### yum based
 **Update package lists**
 ```
-sudo apt-get update
+sudo yum update
 ```
 
 **Install dependencies**
