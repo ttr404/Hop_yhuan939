@@ -1,5 +1,8 @@
 # HOP.cheap
 
+Shop without Search, hop in shopping experience.
+
+[Hop is cross-platform store search engine powered by Crow Framework (Crowcpp/v1.0+5)]
 
 ## Live Demo
 
@@ -23,6 +26,7 @@ Task automation file:
 * gcc
 * boost
 * libcurl
+* Crowcpp/v1.0 or higher
 * cmake/v3.11 or higher
 * emscripten/v2.0 or higher
 * nlohmann_json/v3.0 or higher
