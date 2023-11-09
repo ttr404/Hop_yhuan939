@@ -197,7 +197,7 @@ main button i {
 
 .form li:hover {
     cursor: pointer;
-    background: var((--vanilla-blue));
+    background: var(--vanilla-blue);
 }
 
 .err container {
