@@ -25,9 +25,9 @@ Task automation file:
 
 * gcc
 * boost
+* cmake
 * libcurl
 * Crowcpp/v1.0 or higher
-* cmake/v3.11 or higher
 * emscripten/v2.0 or higher
 * nlohmann_json/v3.0 or higher
 * libmysqlcppconn-dev/v1.1 or higher
