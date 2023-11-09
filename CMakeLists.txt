@@ -26,6 +26,7 @@ endif()
 # Manually set the paths to the MySQL Connector/C++ headers and libraries
 include_directories(/usr/include/cppconn)
 find_library(MYSQLCPPCONN_LIB mysqlcppconn)
+target_link_libraries(Crow PRIVATE ${MYSQLCPPCONN_LIB})
 
 # If json library is found, add it to the project
 find_package(nlohmann_json 3.0.0 REQUIRED)
