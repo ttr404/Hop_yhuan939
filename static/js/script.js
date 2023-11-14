@@ -23,13 +23,15 @@ if (typeof init === "undefined") {
                         };
                         suggestion.appendChild(option);
                     }
+                }).catch(error => {
+                    console.error('Failed to load page: ', error);
                 });
         };
         const observer = new MutationObserver(mutations => {
             mutations.forEach(mutation => {
-                const value = mutation.target.getAttribute('data-replicated-value');
+                const value = mutation.target.getAttribute('data-replicated-value').trim();
                 if (value.length > 0) {
-                    fetch('/autocomplete/' + value)
+                    fetch('/suggestion/' + value)
                         .then(response => response.json()).then(data => {
                             suggestion.innerHTML = '';
                             for (let i = 0; i < 5; i++) {
@@ -47,21 +49,17 @@ if (typeof init === "undefined") {
                 }
             }
             );
-        }); 
+        });
 
         // observe form attribute "data-replicated-value"
-        if (form) {
-            observer.observe(form, {
-                attributes: true,
-                attributeFilter: ['data-replicated-value']
-            });
-        }
+        observer.observe(form, {
+            attributes: true,
+            attributeFilter: ['data-replicated-value']
+        });
 
         // handle search
-        if (search) {
-            search.onclick = () => {
-                pjax("search?q=" + query.value);
-            }
+        search.onclick = () => {
+            pjax("search?q=" + query.value);
         }
 
         trending();
