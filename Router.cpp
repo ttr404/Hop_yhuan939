@@ -42,6 +42,13 @@ int Router::enroute(crow::SimpleApp &app)
             ctx["description"] = "HOP.cheap: Shop without Search, hop in shopping experience.";
             return page.render(ctx); });
 
+        CROW_ROUTE(app, "/favicon.ico")
+        ([]{
+            auto favicon = crow::response(200);
+            favicon.set_static_file_info("static/favicon.ico");
+            return favicon;
+        });
+
         CROW_ROUTE(app, "/admin")
         ([&](const crow::request &req)
          {
