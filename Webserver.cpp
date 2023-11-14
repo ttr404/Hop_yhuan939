@@ -12,7 +12,13 @@ Webserver::~Webserver()
 void Webserver::run(int port)
 {
     std::cout << "Web Server running on port " << port << std::endl;
-    app.port(port).multithreaded().run();
+    try {
+        app.port(port).multithreaded().run();
+    }
+    catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+    
+    }
 }
 void Webserver::stop()
 {
