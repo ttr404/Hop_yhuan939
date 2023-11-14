@@ -1,4 +1,7 @@
 const pjax = (url) => {
+    // Store the current URL as the previous page
+    localStorage.setItem('previousPage', location.href);
+
     fetch(url)
         .then(response => {
             if (!response.ok) {
@@ -22,45 +25,28 @@ const pjax = (url) => {
                 oldHead.appendChild(newStyle);
             });
 
-            // // Replace the entire body's content
-            // document.body.innerHTML = doc.body.innerHTML;
-
             // Replace the entire body's content
             const oldBody = document.body;
             const newBody = doc.body;
             oldBody.innerHTML = newBody.innerHTML;
-
-            // Check if the pjax.js script has already been loaded
-            if (typeof window.pjax === 'undefined') {
-                // Append scripts from the new page
-                Array.from(newBody.querySelectorAll('script')).forEach(newScript => {
-                    const script = document.createElement('script');
-                    script.textContent = newScript.textContent;
-                    script.src = newScript.src;
-                    script.async = false; // Scripts are loaded synchronously by default
-                    oldBody.appendChild(script);
-                });
-
-                // Append pjax.js script to the body
-                const pjaxScript = document.createElement('script');
-                pjaxScript.src = '/static/js/pjax.js';
-                pjaxScript.async = true;
-                document.body.appendChild(pjaxScript);
-            }
 
             // Update the browser's URL and history
             history.pushState({}, '', url);
 
             // Update the title of the page
             document.title = doc.title;
+
+            // Store the new URL as the next page
+            localStorage.setItem('nextPage', url);
+
+            // Emit the onload event
+            window.dispatchEvent(new Event('load'));
         })
         .catch(error => {
             console.error('Failed to load page: ', error);
         });
+};
 
-    // Avoid duplicated declaration of pjax
-    window.pjax = true;
-}
 window.onpopstate = () => {
     pjax(location.pathname);
-}
+};
