@@ -281,6 +281,7 @@ footer:hover span {
         width: 80vw;
     }
     main .form div {
+        top: -8em;
         width: 60vw;
     }
     body {
