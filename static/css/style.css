@@ -66,7 +66,9 @@ nav i:hover {
 }
 
 nav img {
+    margin: 0 auto 0 1em;
     max-height: 1em;
+    cursor: pointer;
 }
 
 
@@ -132,7 +134,7 @@ main textarea {
     outline: none;
     padding: .75rem 1rem;
     width: 32em;
-    border-radius: 1em;
+    border-radius: .6em;
     box-shadow: rgb(0 0 0 /.1) 0 -1px 0, rgb(0 0 0 /.1) 0 0 1em;
     border: 1px solid rgb(0 0 0 /.1);
     transition: box-shadow .3s ease-in-out, border .3s ease-in-out;
@@ -151,12 +153,13 @@ main textarea:focus {
 
 main button {
     position: absolute;
-    right: .3em;
-    top: .3em;
+    right: 0.6em;
+    top: calc(100% - 2.5em);
     width: 2em;
     height: 2em;
     color: var(--white);
     background-color: var(--grey);
+    cursor: pointer;
     border-radius: 1em;
     border: none;
 }
@@ -167,14 +170,19 @@ main button i {
     top: 0.5em;
 }
 
-.form ul {
+ul.suggestion {
     grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
     gap: 1em;
     list-style: none;
     padding: 0;
 }
 
-.form li {
+ul.suggestion {
+    opacity: 0;
+    animation: floatUp .5s 1.2s forwards;
+}
+
+ul.suggestion li {
     display: block;
     position: relative;
     height: 2em;
@@ -188,36 +196,33 @@ main button i {
     line-height: 2em;
 }
 
-.form li:after {
+ul.suggestion li:after {
     content: "\ea66";
     font-family: 'remixicon';
     right: .5em;
     position: absolute;
 }
 
-.form li:hover {
+ul.suggestion li:hover {
     cursor: pointer;
     background: var(--vanilla-blue);
 }
 
-.err container {
-    margin: auto;
-}
-
 footer {
     font-size: .8em;
-    color: var(--vanilla-blue);
+    color: var(--indigo);
     text-align: center;
     transition: .25s
 }
 
 footer:hover {
-    color: var(--dark);
-    cursor: pointer;
+    color: var(--midnight);
+    cursor: text;
 }
 
 footer span {
     display: inline-block;
+    transform: scale(.8);
 }
 
 footer:hover span {
@@ -253,26 +258,26 @@ footer:hover span {
 }
 
 @keyframes fadeIn {
-    0% {
+    from {
         opacity: 0;
     }
 
-    100% {
+    to {
         opacity: 1;
     }
 }
 
 @keyframes pulse {
     0% {
-        transform: scale(1);
+        transform: scale(.8);
     }
 
     50% {
-        transform: scale(1.4);
+        transform: scale(1.2);
     }
 
     100% {
-        transform: scale(1);
+        transform: scale(.8);
     }
 }
 
@@ -280,10 +285,12 @@ footer:hover span {
     main textarea {
         width: 80vw;
     }
+
     main .form div {
         top: -8em;
         width: 60vw;
     }
+
     body {
         grid-template-rows: 3em 1fr 0;
     }
