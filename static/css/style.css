@@ -47,7 +47,7 @@ nav div {
     gap: .6em;
 }
 
-nav summary::marker {
+nav summary::-webkit-details-marker {
     display: none;
 }
 
