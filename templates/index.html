@@ -7,7 +7,7 @@
     <title>{{ title }}</title>
     <meta name="description" content="{{ description }}">
     <link rel="stylesheet" href="../static/css/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -16,11 +16,19 @@
     </div>
     <header>
         <nav>
-            <i class="ri-menu-line"></i>
             <div>
                 <i class="ri-function-line"></i>
                 <button onclick="pjax('admin')">Sign in</button>
-                <i class="ri-settings-line"></i>
+                <details>
+                    <summary>
+                        <i class="ri-settings-line"></i>
+                    </summary>
+                    <ul aria-label="Settings">
+                        <li data-src="on" id="suggestion"><i class="ri-bard-line"></i> Suggestions</li>
+                        <li data-src="on" id="dark""><i class="ri-moon-line"></i> Dark mode</li>
+                        <li data-src="on" id="history"><i class="ri-history-line"></i> History</li>
+                    </ul>
+                </details>
             </div>
         </nav>
     </header>

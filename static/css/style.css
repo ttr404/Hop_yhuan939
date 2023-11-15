@@ -1,9 +1,10 @@
 :root {
+    --white: #fff;
+    --alice-blue: #f5f8ff;
+    --vanilla-blue: #c5cde8;
+    --grey: #b8b8bf;
     --indigo: #7897fc;
     --midnight: #3242e2;
-    --vanilla-blue: #c5cde8;
-    --white: #fff;
-    --grey: #b8b8bf;
     --black: #000;
     --dark: #121212;
     --bg: url(../img/bg.webp);
@@ -21,6 +22,8 @@ body {
 }
 
 body,
+nav summary,
+nav li,
 main,
 main ul,
 main li,
@@ -35,13 +38,62 @@ header {
 
 nav {
     display: flex;
-    justify-content: space-between;
+    justify-content: right;
     font-size: 1.6em;
 }
 
 nav div {
     display: flex;
-    gap: 1em;
+    gap: .6em;
+}
+
+nav summary::marker {
+    display: none;
+}
+
+nav i {
+    z-index: 1;
+}
+
+nav ul {
+    position: absolute;
+    right: .5em;
+    transform: translateY(0.3em);
+    margin: 0;
+    padding: .3em .6em 0 .6em;
+    background: var(--white);
+    border-radius: 0.6em;
+}
+
+nav ul:before {
+    content: attr(aria-label);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+nav li {
+    grid-template-columns: 1.5em auto;
+    align-items: center;
+    list-style: none;
+    font-size: 1rem;
+    margin: .3em -.6em;
+    background-color: var(--alice-blue);
+    padding: .6em 2em .6em .6em;
+    border-radius: .6em;
+}
+
+nav li:after {
+    content: attr(data-src);
+    text-transform: capitalize;
+    position: absolute;
+    font-size: .8em;
+    right: 1em;
+    color: var(--midnight);
+}
+
+nav li:hover {
+    cursor: pointer;
+    background: var(--vanilla-blue);
 }
 
 nav button,
@@ -53,12 +105,12 @@ nav button {
     padding: 0.3em 1em;
     border: none;
     background-color: var(--black);
-    color: #fff;
+    color: var(--white);
     border-radius: 2em;
 }
 
 nav button:hover {
-    box-shadow: 0 0 0 2px var(--indigo);
+    box-shadow: 0 0 0 .2em var(--indigo);
 }
 
 nav i:hover {
@@ -70,7 +122,6 @@ nav img {
     max-height: 1em;
     cursor: pointer;
 }
-
 
 .bg {
     position: fixed;
