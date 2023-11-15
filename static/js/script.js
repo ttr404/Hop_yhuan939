@@ -57,6 +57,15 @@ if (typeof init === "undefined") {
             attributeFilter: ['data-replicated-value']
         });
 
+        // handle meta and enter key pressed
+        query.onkeydown = (event) => {
+            if(event.metaKey || event.ctrlKey) {
+                if (event.keyCode === 13) {
+                    pjax("search?q=" + query.value);
+                }
+            }
+        }
+
         // handle search
         search.onclick = () => {
             pjax("search?q=" + query.value);
@@ -68,7 +77,7 @@ if (typeof init === "undefined") {
 
 window.onload = () => {
     let s = window.location, a = window.document, r = a.currentScript;
-    if (window.location.pathname === "/") {
+    if (s.pathname === "/") {
         init();
     }
 };
