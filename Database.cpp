@@ -1,4 +1,5 @@
 #include "Database.h"
+#include <string>
 
 Database::Database()
 {
@@ -31,4 +32,35 @@ crow::response Database::query()
     auto test = crow::response(items.dump());
     test.set_header("Content-Type", "application/json");
     return test;
+}
+
+void Database::insert(crow::json::rvalue input)
+{
+    // INSERT INTO items (name, tag, summary) VALUES ('banana', '{"tags": ["yellow", "fruit"]}', 'A sweet and nutritious yellow fruit');
+    std::string inputStr = "INSERT INTO items (name, tag, summary) VALUES ('";
+    if(input.has("name")){
+        inputStr += input["name"].s();
+        inputStr += "', '";
+    }
+    else throw error_at_line;
+    if(input.has("tags")){
+        inputStr += input["tags"].s();
+        inputStr += "', '";
+    }
+    else throw error_at_line;
+    if(input.has("summary")){
+        inputStr += input["summary"].s();
+        inputStr += "');";
+    }
+    else throw error_at_line;
+
+    ;
+
+    stmt->execute("USE hop");
+    
+
+
+
+    delete stmt;
+    return;
 }
