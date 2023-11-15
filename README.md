@@ -101,6 +101,7 @@ make
 ## UI
 
 ![home-page.png](screenshots/home-page.png)
+![preference-settings](screenshots/preference-settings.png)
 ![trending-api.png](screenshots/trending-api.png)
 ![login-with-a-random-email.png](screenshots/login-with-a-random-email.png)
 ![login-with-github-1.png](screenshots/login-with-github-1.png)
