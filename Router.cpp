@@ -37,10 +37,13 @@ int Router::enroute(crow::SimpleApp &app)
         CROW_ROUTE(app, "/")
         ([&](const crow::request &req)
          {
-            auto page = crow::mustache::load("index.html");
-            ctx["title"] = "Home - HOP";
-            ctx["description"] = "HOP.cheap: Shop without Search, hop in shopping experience.";
-            return page.render(ctx); });
+             auto page = crow::mustache::load("index.html");
+             std::time_t now = std::time(nullptr);
+             ctx["title"] = "Home - HOP";
+             ctx["description"] = "HOP.cheap: Shop without Search, hop in shopping experience.";
+             ctx["year"] = std::localtime(&now)->tm_year + 1900;
+             return page.render(ctx); });
+
 
         CROW_ROUTE(app, "/favicon.ico")
         ([]
