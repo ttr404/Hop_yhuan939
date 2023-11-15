@@ -95,6 +95,8 @@
         "cinttypes": "cpp",
         "ranges": "cpp",
         "typeindex": "cpp",
-        "*.ipp": "cpp"
+        "*.ipp": "cpp",
+        "forward_list": "cpp",
+        "valarray": "cpp"
     }
 }
