@@ -69,7 +69,7 @@ if (typeof init === "undefined") {
         // handle search
         search.onclick = () => {
             pjax("search?q=" + query.value);
-        }
+        };
 
         trending();
     };
@@ -81,7 +81,7 @@ if (typeof initSearch === "undefined") {
         collapse.onclick = () => {
             document.querySelector('main').classList.toggle('collapsed');
         }
-    }
+    };
 }
 
 window.onload = () => {
