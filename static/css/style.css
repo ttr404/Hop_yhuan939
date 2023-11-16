@@ -1,8 +1,11 @@
 :root {
     --white: #fff;
+    --semi-white: rgba(255, 255, 255, .8);
     --alice-blue: #f5f8ff;
-    --vanilla-blue: #c5cde8;
+    --semi-grey: rgba(0, 0, 0, .1);
+    --light-grey: #e3e3e3;
     --grey: #b8b8bf;
+    --vanilla-blue: #c5cde8;
     --indigo: #7897fc;
     --midnight: #3242e2;
     --black: #000;
@@ -139,6 +142,58 @@ nav img {
     animation: zoomIn 2s forwards;
 }
 
+aside {
+    position: absolute;
+    width: 16em;
+    height: 100%;
+    margin-top: -3em;
+    background-color: var(--semi-white);
+    box-shadow: inset -1px 0 0 0 var(--semi-grey);
+}
+
+aside img {
+    margin: 1em;
+    height: 2em;
+}
+
+aside ul {
+    padding: 0;
+}
+
+aside li, ul.suggestion li {
+    display: block;
+    position: relative;
+    height: 2em;
+    padding: 0 1.6em 0 0.6em;
+    backdrop-filter: blur(2em);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    line-height: 2em;
+}
+
+aside li:hover, ul.suggestion li:hover {
+    cursor: pointer;
+    background: var(--vanilla-blue);
+}
+
+aside li {
+    margin: .3em;
+    background: var(--semi-grey);
+    border-radius: .3em;
+}
+
+aside li:after {
+    content: "\eb99";
+    font-family: 'remixicon';
+    right: .5em;
+    position: absolute;
+}
+
+main > ul {
+    margin-left: 16em;
+}
+
 main object {
     position: fixed;
     top: 50%;
@@ -239,7 +294,7 @@ ul.suggestion li {
     height: 2em;
     border-radius: 1em;
     padding: 0 1.6em 0 .6em;
-    background: #e3e3e3;
+    background: var(--light-grey);
     backdrop-filter: blur(2em);
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -252,11 +307,6 @@ ul.suggestion li:after {
     font-family: 'remixicon';
     right: .5em;
     position: absolute;
-}
-
-ul.suggestion li:hover {
-    cursor: pointer;
-    background: var(--vanilla-blue);
 }
 
 footer {
