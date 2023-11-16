@@ -12,7 +12,7 @@ void Database::connect()
     stmt = con->createStatement();
 }
 
-crow::response Database::query()
+crow::response Database::getAll()
 {
     stmt->execute("USE hop");
     res = stmt->executeQuery("SELECT * FROM items");
@@ -45,7 +45,7 @@ std::string vectorToString(const std::vector<std::string>& vec) {
 
 
 void Database::insert(Item newItem)
-{// INSERT INTO items (name, tag, summary) VALUES ('banana', '{"tags": ["yellow", "fruit"]}', 'A sweet and nutritious yellow fruit');
+{// INSERT INTO items (name, tag, summary) VALUES ('name', '{"tags": ["tag1", "tag2"]}', 'This is a description for the item.');
     std::string inputStr = "INSERT INTO items (name, tag, summary) VALUES ('";
     inputStr += newItem.getName();
     inputStr += "', '";
@@ -59,9 +59,24 @@ void Database::insert(Item newItem)
     return;
 }
 
-crow::json::wvalue Database::handleQuery(std::string query)
+crow::response Database::handleQuery(std::string query)
 {
-    crow::json::wvalue result;
-   
-    return result;
+    stmt->execute("USE hop");
+    res = stmt->executeQuery(query);
+    json items;
+    while (res->next())
+    {
+        json object;
+        object["id"] = res->getString(1);
+        object["name"] = res->getString(2);
+        object["tags"] = res->getString(3);
+        object["summary"] = res->getString(4);
+        items.push_back(object);
+    }
+    delete stmt;
+    delete con;
+    delete res;
+    auto test = crow::response(items.dump());
+    test.set_header("Content-Type", "application/json");
+    return test;
 }   

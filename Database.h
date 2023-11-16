@@ -19,9 +19,9 @@ class Database
 public:
     Database();
     void connect();
-    crow::response query();
+    crow::response getAll();
     void insert(Item newItem);
-    crow::json::wvalue handleQuery(std::string query);
+    crow::response handleQuery(std::string query);
 
 private:
     sql::mysql::MySQL_Driver *driver;
