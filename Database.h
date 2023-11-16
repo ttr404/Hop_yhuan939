@@ -9,6 +9,8 @@
 #include <string>
 #include <nlohmann/json.hpp>
 #include <error.h>
+#include <vector>
+#include "Item.h"
 #include "include/crow_all.h"
 using json = nlohmann::json;
 
@@ -18,7 +20,8 @@ public:
     Database();
     void connect();
     crow::response query();
-    void insert(crow::json::rvalue input);
+    void insert(Item newItem);
+    crow::json::wvalue handleQuery(std::string query);
 
 private:
     sql::mysql::MySQL_Driver *driver;

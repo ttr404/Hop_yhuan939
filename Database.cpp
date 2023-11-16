@@ -34,33 +34,34 @@ crow::response Database::query()
     return test;
 }
 
-void Database::insert(crow::json::rvalue input)
-{
-    // INSERT INTO items (name, tag, summary) VALUES ('banana', '{"tags": ["yellow", "fruit"]}', 'A sweet and nutritious yellow fruit');
+
+std::string vectorToString(const std::vector<std::string>& vec) {
+    std::string result;
+    for (const auto& str : vec) {
+        result += str; 
+    }
+    return result;
+}
+
+
+void Database::insert(Item newItem)
+{// INSERT INTO items (name, tag, summary) VALUES ('banana', '{"tags": ["yellow", "fruit"]}', 'A sweet and nutritious yellow fruit');
     std::string inputStr = "INSERT INTO items (name, tag, summary) VALUES ('";
-    if(input.has("name")){
-        inputStr += input["name"].s();
-        inputStr += "', '";
-    }
-    else throw error_at_line;
-    if(input.has("tags")){
-        inputStr += input["tags"].s();
-        inputStr += "', '";
-    }
-    else throw error_at_line;
-    if(input.has("summary")){
-        inputStr += input["summary"].s();
-        inputStr += "');";
-    }
-    else throw error_at_line;
-
-    ;
-
+    inputStr += newItem.getName();
+    inputStr += "', '";
+    inputStr += vectorToString(newItem.getTags());
+    inputStr += "', '";
+    inputStr += newItem.getSummary();
+    inputStr += "');";
     stmt->execute("USE hop");
-    
-
-
-
+    stmt->execute(inputStr);
     delete stmt;
     return;
 }
+
+crow::json::wvalue Database::handleQuery(std::string query)
+{
+    crow::json::wvalue result;
+   
+    return result;
+}   
