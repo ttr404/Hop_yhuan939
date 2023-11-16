@@ -123,7 +123,7 @@ int Router::enroute(crow::SimpleApp &app)
          {
             Database db;
             db.connect();
-            return db.query(); });
+            return db.getAll(); });
     }
     catch (const std::exception &e)
     {
