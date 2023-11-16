@@ -82,5 +82,5 @@ int main()
         return crow::response(response); });
 
     // set the port, set the app to run on multiple threads, and run the app
-    app.port(8080).multithreaded().run();
+    app.port(8082).multithreaded().run();
 }
