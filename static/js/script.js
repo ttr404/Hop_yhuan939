@@ -1,6 +1,6 @@
 "use strict";
 
-let init;
+let init, initSearch;
 
 if (typeof init === "undefined") {
     init = () => {
@@ -75,9 +75,20 @@ if (typeof init === "undefined") {
     };
 }
 
+if (typeof initSearch === "undefined") {
+    initSearch = () => {
+        const collapse = document.querySelector('aside button');
+        collapse.onclick = () => {
+            document.querySelector('main').classList.toggle('collapsed');
+        }
+    }
+}
+
 window.onload = () => {
     let s = window.location, a = window.document, r = a.currentScript;
     if (s.pathname === "/") {
         init();
+    } else if(s.pathname.startsWith("/search")) {
+        initSearch();
     }
 };

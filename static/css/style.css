@@ -149,6 +149,16 @@ aside {
     margin-top: -3em;
     background-color: var(--semi-white);
     box-shadow: inset -1px 0 0 0 var(--semi-grey);
+    transform-origin: left;
+    transition: .25s;
+}
+
+.collapsed aside, .collapsed aside * {
+    width: 0;
+}
+
+.collapsed aside * {
+    overflow: hidden;
 }
 
 aside img {
@@ -160,7 +170,8 @@ aside ul {
     padding: 0;
 }
 
-aside li, ul.suggestion li {
+aside li,
+ul.suggestion li {
     display: block;
     position: relative;
     height: 2em;
@@ -172,7 +183,8 @@ aside li, ul.suggestion li {
     line-height: 2em;
 }
 
-aside li:hover, ul.suggestion li:hover {
+aside li:hover,
+ul.suggestion li:hover {
     cursor: pointer;
     background: var(--vanilla-blue);
 }
@@ -190,9 +202,63 @@ aside li:after {
     position: absolute;
 }
 
-main > ul {
+aside button {
+    right: -1.6em;
+    top: 50%;
+    background-color: transparent;
+}
+
+.collapsed aside button {
+    width: auto;
+}
+
+aside button:before,
+aside button:after {
+    content: "";
+    display: block;
+    width: .3em;
+    height: 1em;
+    background-color: var(--grey);
+    border-radius: .3em;
+}
+
+aside button:before {
+    transform: translateY(.1em);
+}
+aside button:after {
+    transform: translateY(-.1em);
+}
+
+aside button:hover:before,
+aside button:hover:after {
+    background-color: var(--dark);
+}
+
+aside button:hover:before {
+    transform: rotate(10deg) translateY(.1em);
+}
+
+aside button:hover:after {
+    transform: rotate(350deg) translateY(-.1em);
+}
+
+.collapsed aside button:hover:before {
+    transform: rotate(350deg) translateY(.1em);
+}
+
+.collapsed aside button:hover:after {
+    transform: rotate(10deg) translateY(-.1em);
+}
+
+main>ul {
     margin-left: 16em;
 }
+
+main.collapsed>ul {
+    margin-left: 0;
+    transition: .25s;
+}
+
 
 main object {
     position: fixed;
@@ -259,15 +325,18 @@ main textarea:focus {
 
 main button {
     position: absolute;
+    color: var(--white);
+    cursor: pointer;
+    border: none;
+}
+
+main .form button {
     right: 0.6em;
     top: calc(100% - 2.5em);
     width: 2em;
     height: 2em;
-    color: var(--white);
-    background-color: var(--grey);
-    cursor: pointer;
+    background-color: var(--light-grey);
     border-radius: 1em;
-    border: none;
 }
 
 main button i {
