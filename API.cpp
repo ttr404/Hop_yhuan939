@@ -109,7 +109,7 @@ std::string API::bingSuggestion(std::string query)
     return response;
 }
 
-std::string API::response_openAI(std::string imageURL)
+std::string API::vision_openAI(std::string imageURL)
 {
     CURL *curl;
     CURLcode res = CURLE_FAILED_INIT; // Default to an error code
