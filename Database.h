@@ -10,16 +10,29 @@
 #include <nlohmann/json.hpp>
 #include <error.h>
 #include <vector>
-#include "Item.h"
 #include "include/crow_all.h"
 using json = nlohmann::json;
+
+struct Item
+{
+    std::string name;
+    std::vector<std::string> tags;
+    std::string summary;
+    Item(){};
+    Item(std::string name, std::vector<std::string> tags, std::string summary)
+    {
+        this->name = name;
+        this->tags = tags;
+        this->summary = summary;
+    }
+} typedef Item;
 
 class Database
 {
 public:
     Database();
-    void connect();
-    crow::response getAll();
+    ~Database();
+    std::vector<Item> getAll();
     void insert(Item newItem);
     crow::response handleQuery(std::string query);
 
@@ -28,6 +41,7 @@ private:
     sql::Connection *con;
     sql::Statement *stmt;
     sql::ResultSet *res;
+    Item item;
 };
 
 #endif

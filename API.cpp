@@ -77,6 +77,7 @@ std::string API::response_openAI(std::string message)
     return response;
 }
 
+<<<<<<< HEAD
 std::string API::googleTrends()
 {
     response = "";
@@ -105,6 +106,52 @@ std::string API::bingSuggestion(std::string query)
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
         res = curl_easy_perform(curl);
         curl_easy_cleanup(curl);
+=======
+
+std::string API::response_openAI(std::string imageURL)
+{
+    CURL *curl;
+    CURLcode res = CURLE_FAILED_INIT; // Default to an error code
+    curl = curl_easy_init();
+    std::string response; // Response string to hold the API response
+    if (curl)
+    {
+        curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_easy_setopt(curl, CURLOPT_URL, "https://api.openai.com/v1/chat/completions"); // Vision API endpoint
+        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+        curl_easy_setopt(curl, CURLOPT_DEFAULT_PROTOCOL, "https");
+        struct curl_slist *headers = NULL;
+        char header_string[256]; // Adjust the size as necessary
+        sprintf(header_string, "Authorization: Bearer %s", OpenAI.key); // Replace with your OpenAI Vision API key
+        headers = curl_slist_append(headers, header_string);
+        headers = curl_slist_append(headers, "Content-Type: application/json");
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+        // Create JSON payload with the image URL
+        std::string jsonData = "{\"model\": \"gpt-4-vision-preview\",\"messages\": [{\"role\": \"user\",\"content\": [{\"type\": \"text\",\"text\": \"What’s in this image?\"},{\"type\": \"image_url\",\"image_url\": {\"url\": \"" + imageURL + "\"}}]}],\"max_tokens\": 300}";
+
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, jsonData.c_str());
+
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+        res = curl_easy_perform(curl);
+        
+        // Check if curl_easy_perform was successful
+        if (res == CURLE_OK)
+        {
+            std::cout << "Response data: " << response << std::endl;
+        }
+        else
+        {
+            std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;
+        }
+
+        curl_easy_cleanup(curl);
+    }
+    else
+    {
+        std::cerr << "Error initializing curl" << std::endl;
+>>>>>>> 1e58c3f541c275d37a50e23270d9b5f67435ab6c
     }
     return response;
 }

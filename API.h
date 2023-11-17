@@ -24,6 +24,7 @@ public:
     std::string googleTrends();
     std::string bingSuggestion(std::string query);
     Item translate(std::string str);
+    std::string API::response_openAI(std::string imageURL);
 
 private:
     CURL *curl;
