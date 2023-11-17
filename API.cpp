@@ -68,6 +68,7 @@ std::string API::response_openAI(std::string message)
     return response;
 }
 
+<<<<<<< HEAD
 
 std::string API::response_openAI(std::string imageURL)
 {
@@ -116,6 +117,8 @@ std::string API::response_openAI(std::string imageURL)
     return response;
 }
 
+=======
+>>>>>>> 047b58320b53a9edc686b65747c20dbee35a5472
 // Item API::translate(CURLcode res){
 
 // }

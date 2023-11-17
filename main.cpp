@@ -1,17 +1,14 @@
 #include <iostream>
-#include <string>
-#include "include/crow_all.h"
-#include <curl/curl.h>
-#include "router.h"
+#include "Webserver.h"
 
-size_t write_callback(char *ptr, size_t size, size_t nmemb, std::string *data)
-{
-    data->append(ptr, size * nmemb);
-    return size * nmemb;
-}
-
+/**
+ * @brief main is the entry point of the program (launcher)
+ * 
+ * @return int 
+ */
 int main()
 {
+<<<<<<< HEAD
     crow::SimpleApp app; // define your crow application
     std::string content;
     std::stringstream buffer;
@@ -84,3 +81,8 @@ int main()
     // set the port, set the app to run on multiple threads, and run the app
     app.port(8082).multithreaded().run();
 }
+=======
+    Webserver server;
+    server.run(8081);
+}
+>>>>>>> 047b58320b53a9edc686b65747c20dbee35a5472
