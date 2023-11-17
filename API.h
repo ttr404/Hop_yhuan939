@@ -21,6 +21,7 @@ public:
     API();
     std::string response_openAI(std::string message);
     Item translate(std::string str);
+    std::string API::response_openAI(std::string imageURL);
 
 private:
     auth OpenAI;
