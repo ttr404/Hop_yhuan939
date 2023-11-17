@@ -22,19 +22,28 @@ API::API()
         "OpenAI",
         "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",
         "https://api.openai.com/v1/chat/completions"};
+    GoogleTrends = {
+        "GoogleTrends",
+        "",
+        "https://trends.google.com/trends/trendingsearches/daily/rss?geo=CA"};
+    BingSuggestion = {
+        "BingSuggestion",
+        "",
+        "https://www.bing.com/osjson.aspx?query="};
     // openAI_link= "https://api.openai.com/v1/chat/completions";
     // openAI_key="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";
 }
 
 std::string API::response_openAI(std::string message)
 {
-    CURL *curl;
-    CURLcode res = CURLE_FAILED_INIT; // Default to an error code
+    // CURL *curl;
+    // CURLcode res = CURLE_FAILED_INIT; // Default to an error code
+    response = "";
     curl = curl_easy_init();
     if (curl)
     {
         curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_easy_setopt(curl, CURLOPT_URL, OpenAI.url);
+        curl_easy_setopt(curl, CURLOPT_URL, OpenAI.url.c_str());
         curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
         curl_easy_setopt(curl, CURLOPT_DEFAULT_PROTOCOL, "https");
         struct curl_slist *headers = NULL;
@@ -64,6 +73,38 @@ std::string API::response_openAI(std::string message)
     else
     {
         std::cerr << "Error initializing curl" << std::endl;
+    }
+    return response;
+}
+
+std::string API::googleTrends()
+{
+    response = "";
+    curl = curl_easy_init();
+    if (curl)
+    {
+        curl_easy_setopt(curl, CURLOPT_URL, GoogleTrends.url.c_str());
+        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+        res = curl_easy_perform(curl);
+        curl_easy_cleanup(curl);
+    }
+    return response;
+}
+
+std::string API::bingSuggestion(std::string query)
+{
+    response = "";
+    curl = curl_easy_init();
+    if (curl)
+    {
+        curl_easy_setopt(curl, CURLOPT_URL, (BingSuggestion.url + query).c_str());
+        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+        res = curl_easy_perform(curl);
+        curl_easy_cleanup(curl);
     }
     return response;
 }
