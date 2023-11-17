@@ -113,8 +113,8 @@ std::string API::bingSuggestion(std::string query)
 
 // }
 
-int main(){
-    API api;
-    api.response_openAI("message");
-    return 0;
-}
+// int main(){
+//     API api;
+//     api.response_openAI("message");
+//     return 0;
+// }
