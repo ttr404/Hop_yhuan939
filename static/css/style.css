@@ -1,15 +1,21 @@
 :root {
+    --white: #fff;
+    --semi-white: rgba(255, 255, 255, .8);
+    --alice-blue: #f5f8ff;
+    --semi-grey: rgba(0, 0, 0, .1);
+    --light-grey: #e3e3e3;
+    --grey: #b8b8bf;
+    --vanilla-blue: #c5cde8;
     --indigo: #7897fc;
     --midnight: #3242e2;
-    --white: #fff;
-    --grey: #b8b8bf;
     --black: #000;
+    --dark: #121212;
     --bg: url(../img/bg.webp);
 }
 
 body {
     grid-template-rows: 3em 1fr 3em;
-    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: "Avenir", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizelegibility;
     margin: 0;
@@ -19,6 +25,8 @@ body {
 }
 
 body,
+nav summary,
+nav li,
 main,
 main ul,
 main li,
@@ -33,13 +41,62 @@ header {
 
 nav {
     display: flex;
-    justify-content: space-between;
+    justify-content: right;
     font-size: 1.6em;
 }
 
 nav div {
     display: flex;
-    gap: 1em;
+    gap: .6em;
+}
+
+nav summary::-webkit-details-marker {
+    display: none;
+}
+
+nav i {
+    z-index: 1;
+}
+
+nav ul {
+    position: absolute;
+    right: .5em;
+    transform: translateY(0.3em);
+    margin: 0;
+    padding: .3em .6em 0 .6em;
+    background: var(--white);
+    border-radius: 0.6em;
+}
+
+nav ul:before {
+    content: attr(aria-label);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+nav li {
+    grid-template-columns: 1.5em auto;
+    align-items: center;
+    list-style: none;
+    font-size: 1rem;
+    margin: .3em -.6em;
+    background-color: var(--alice-blue);
+    padding: .6em 2em .6em .6em;
+    border-radius: .6em;
+}
+
+nav li:after {
+    content: attr(data-src);
+    text-transform: capitalize;
+    position: absolute;
+    font-size: .8em;
+    right: 1em;
+    color: var(--midnight);
+}
+
+nav li:hover {
+    cursor: pointer;
+    background: var(--vanilla-blue);
 }
 
 nav button,
@@ -51,18 +108,23 @@ nav button {
     padding: 0.3em 1em;
     border: none;
     background-color: var(--black);
-    color: #fff;
+    color: var(--white);
     border-radius: 2em;
 }
 
 nav button:hover {
-    box-shadow: 0 0 0 2px var(--indigo);
+    box-shadow: 0 0 0 .2em var(--indigo);
 }
 
 nav i:hover {
     color: var(--indigo);
 }
 
+nav img {
+    margin: 0 auto 0 1em;
+    max-height: 1em;
+    cursor: pointer;
+}
 
 .bg {
     position: fixed;
@@ -76,34 +138,136 @@ nav i:hover {
 }
 
 .loader {
-    font-family: "Cleancut W90 Regular", sans-serif;
-    font-size: 6em;
-    margin: auto;
-    color: var(--midnight);
-    animation: zoomIn 1s forwards;
+    background: center url(../img/milkyway.svg) no-repeat;
+    animation: zoomIn 2s forwards;
 }
 
-main h1 {
+aside {
+    position: absolute;
+    width: 16em;
+    height: 100%;
+    margin-top: -3em;
+    background-color: var(--semi-white);
+    box-shadow: inset -1px 0 0 0 var(--semi-grey);
+    transform-origin: left;
+    transition: .25s;
+}
+
+.collapsed aside, .collapsed aside * {
+    width: 0;
+}
+
+.collapsed aside * {
+    overflow: hidden;
+}
+
+aside img {
+    margin: 1em;
+    height: 2em;
+}
+
+aside ul {
+    padding: 0;
+}
+
+aside li,
+ul.suggestion li {
+    display: block;
+    position: relative;
+    height: 2em;
+    padding: 0 1.6em 0 0.6em;
+    backdrop-filter: blur(2em);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    line-height: 2em;
+}
+
+aside li:hover,
+ul.suggestion li:hover {
+    cursor: pointer;
+    background: var(--vanilla-blue);
+}
+
+aside li {
+    margin: .3em;
+    background: var(--semi-grey);
+    border-radius: .3em;
+}
+
+aside li:after {
+    content: "\eb99";
+    font-family: 'remixicon';
+    right: .5em;
+    position: absolute;
+}
+
+aside button {
+    right: -1.6em;
+    top: 50%;
+    background-color: transparent;
+}
+
+.collapsed aside button {
+    width: auto;
+}
+
+aside button:before,
+aside button:after {
+    content: "";
+    display: block;
+    width: .3em;
+    height: 1em;
+    background-color: var(--grey);
+    border-radius: .3em;
+}
+
+aside button:before {
+    transform: translateY(.1em);
+}
+aside button:after {
+    transform: translateY(-.1em);
+}
+
+aside button:hover:before,
+aside button:hover:after {
+    background-color: var(--dark);
+}
+
+aside button:hover:before {
+    transform: rotate(10deg) translateY(.1em);
+}
+
+aside button:hover:after {
+    transform: rotate(350deg) translateY(-.1em);
+}
+
+.collapsed aside button:hover:before {
+    transform: rotate(350deg) translateY(.1em);
+}
+
+.collapsed aside button:hover:after {
+    transform: rotate(10deg) translateY(-.1em);
+}
+
+main>ul {
+    margin-left: 16em;
+}
+
+main.collapsed>ul {
+    margin-left: 0;
+    transition: .25s;
+}
+
+
+main object {
     position: fixed;
-    font-family: "Cleancut W90 Regular", sans-serif;
-    font-size: 6em;
-    top: 30%;
+    top: 50%;
     left: 50%;
-    color: var(--midnight);
-    transform: translate(-50%, -50%);
-}
-
-main h1 span {
+    max-width: 20em;
     opacity: 0;
-    animation: type 1s 1s forwards;
-}
-
-main h1 span:nth-child(2) {
-    animation-delay: 1.2s;
-}
-
-main h1 span:nth-child(3) {
-    animation-delay: 1.4s;
+    transform: translate(-50%, -50%);
+    animation: fadeIn 1s 1s forwards;
 }
 
 main .container {
@@ -142,7 +306,7 @@ main textarea {
     outline: none;
     padding: .75rem 1rem;
     width: 32em;
-    border-radius: 1em;
+    border-radius: .6em;
     box-shadow: rgb(0 0 0 /.1) 0 -1px 0, rgb(0 0 0 /.1) 0 0 1em;
     border: 1px solid rgb(0 0 0 /.1);
     transition: box-shadow .3s ease-in-out, border .3s ease-in-out;
@@ -161,14 +325,18 @@ main textarea:focus {
 
 main button {
     position: absolute;
-    right: .3em;
-    top: .3em;
+    color: var(--white);
+    cursor: pointer;
+    border: none;
+}
+
+main .form button {
+    right: 0.6em;
+    top: calc(100% - 2.5em);
     width: 2em;
     height: 2em;
-    color: var(--white);
-    background-color: var(--grey);
+    background-color: var(--light-grey);
     border-radius: 1em;
-    border: none;
 }
 
 main button i {
@@ -177,20 +345,25 @@ main button i {
     top: 0.5em;
 }
 
-main ul {
+ul.suggestion {
     grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
     gap: 1em;
     list-style: none;
     padding: 0;
 }
 
-main li {
+ul.suggestion {
+    opacity: 0;
+    animation: floatUp .5s 1.2s forwards;
+}
+
+ul.suggestion li {
     display: block;
     position: relative;
     height: 2em;
     border-radius: 1em;
-    padding: 0 1em;
-    background: #e3e3e3;
+    padding: 0 1.6em 0 .6em;
+    background: var(--light-grey);
     backdrop-filter: blur(2em);
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -198,21 +371,36 @@ main li {
     line-height: 2em;
 }
 
-main li:after {
+ul.suggestion li:after {
     content: "\ea66";
     font-family: 'remixicon';
     right: .5em;
     position: absolute;
 }
 
-main li:hover {
-    cursor: pointer;
-    background: #c5cde8;
+footer {
+    font-size: .8em;
+    color: var(--indigo);
+    text-align: center;
+    transition: .25s
+}
+
+footer:hover {
+    color: var(--midnight);
+}
+
+footer span {
+    display: inline-block;
+    transform: scale(.8);
+}
+
+footer:hover span {
+    animation: pulse .5s cubic-bezier(0.18, 0.89, 0.32, 1.28) infinite;
 }
 
 @keyframes zoomIn {
     0% {
-        transform: scale(1);
+        transform: scale(.1);
     }
 
     99% {
@@ -238,13 +426,27 @@ main li:hover {
     }
 }
 
-@keyframes type {
-    0% {
+@keyframes fadeIn {
+    from {
         opacity: 0;
     }
 
-    100% {
+    to {
         opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(.8);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(.8);
     }
 }
 
@@ -252,7 +454,13 @@ main li:hover {
     main textarea {
         width: 80vw;
     }
+
     main .form div {
+        top: -8em;
         width: 60vw;
+    }
+
+    body {
+        grid-template-rows: 3em 1fr 0;
     }
 }
