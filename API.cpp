@@ -48,7 +48,7 @@ std::string API::response_openAI(std::string message)
         curl_easy_setopt(curl, CURLOPT_DEFAULT_PROTOCOL, "https");
         struct curl_slist *headers = NULL;
         char header_string[256]; // Adjust the size as necessary
-        sprintf(header_string, "Authorization: Bearer %s", OpenAI.key.c_str());
+        sprintf(header_string, "Authorization: Bearer %s", OpenAI.key);
         headers = curl_slist_append(headers, header_string);
         headers = curl_slist_append(headers, "Content-Type: application/json");
         headers = curl_slist_append(headers, "Cookie: __cf_bm=a2G2DPqwgZfjno6TxGTGlr67X7QEWfuocCUMkPt_J.A-1700083564-0-ASn1MqABc/z7RkLFqTNrDWdVFQzKDKEb2oaXS7hBu/lnsNncEUfdGrm0vqxQHVYaOJ7pwOUPpjelWc0Bunjszkw=; _cfuvid=WoTQbHaZY_70._GaSXA3ATmR9Or895X_RssxxmJeGz0-1700081522623-0-604800000");
@@ -109,7 +109,7 @@ std::string API::bingSuggestion(std::string query)
     return response;
 }
 
-std::string API::response_openAI(std::string imageURL)
+std::string API::vision_openAI(std::string imageURL)
 {
     CURL *curl;
     CURLcode res = CURLE_FAILED_INIT; // Default to an error code
@@ -160,8 +160,8 @@ std::string API::response_openAI(std::string imageURL)
 
 // }
 
-int main(){
-    API api;
-    api.response_openAI("message");
-    return 0;
-}
+// int main(){
+//     API api;
+//     api.response_openAI("message");
+//     return 0;
+// }
