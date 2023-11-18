@@ -11,8 +11,7 @@ add_executable(Crow
         Webserver.cpp
         Router.cpp
         API.cpp
-        Database.cpp
-        Item.cpp)
+        Database.cpp)
 
 # Find the CURL library
 find_package(CURL REQUIRED)

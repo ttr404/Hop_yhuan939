@@ -4,8 +4,9 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include "include/crow_all.h"
-#include "Item.h"
 #include <curl/curl.h>
+#include "Database.h"
+
 using json = nlohmann::json;
 
 struct
@@ -20,11 +21,18 @@ class API
 public:
     API();
     std::string response_openAI(std::string message);
+    std::string googleTrends();
+    std::string bingSuggestion(std::string query);
     Item translate(std::string str);
+    std::string vision_openAI(std::string imageURL);
 
 private:
-    auth OpenAI;
+    CURL *curl;
+    CURLcode res;
     std::string response;
+    auth OpenAI;
+    auth GoogleTrends;
+    auth BingSuggestion;
 };
 
 #endif
