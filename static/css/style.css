@@ -1,6 +1,7 @@
 :root {
     --white: #fff;
     --semi-white: rgba(255, 255, 255, .8);
+    --quarter-white: rgba(255, 255, 255, .4);
     --alice-blue: #f5f8ff;
     --semi-grey: rgba(0, 0, 0, .1);
     --light-grey: #e3e3e3;
@@ -153,7 +154,8 @@ aside {
     transition: .25s;
 }
 
-.collapsed aside, .collapsed aside * {
+.collapsed aside,
+.collapsed aside * {
     width: 0;
 }
 
@@ -225,6 +227,7 @@ aside button:after {
 aside button:before {
     transform: translateY(.1em);
 }
+
 aside button:after {
     transform: translateY(-.1em);
 }
@@ -251,7 +254,10 @@ aside button:hover:after {
 }
 
 main>ul {
-    margin-left: 16em;
+    grid-auto-rows: max-content;
+    gap: 1em;
+    margin: 1em 2em 1em 16em;
+    padding-left: 2em;
 }
 
 main.collapsed>ul {
@@ -285,7 +291,36 @@ main .form div {
     top: -6em;
     width: 50%;
     padding: 1em;
-    background: rgb(0 0 0 /.1);
+    background: var(--semi-grey);
+    border-radius: 1em 1em 1em 0;
+}
+
+main .form div,
+main>ul li {
+    width: 50%;
+    padding: 1em;
+    backdrop-filter: saturate(180%) blur(5px);
+}
+
+main>ul li {
+    width: auto;
+    background-color: var(--quarter-white);
+}
+
+main>ul li:nth-child(odd) {
+    margin-left: auto;
+    border-radius: 1em 1em 0 1em;
+}
+
+main>ul li:nth-child(even) {
+    margin-right: auto;
+    border-radius: 0 1em 1em 1em;
+}
+
+main .form div {
+    position: absolute;
+    top: -6em;
+    background: var(--semi-grey);
     border-radius: 1em 1em 1em 0;
 }
 
@@ -307,8 +342,8 @@ main textarea {
     padding: .75rem 1rem;
     width: 32em;
     border-radius: .6em;
-    box-shadow: rgb(0 0 0 /.1) 0 -1px 0, rgb(0 0 0 /.1) 0 0 1em;
-    border: 1px solid rgb(0 0 0 /.1);
+    box-shadow: var(--semi-grey) 0 -1px 0, var(--semi-grey) 0 0 1em;
+    border: 1px solid var(--semi-grey);
     transition: box-shadow .3s ease-in-out, border .3s ease-in-out;
 }
 
