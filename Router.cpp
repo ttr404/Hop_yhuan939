@@ -76,9 +76,27 @@ int Router::enroute(crow::SimpleApp &app)
 
         CROW_ROUTE(app, "/db")
         ([&]()
-         { return db.getAll(); });
+         {
+             crow::json::wvalue json;
+             // Magic! Don't touch
+             std::vector<crow::json::wvalue> items_list; // list of wvalue
+             for (Item item : db.getAll())
+             {
+                 crow::json::wvalue item_json; // new wvalue
+                 item_json["name"] = item.name;
+                 std::vector<crow::json::wvalue> tags_list; // list of wvalue
+                 for (std::string tag : item.tags) // iterate through tags
+                 {
+                     tags_list.push_back(tag); // push wvalue
+                 }
+                 item_json["tags"] = crow::json::wvalue(tags_list); // wvalue of list of wvalue
+                 item_json["summary"] = item.summary;
+                 items_list.push_back(item_json);
+             }
+            json = std::move(crow::json::wvalue::list(items_list)); // wvalue of list of wvalue
+            return crow::response(json); });
     }
-    catch (const std::exception &e)
+    catch (const std::exception &e) // catch any exceptions
     {
         std::cout << e.what() << std::endl;
     }

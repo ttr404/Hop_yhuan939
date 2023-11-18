@@ -19,33 +19,15 @@ std::vector<Item> Database::getAll()
 {
     int col;
     std::vector<Item> items;
-    // stmt->execute("USE hop");
-    // res = stmt->executeQuery("SELECT * FROM items");
-    // json items;
-    // while (res->next())
-    // {
-    //     json object;
-    //     object["id"] = res->getString(1);
-    //     object["name"] = res->getString(2);
-    //     object["tags"] = res->getString(3);
-    //     object["summary"] = res->getString(4);
-    //     items.push_back(object);
-    // }
-    // delete stmt;
-    // delete con;
-    // delete res;
-    // auto test = crow::response(items.dump());
-    // test.set_header("Content-Type", "application/json");
-    // return test;
     stmt->execute("USE hop");
-    res = stmt->executeQuery("SELECT name, tags, summary FROM items");
+    res = stmt->executeQuery("SELECT name, tag, summary FROM items"); // Updated query
     col = res->getMetaData()->getColumnCount();
     while (res->next())
     {
         Item item;
-        item.name = res->getString(2);
-        item.summary = res->getString(4);
-        std::string tags = res->getString(3);
+        item.name = res->getString(1); // Updated column index
+        item.summary = res->getString(3); // Updated column index
+        std::string tags = res->getString(2); // Updated column index
         std::string tag;
         for (int i = 0; i < tags.length(); i++)
         {
