@@ -5,7 +5,7 @@ let audioChunks = [];
 let isRecording = false;
 
 const player = document.getElementById('player');
-const recordButton = document.getElementById('recordButton');
+const recordButton = document.querySelector('.form button:nth-child(3)');
 
 // event listener for the start and stop buttons
 recordButton.addEventListener('click', toggleRecording);

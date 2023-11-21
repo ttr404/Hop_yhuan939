@@ -7,7 +7,7 @@ if (typeof init === "undefined") {
         const form = document.querySelector('.form');
         const query = document.querySelector('.form textarea');
         const suggestion = document.querySelector('.suggestion');
-        const search = document.querySelector('.form button');
+        const search = document.querySelector('.form button:last-child');
         const trending = () => {
             fetch('/suggestion')
                 .then(response => response.text()).then(data => {

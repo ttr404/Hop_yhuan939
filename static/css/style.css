@@ -374,6 +374,10 @@ main .form button {
     border-radius: 1em;
 }
 
+main .form button:nth-child(3) {
+    right: 3em;
+}
+
 main button i {
     position: absolute;
     left: 0.5em;
