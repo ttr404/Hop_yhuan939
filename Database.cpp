@@ -15,26 +15,35 @@ Database::~Database()
     delete driver;
 }
 
-std::vector<Item> Database::getAll()
+std::vector<Item> Database::get(std::string query)
 {
     int col;
     std::vector<Item> items;
     stmt->execute("USE hop");
-    res = stmt->executeQuery("SELECT name, tag, summary FROM items"); // Updated query
+    if (query.length() == 0) 
+    {
+        res = stmt->executeQuery("SELECT * FROM items");
+    } else {
+        res = stmt->executeQuery("SELECT * FROM items WHERE tags LIKE '%" + query + "%'");
+    }
     col = res->getMetaData()->getColumnCount();
     while (res->next())
     {
         Item item;
-        item.name = res->getString(1); // Updated column index
-        item.summary = res->getString(3); // Updated column index
-        std::string tags = res->getString(2); // Updated column index
+        item.name = res->getString(2); // Updated column index
+        item.summary = res->getString(4); // Updated column index
+        std::string tags = res->getString(3); // Updated column index
         std::string tag;
         for (int i = 0; i < tags.length(); i++)
         {
-            if (tags[i] == ',')
+            if (tags[i] == ',' || tags[i] == ']' )
             {
                 item.tags.push_back(tag);
                 tag = "";
+            }
+            else if (tags[i] == '['|| tags[i] == '"')
+            {
+                continue;
             }
             else
             {
@@ -71,24 +80,24 @@ void Database::insert(Item newItem)
     return;
 }
 
-crow::response Database::handleQuery(std::string query)
-{
-    stmt->execute("USE hop");
-    res = stmt->executeQuery(query);
-    json items;
-    while (res->next())
-    {
-        json object;
-        object["id"] = res->getString(1);
-        object["name"] = res->getString(2);
-        object["tags"] = res->getString(3);
-        object["summary"] = res->getString(4);
-        items.push_back(object);
-    }
-    delete stmt;
-    delete con;
-    delete res;
-    auto test = crow::response(items.dump());
-    test.set_header("Content-Type", "application/json");
-    return test;
-}   
+// crow::response Database::handleQuery(std::string query)
+// {
+//     stmt->execute("USE hop");
+//     res = stmt->executeQuery(query);
+//     json items;
+//     while (res->next())
+//     {
+//         json object;
+//         object["id"] = res->getString(1);
+//         object["name"] = res->getString(2);
+//         object["tags"] = res->getString(3);
+//         object["summary"] = res->getString(4);
+//         items.push_back(object);
+//     }
+//     delete stmt;
+//     delete con;
+//     delete res;
+//     auto test = crow::response(items.dump());
+//     test.set_header("Content-Type", "application/json");
+//     return test;
+// }   
