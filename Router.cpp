@@ -51,8 +51,9 @@ int Router::enroute(crow::SimpleApp &app)
             if(type == "json")
             {
                 crow::json::wvalue json;
-                json["query"] = query;
                 json["type"] = type;
+                json["query"] = query;
+                json["result"] = handleQuery(query);
                 return crow::response(json);
             }
             auto page = crow::mustache::load("search.html");
@@ -80,7 +81,7 @@ int Router::enroute(crow::SimpleApp &app)
              crow::json::wvalue json;
              // Magic! Don't touch
              std::vector<crow::json::wvalue> items_list; // list of wvalue
-             for (Item item : db.getAll())
+             for (Item item : db.get())
              {
                  crow::json::wvalue item_json; // new wvalue
                  item_json["name"] = item.name;
@@ -103,6 +104,24 @@ int Router::enroute(crow::SimpleApp &app)
     return 0;
 }
 
-std::string Router::handleQuery(std::string query)
+crow::json::wvalue Router::handleQuery(std::string query)
 {
+    crow::json::wvalue json;
+    // Magic! Don't touch
+    std::vector<crow::json::wvalue> items_list; // list of wvalue
+    for (Item item : db.get(query))
+    {
+        crow::json::wvalue item_json; // new wvalue
+        item_json["name"] = item.name;
+        std::vector<crow::json::wvalue> tags_list; // list of wvalue
+        for (std::string tag : item.tags)          // iterate through tags
+        {
+            tags_list.push_back(tag); // push wvalue
+        }
+        item_json["tags"] = crow::json::wvalue(tags_list); // wvalue of list of wvalue
+        item_json["summary"] = item.summary;
+        items_list.push_back(item_json);
+    }
+    json = std::move(crow::json::wvalue::list(items_list)); // wvalue of list of wvalue
+    return json;
 }

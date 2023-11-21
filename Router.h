@@ -11,7 +11,7 @@ class Router {
         Router();
         ~Router();
         int enroute(crow::SimpleApp& app);
-        std::string handleQuery(std::string query);
+        crow::json::wvalue handleQuery(std::string query);
     private:
         crow::SimpleApp& app;
         API api;
