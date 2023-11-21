@@ -417,6 +417,21 @@ ul.suggestion li:after {
     position: absolute;
 }
 
+.swiper .swiper-wrapper {
+    margin: 1em 0 1.2em 0;    
+    width: calc(100vw - 22em);
+}
+
+.swiper-wrapper .swiper-slide {
+    margin-right: 1em;
+    padding: 2em;
+    width: 15em;
+    height: 20em;
+    background-color: var(--white);
+    border: 1px solid var(--semi-grey);
+    border-radius: .6em;
+}
+
 footer {
     font-size: .8em;
     color: var(--indigo);
