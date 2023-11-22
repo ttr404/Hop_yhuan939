@@ -160,8 +160,8 @@ std::string API::vision_openAI(std::string imageURL)
 
 // }
 
-// int main(){
-//     API api;
-//     api.response_openAI("message");
-//     return 0;
-// }
+int main(){
+     API api;
+     api.response_openAI("message");
+     return 0;
+ }
