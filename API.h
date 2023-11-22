@@ -33,7 +33,9 @@ private:
     CURL *curl;
     CURLcode res;
     std::string response;
+    std::string response_vision;
     auth OpenAI;
+    auth OpenAI_Vision;
     auth GoogleTrends;
     auth BingSuggestion;
 };

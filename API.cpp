@@ -25,6 +25,11 @@ API::API()
 {
     OpenAI = {
         "OpenAI",
+        "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",
+        "https://api.openai.com/v1/chat/completions"};
+
+    OpenAI_Vision = {
+        "OpenAI",
         "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",
         "https://api.openai.com/v1/chat/completions"};
     GoogleTrends = {
@@ -83,8 +88,8 @@ void API::extractResponseData(const std::string& responseData, std::string& name
 
 std::string API::response_openAI(std::string message)
 {
-    // CURL *curl;
-    // CURLcode res = CURLE_FAILED_INIT; // Default to an error code
+    CURL *curl;
+    CURLcode res ; // Default to an error code
     std::string name;
     std::string summary;
     std::vector<std::string> tags;
@@ -98,7 +103,7 @@ std::string API::response_openAI(std::string message)
         curl_easy_setopt(curl, CURLOPT_DEFAULT_PROTOCOL, "https");
         struct curl_slist *headers = NULL;
         char header_string[256]; // Adjust the size as necessary
-        sprintf(header_string, "Authorization: Bearer %s", OpenAI.key);
+        sprintf(header_string, "Authorization: Bearer %s", OpenAI.key.c_str());
         headers = curl_slist_append(headers, header_string);
         headers = curl_slist_append(headers, "Content-Type: application/json");
         headers = curl_slist_append(headers, "Cookie: __cf_bm=a2G2DPqwgZfjno6TxGTGlr67X7QEWfuocCUMkPt_J.A-1700083564-0-ASn1MqABc/z7RkLFqTNrDWdVFQzKDKEb2oaXS7hBu/lnsNncEUfdGrm0vqxQHVYaOJ7pwOUPpjelWc0Bunjszkw=; _cfuvid=WoTQbHaZY_70._GaSXA3ATmR9Or895X_RssxxmJeGz0-1700081522623-0-604800000");
@@ -175,7 +180,7 @@ std::string API::vision_openAI(std::string imageURL)
     std::string name;
     std::string summary;
     std::vector<std::string> tags;
-    std::string response="";
+    response_vision="";
     CURL *curl;
     CURLcode res;
     curl = curl_easy_init();
@@ -185,7 +190,10 @@ std::string API::vision_openAI(std::string imageURL)
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(curl, CURLOPT_DEFAULT_PROTOCOL, "https");
     struct curl_slist *headers = NULL;
-    headers = curl_slist_append(headers, "Authorization: Bearer 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");
+    //headers = curl_slist_append(headers, "Authorization: Bearer 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");
+    char header_string[256]; // Adjust the size as necessary
+    sprintf(header_string, "Authorization: Bearer %s", OpenAI_Vision.key.c_str());
+    headers = curl_slist_append(headers, header_string);
     headers = curl_slist_append(headers, "Content-Type: application/json");
     headers = curl_slist_append(headers, "Cookie: __cf_bm=h.pFjbb9HoNL1BPhLTPuk7McIEU4vJBuGxDjgprcejk-1700687871-0-Afy9GnYFrq+bLZg0laFb1BQ8znMhEpNwwv+kr+sHa0to3tL67n5jFiEMGFX2X3IWNaghreRzhqoT8jM/bRbXlT8=; _cfuvid=Qpi3Eam2TduP9HHXfuzsfiDW1RO20Sn_c8nGObMw260-1700687871631-0-604800000");
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
@@ -197,17 +205,17 @@ std::string API::vision_openAI(std::string imageURL)
 
     
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_vision);
         
 
 
     res = curl_easy_perform(curl);
     if (res == CURLE_OK)
         {
-            extractImageData(response, name, summary, tags);
+            extractImageData(response_vision, name, summary, tags);
 
             // Output the extracted data for verification
-            std::cout << response << std::endl;
+            std::cout << response_vision << std::endl;
             std::cout << "Name: " << name << std::endl;
             std::cout << "Summary: " << summary << std::endl;
             std::cout << "Tags: ";
@@ -223,13 +231,13 @@ std::string API::vision_openAI(std::string imageURL)
 
     }
     curl_easy_cleanup(curl);
-    return response;
+    return response_vision;
 }
 
-void API::extractImageData(const std::string& responseData, std::string& name, std::string& summary, std::vector<std::string>& tags)
+void API::extractImageData(const std::string& responseData_vision, std::string& name, std::string& summary, std::vector<std::string>& tags)
 {
     try {
-        auto responseJson = json::parse(responseData);
+        auto responseJson = json::parse(responseData_vision);
 
         auto choices = responseJson["choices"];
         if (choices.is_array() && !choices.empty())
@@ -263,7 +271,7 @@ void API::extractImageData(const std::string& responseData, std::string& name, s
 
 // int main(){
 //     API api;
-//     api.response_openAI("message");
+//     api.response_openAI("water bottle");
 //     api.vision_openAI("https://imgs.search.brave.com/JN8V-JvR6e1uaZF1iT5CFFuwnLMazAJ8LH2hPi5L0eI/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTIz/NTcyODkwMy9waG90/by9hLTEzLWluY2gt/YXBwbGUtbWFjYm9v/ay1wcm8tbGFwdG9w/LWNvbXB1dGVyLXRh/a2VuLW9uLWphbnVh/cnktMjAtMjAyMS5q/cGc_cz02MTJ4NjEy/Jnc9MCZrPTIwJmM9/aFlSYnYxZThCNlk5/TWF2UVpfX29ibGhr/S0hUbVVyS2pXc0hs/QTNxZHppWT0");
 //     return 0;
 // }
