@@ -32,7 +32,7 @@ class Database
 public:
     Database();
     ~Database();
-    std::vector<Item> getAll();
+    std::vector<Item> get(std::string query = "");
     void insert(Item newItem);
     crow::response handleQuery(std::string query);
 

@@ -44,6 +44,6 @@ target_link_libraries(Crow PRIVATE pthread)
 include_directories(/usr/local/include)
 include_directories(/opt/homebrew/Cellar/asio/1.28.1/include)
 
-# Copy public and static folders to build directory
+# Copy templates and static folders to build directory
 file(COPY ${CMAKE_SOURCE_DIR}/templates DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/static DESTINATION ${CMAKE_BINARY_DIR})

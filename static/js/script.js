@@ -7,7 +7,7 @@ if (typeof init === "undefined") {
         const form = document.querySelector('.form');
         const query = document.querySelector('.form textarea');
         const suggestion = document.querySelector('.suggestion');
-        const search = document.querySelector('.form button');
+        const search = document.querySelector('.form button:last-child');
         const trending = () => {
             fetch('/suggestion')
                 .then(response => response.text()).then(data => {
@@ -77,10 +77,23 @@ if (typeof init === "undefined") {
 
 if (typeof initSearch === "undefined") {
     initSearch = () => {
+        let url = new URL(window.location);
+        const urlParams = new URLSearchParams(url.search);
+        const query = urlParams.get('q');
         const collapse = document.querySelector('aside button');
+
         collapse.onclick = () => {
             document.querySelector('main').classList.toggle('collapsed');
-        }
+        };
+        urlParams.set('type', 'json');
+        url.search = urlParams;
+        fetch(url)
+        .then(response => response.json())
+        .then(json => json.result)
+        .then(data => {
+            console.log(data);
+        });
+
     };
 }
 
