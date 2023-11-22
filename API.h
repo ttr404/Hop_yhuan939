@@ -26,6 +26,7 @@ public:
     Item translate(std::string str);
     std::string vision_openAI(std::string imageURL);
     void extractResponseData(const std::string& responseData, std::string& name, std::string& summary, std::vector<std::string>& tags);
+    void extractImageData(const std::string& responseData, std::string& name, std::string& summary, std::vector<std::string>& tags);
 
 
 private:
