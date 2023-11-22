@@ -264,5 +264,6 @@ void API::extractImageData(const std::string& responseData, std::string& name, s
 // int main(){
 //     API api;
 //     api.response_openAI("message");
+//     api.vision_openAI("https://imgs.search.brave.com/JN8V-JvR6e1uaZF1iT5CFFuwnLMazAJ8LH2hPi5L0eI/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTIz/NTcyODkwMy9waG90/by9hLTEzLWluY2gt/YXBwbGUtbWFjYm9v/ay1wcm8tbGFwdG9w/LWNvbXB1dGVyLXRh/a2VuLW9uLWphbnVh/cnktMjAtMjAyMS5q/cGc_cz02MTJ4NjEy/Jnc9MCZrPTIwJmM9/aFlSYnYxZThCNlk5/TWF2UVpfX29ibGhr/S0hUbVVyS2pXc0hs/QTNxZHppWT0");
 //     return 0;
 // }
