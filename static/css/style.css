@@ -67,6 +67,7 @@ nav ul {
     padding: .3em .6em 0 .6em;
     background: var(--white);
     border-radius: 0.6em;
+    z-index: 1;
 }
 
 nav ul:before {
@@ -423,13 +424,50 @@ ul.suggestion li:after {
 }
 
 .swiper-wrapper .swiper-slide {
-    margin-right: 1em;
-    padding: 2em;
+    margin-right: .6em;
+    padding: 1em;
     width: 15em;
     height: 20em;
     background-color: var(--white);
     border: 1px solid var(--semi-grey);
     border-radius: .6em;
+}
+
+.swiper-slide img {
+    margin: 0 2em;
+    width: auto;
+    height: 10em;
+    max-width: calc(100% - 4em);
+    filter: brightness(1.1);
+    transition: .25s;
+}
+
+.swiper-slide img:hover {
+    transform: scale(1.2);
+}
+
+.swiper-slide div {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.swiper-slide span {
+    font-size: 1.2em;
+    font-weight: 600;
+    margin: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: center;
+}
+
+.swiper-slide p {
+    font-size: .8em;
+    margin-top: .6em;
+    height: 8em;
+    overflow-y: hidden;
+    text-overflow: ellipsis;
 }
 
 footer {

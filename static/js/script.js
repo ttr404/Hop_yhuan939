@@ -1,9 +1,9 @@
 "use strict";
 
-let init, initSearch;
+let initHome, initSearch, loadHistory;
 
-if (typeof init === "undefined") {
-    init = () => {
+if (typeof initHome === "undefined") {
+    initHome = () => {
         const form = document.querySelector('.form');
         const query = document.querySelector('.form textarea');
         const suggestion = document.querySelector('.suggestion');
@@ -59,7 +59,7 @@ if (typeof init === "undefined") {
 
         // handle meta and enter key pressed
         query.onkeydown = (event) => {
-            if(event.metaKey || event.ctrlKey) {
+            if (event.metaKey || event.ctrlKey) {
                 if (event.keyCode === 13) {
                     pjax("search?q=" + query.value);
                 }
@@ -79,7 +79,6 @@ if (typeof initSearch === "undefined") {
     initSearch = () => {
         let url = new URL(window.location);
         const urlParams = new URLSearchParams(url.search);
-        const query = urlParams.get('q');
         const collapse = document.querySelector('aside button');
 
         collapse.onclick = () => {
@@ -88,20 +87,57 @@ if (typeof initSearch === "undefined") {
         urlParams.set('type', 'json');
         url.search = urlParams;
         fetch(url)
-        .then(response => response.json())
-        .then(json => json.result)
-        .then(data => {
-            console.log(data);
-        });
+            .then(response => response.json())
+            .then(json => json.result)
+            .then(data => {
+                console.log(data);
+            });
 
     };
+}
+
+if (typeof loadHistory === "undefined") {
+    loadHistory = () => {
+        const template = document.querySelector('template.history');
+        const container = document.querySelector('aside ul');
+        let url = new URL(window.location);
+        const urlParams = new URLSearchParams(url.search);
+
+        const onCreateHistory = ({ data }) => {
+            const clone = template.content.cloneNode(true);
+            const box = clone.querySelector('li');
+            const span = clone.querySelector('span');
+            const text = data.charAt(0).toUpperCase() + data.slice(1);
+            span.innerText = text;
+            span.onclick = (event) => {
+                // don't allow click through
+                event.stopPropagation();
+                pjax("search?q=" + data);
+            };
+            box.onclick = () => {
+                box.parentNode.removeChild(box);
+            }
+            container.appendChild(clone);
+        };
+
+        urlParams.set('h', 'test');
+        url.search = urlParams;
+        fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            for (let i = 0; i < data.length; i++) {
+                onCreateHistory({ data: data[i] });
+            }
+        });
+    }
 }
 
 window.onload = () => {
     let s = window.location, a = window.document, r = a.currentScript;
     if (s.pathname === "/") {
-        init();
-    } else if(s.pathname.startsWith("/search")) {
+        initHome();
+    } else if (s.pathname.startsWith("/search")) {
         initSearch();
+        loadHistory();
     }
 };
