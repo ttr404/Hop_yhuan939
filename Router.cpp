@@ -128,7 +128,12 @@ crow::json::wvalue Router::handleQuery(std::string query)
     crow::json::wvalue json;
     // Magic! Don't touch
     std::vector<crow::json::wvalue> items_list; // list of wvalue
-    for (Item item : db.get(query))
+    std::vector<Item> items = db.get(query);
+    if(items.size() == 0)
+    {
+        return crow::json::wvalue({"No result found."});
+    }
+    for (Item item : items)
     {
         crow::json::wvalue item_json; // new wvalue
         item_json["name"] = item.name;
@@ -141,6 +146,7 @@ crow::json::wvalue Router::handleQuery(std::string query)
         item_json["summary"] = item.summary;
         items_list.push_back(item_json);
     }
+    
     json = std::move(crow::json::wvalue::list(items_list)); // wvalue of list of wvalue
     return json;
 }
