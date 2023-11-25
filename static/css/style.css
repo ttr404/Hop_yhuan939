@@ -460,6 +460,7 @@ ul.suggestion li:after {
     white-space: nowrap;
     overflow: hidden;
     text-align: center;
+    z-index: 1;
 }
 
 .swiper-slide p {
