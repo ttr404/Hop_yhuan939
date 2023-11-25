@@ -80,6 +80,13 @@ if (typeof initSearch === "undefined") {
         let url = new URL(window.location);
         const urlParams = new URLSearchParams(url.search);
         const collapse = document.querySelector('aside button');
+        const swiper = new Swiper(".swiper", {
+            mousewheel: true,
+            slidesPerView: "auto",
+            scrollbar: {
+                el: ".swiper-scrollbar",
+            }
+        });
 
         collapse.onclick = () => {
             document.querySelector('main').classList.toggle('collapsed');
