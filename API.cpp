@@ -4,8 +4,6 @@
 #include <algorithm>
 using json = nlohmann::json;
 
-// #include "Item.h"
-
 size_t write_callback(void *contents, size_t size, size_t nmemb, std::string *s)
 {
     size_t newLength = size * nmemb;
@@ -177,8 +175,9 @@ std::string API::bingSuggestion(std::string query)
     return response;
 }
 
-std::string API::vision_openAI(std::string imageURL)
-{
+Item API::vision_openAI(std::string imageURL)
+{   
+    Item item;
     std::string name;
     std::string summary;
     std::vector<std::string> tags;
@@ -215,16 +214,10 @@ std::string API::vision_openAI(std::string imageURL)
     if (res == CURLE_OK)
         {
             extractImageData(response_vision, name, summary, tags);
+            item.name = name;
+            item.summary = summary;
+            item.tags = tags;
 
-            // Output the extracted data for verification
-            // std::cout << response_vision << std::endl;
-            std::cout << "Name: " << name << std::endl;
-            std::cout << "Summary: " << summary << std::endl;
-            std::cout << "Tags: ";
-            for (const auto& tag : tags) {
-                std::cout << tag << " ";
-            }
-            std::cout << std::endl;
         }
         else
         {
@@ -233,7 +226,7 @@ std::string API::vision_openAI(std::string imageURL)
 
     }
     curl_easy_cleanup(curl);
-    return response_vision;
+    return item;
 }
 
 void API::extractImageData(const std::string& responseData_vision, std::string& name, std::string& summary, std::vector<std::string>& tags)
