@@ -4,7 +4,8 @@
 // it just feels like i am trying to fit a square peg into a round hole
 // so i am pretty much stuck with js for now
 
-const SERVER_URL = window.location.protocol + "//" + window.location.hostname + "/" + "voiceUpload";
+// handle port number 
+const SERVER_URL = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/" + "voiceUpload";
 
 // check if the browser supports the MediaDevices API
 if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -47,7 +48,7 @@ async function getAudio() {
         // send the audio file to the server
         const formData = new FormData();
         const file = await blobToBase64(audioBlob);
-        formData.append('file', "data:audio/webm;base64," + file);
+        formData.append('file', file);
         console.log('formData:', formData);
         try {
           const response = await fetch(SERVER_URL, {

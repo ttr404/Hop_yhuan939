@@ -1,7 +1,4 @@
 #include "Router.h"
-#include <iostream>
-#include <fstream>
-#include "tools/get_multipart_file.hpp"
 
 Router::Router() : app(app)
 {
@@ -139,16 +136,17 @@ int Router::enroute(crow::SimpleApp &app)
         // to handle the POST request sent from the webpage
         // that contains the blob object of the recorded voice
         CROW_ROUTE(app, "/voiceUpload")
-            .methods("POST"_method)([&](const crow::request &req) {
-            std::string blobFile = req.body;
-            std::string exportPath = "files/voiceRecordFile.mp3";
-            // std::cout << "blobsize: " << blobFile.size() << std::endl;
-            // std::cout << "blob: " << blobFile << std::endl;
-            // std::ofstream voiceRecordFile("files/voiceRecordFile.mp3", std::ios::out | std::ios::binary);
-            // voiceRecordFile.write(blobFile.data(), blobFile.size());
-            // voiceRecordFile.close();
-            get_multi_file(blobFile, exportPath);
-            return crow::response(crow::json::wvalue({"Hello."})); });
+            .methods("POST"_method)([&](const crow::request &req)
+            {
+                std::time_t now = std::time(nullptr);
+                crow::multipart::message parts(req);
+                crow::multipart::part file = parts.get_part_by_name("file");
+                std::string file_path = "static/upload/" + std::to_string(std::localtime(&now)->tm_sec) + ".mp3";
+                std::string base64 = file.body.erase(0, 22);
+                std::cout << base64 << std::endl;
+                voice.decode_base64_and_write_to_file(file.body, file_path);
+                return crow::response(200);
+            });
     }
     catch (const std::exception &e) // catch any exceptions
     {

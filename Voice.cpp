@@ -1,16 +1,26 @@
 #include "Voice.h"
-#include <iostream>
-#include <string>
 
-// curl -s -X POST \
-//   -H "Content-Type: application/json" \
-//   -d '{"version": "4d50797290df275329f202e48c76360b3f22b08d28c196cbc54600319435f8d2", "input": {"audio": "blob:https://hop.cheap/d4979630-2e11-4b5e-94c0-6ff3c02c39ba"}}' \
-//   -H "Authorization: Token r8_X1ErZq5FO5J4XZc00HphUvYTWLr3zdP1utzio" \
-//   "https://api.replicate.com/v1/predictions"
+void Voice::decode_base64_and_write_to_file(const std::string& base64, const std::string& file_path) {
+    using namespace boost::archive::iterators;
+    using It = transform_width<binary_from_base64<std::string::const_iterator>, 8, 6>;
 
+    // Remove newline characters and other non-base64 characters
+    std::string base64_clean;
+    std::copy_if(base64.begin(), base64.end(), std::back_inserter(base64_clean),
+                 [](char c) { return (c != '\n' && c != '\r'); });
 
-// receive the blob object sent from the webpage
-// and convert it to a mp3 file using FFMPEG
-void Voice::convertBlob(std::string blobPath) {
-    std::cout << blobPath << std::endl;
+    // Decode the base64 string
+    std::string decoded;
+    try {
+        std::copy(It(base64_clean.begin()), It(base64_clean.end()), std::back_inserter(decoded));
+    } catch (...) {
+        std::cerr << "Error decoding base64 string." << std::endl;
+        return;
+    }
+
+    // Write the decoded data to a file
+    std::ofstream file(file_path, std::ios::out | std::ios::binary);
+    if (!file.write(decoded.data(), decoded.size())) {
+        std::cerr << "Error writing to file." << std::endl;
+    }
 }
