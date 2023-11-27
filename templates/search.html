@@ -30,7 +30,7 @@
                     </summary>
                     <ul aria-label="Settings">
                         <li data-src="on" id="suggestion"><i class="ri-bard-line"></i> Suggestions</li>
-                        <li data-src="on" id="dark""><i class=" ri-moon-line"></i> Dark mode</li>
+                        <li data-src="on" id="dark"><i class=" ri-moon-line"></i> Dark mode</li>
                         <li data-src="on" id="history"><i class="ri-history-line"></i> History</li>
                     </ul>
                 </details>
@@ -50,13 +50,33 @@
             <li>{{ query }}</li>
             <li>
                 <span>Here is what I found for "{{ query }}"</span>
+                <!-- Here we get the input and put it out-->
                 <div class="swiper">
                     <div class="swiper-wrapper">
+                        <!--------------------------------------------------------------------------->
+                        <div class="swiper-slide">
+                            <img
+                                src="" />
+                            <div>
+                                <span onclick="pjax('search?p=apple')">Apple</span>
+                                <!-- Modify this part also -->
+                                <p>A red apple is a type of fruit known for its vibrant red skin, which can range from
+                                    bright to deep red tones. It typically has a round shape with a small stem at the
+                                    top. The interior flesh is crisp and juicy, usually with a sweet-tart flavor that
+                                    varies depending on the specific variety. Red apples are commonly used in both raw
+                                    and cooked forms, being a popular choice for snacks, salads, baking, and juices.
+                                    They are also celebrated for their nutritional benefits, including a good source of
+                                    dietary fiber and vitamin C.</p>
+
+                            </div>
+                        </div>
+                        <!--------------------------------------------------------------------------->
                         <div class="swiper-slide">
                             <img
                                 src="https://cdn.discordapp.com/attachments/1101017132482957363/1176561982846029874/365cent_apple_amazon_product_image_realistic_white_background_2417a6f6-8759-41e2-b480-0637aec4a01e.png?ex=656f51bc&is=655cdcbc&hm=1e3ab318331ab437aafad157b3f1d5801f68771e44b40b224edba2c2140fc25d&" />
                             <div>
                                 <span onclick="pjax('search?p=apple')">Apple</span>
+                                <!-- Modify this part also -->
                                 <p>A red apple is a type of fruit known for its vibrant red skin, which can range from
                                     bright to deep red tones. It typically has a round shape with a small stem at the
                                     top. The interior flesh is crisp and juicy, usually with a sweet-tart flavor that
@@ -103,7 +123,8 @@
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="../static/js/pjax.js"></script>
-    <script src="../static/js/script.js"></script>
+    <script src="../static/js/script.js" type ="module"></script>
+    <script src="../static/js/LocalStorage.js" type ="module"></script>
 </body>
 
 </html>
