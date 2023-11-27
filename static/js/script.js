@@ -8,6 +8,7 @@ if (typeof initHome === "undefined") {
         const query = document.querySelector('.form textarea');
         const suggestion = document.querySelector('.suggestion');
         const search = document.querySelector('.form button:last-child');
+
         const trending = () => {
             fetch('/suggestion')
                 .then(response => response.text()).then(data => {
@@ -103,26 +104,57 @@ if (typeof initSearch === "undefined") {
     };
 }
 
+
+
+
+
+import LocalStorage from "./LocalStorage.js";
 if (typeof loadHistory === "undefined") {
+    const createTaskForm = document.querySelector('.form');
+createTaskForm.addEventListener('recordButton', (e) => {
+    e.preventDefault();
+    const value = createTaskField.value;
+    if (value) {
+      const data = {
+        value,
+        checked: false
+      };
+      storage.create(data);
+      onCreateHistory({data});
+      createTaskForm.reset();
+    }
+  });
     loadHistory = () => {
+        //--------------------------------
+        
+        const storage = new LocalStorage();
+        const items = storage.items;
+        items.forEach((data) => {
+            onCreateHistory({ data });
+        });
+        //--------------------------------
         const template = document.querySelector('template.history');
         const container = document.querySelector('aside ul');
         let url = new URL(window.location);
         const urlParams = new URLSearchParams(url.search);
 
+        //---------------
         const onCreateHistory = ({ data }) => {
             const clone = template.content.cloneNode(true);
             const box = clone.querySelector('li');
             const span = clone.querySelector('span');
             const text = data.charAt(0).toUpperCase() + data.slice(1);
-            span.innerText = text;
-            span.onclick = (event) => {
+            span.innerText = data.value;
+            span.onclick = (event) => { // textbox inside the history box
                 // don't allow click through
                 event.stopPropagation();
                 pjax("search?q=" + data);
+                storage.update({ data });
             };
-            box.onclick = () => {
+
+            box.onclick = () => { // history box, including the delete button
                 box.parentNode.removeChild(box);
+                storage.delete({ data });
             }
             container.appendChild(clone);
         };
@@ -130,13 +162,14 @@ if (typeof loadHistory === "undefined") {
         urlParams.set('h', 'test');
         url.search = urlParams;
         fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            for (let i = 0; i < data.length; i++) {
-                onCreateHistory({ data: data[i] });
-            }
-        });
+            .then(response => response.json())
+            .then(data => {
+                for (let i = 0; i < data.length; i++) {
+                    onCreateHistory({ data: data[i] });
+                }
+            });
     }
+    //---------------
 }
 
 window.onload = () => {
