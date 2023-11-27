@@ -57,33 +57,18 @@
             </form>
             <div>
                 <h2>
-                    {{ username }}'s Profile
+                    Product Upload
                 </h2>
                 <img src="#" width="64px">
-                <form method="post">
+                <form method="post" action="/uploadImage">
                     <ul>
                         <li>
-                            <label for="username">Username</label>
-                            <input type="text" name="username" value="{{ username }}">
-                            <button class="btn round" onclick="edit()" type="button"><i
-                                    class="ri-edit-line"></i>Edit</button>
-                        </li>
-                        <li>
-                            <label for="username">Email</label>
-                            <input type="email" name="email" value="{{ email }}">
-                            <button class="btn round" onclick="edit()" type="button"><i
-                                    class="ri-edit-line"></i>Edit</button>
-                        </li>
-                        <li>
-                            <label for="username">Password</label>
-                            <input type="password" name="password" placeholder="Please enter your new password">
-                            <button class="btn round" onclick="edit()" type="button"><i
-                                    class="ri-edit-line"></i>Edit</button>
+                            <label for="URL">Picture URL</label>
+                            <input type="text" name="URL" placeholder="URL" value="{{ URL }}">
                         </li>
                     </ul>
                     <div>
-                        <button class="btn round" type="submit">Submit all changes</button>
-                        <button class="btn round" onclick="deleteUser()" type="button">Delete Account</button>
+                        <button class="btn round" type="submit">Upload</button>
                     </div>
                 </form>
             </div>

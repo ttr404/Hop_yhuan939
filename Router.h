@@ -12,6 +12,7 @@ class Router {
         ~Router();
         int enroute(crow::SimpleApp& app);
         crow::json::wvalue handleQuery(std::string query);
+        std::string urlDecode(const std::string &encoded);
     private:
         crow::SimpleApp& app;
         API api;
