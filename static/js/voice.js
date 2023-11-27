@@ -4,7 +4,8 @@
 // it just feels like i am trying to fit a square peg into a round hole
 // so i am pretty much stuck with js for now
 
-const SERVER_URL = window.location.protocol + "//" + window.location.hostname + "/" + "voiceUpload";
+// handle port number 
+const SERVER_URL = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/" + "voiceUpload";
 
 // check if the browser supports the MediaDevices API
 if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
