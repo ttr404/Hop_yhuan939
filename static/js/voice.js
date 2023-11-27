@@ -47,7 +47,7 @@ async function getAudio() {
         // send the audio file to the server
         const formData = new FormData();
         const file = await blobToBase64(audioBlob);
-        formData.append('file', "data:audio/webm;base64," + file);
+        formData.append('file', file);
         console.log('formData:', formData);
         try {
           const response = await fetch(SERVER_URL, {
