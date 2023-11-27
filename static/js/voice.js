@@ -4,7 +4,7 @@
 // it just feels like i am trying to fit a square peg into a round hole
 // so i am pretty much stuck with js for now
 
-const SERVER_URL = 'http://localhost:8081/voiceUpload';
+const SERVER_URL = window.location.protocol + "//" + window.location.hostname + "/" + "voiceUpload";
 
 // check if the browser supports the MediaDevices API
 if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -15,6 +15,16 @@ if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
 let mediaRecorder;
 let audioChunks = [];
 let isRecording = false;
+
+function blobToBase64(blob) {
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    return new Promise(resolve => {
+        reader.onloadend = () => {
+            resolve(reader.result);
+        };
+    });
+};
 
 async function getAudio() {
   console.log('Requesting microphone access...');
@@ -36,7 +46,8 @@ async function getAudio() {
         console.log('recordedAudio:', recordedAudio);
         // send the audio file to the server
         const formData = new FormData();
-        formData.append('UserInputAudioFile', audioBlob);
+        const file = await blobToBase64(audioBlob);
+        formData.append('file', "data:audio/webm;base64," + file);
         console.log('formData:', formData);
         try {
           const response = await fetch(SERVER_URL, {
