@@ -123,7 +123,7 @@ int Router::enroute(crow::SimpleApp &app)
         // that contains the blob object of the recorded voice
         CROW_ROUTE(app, "/voiceUpload")
             .methods("POST"_method)([&](const crow::request &req) {
-            auto blobFile = req.body;
+            std::string blobFile = req.body;
             std::string exportPath = "files/voiceRecordFile.mp3";
             // std::cout << "blobsize: " << blobFile.size() << std::endl;
             // std::cout << "blob: " << blobFile << std::endl;

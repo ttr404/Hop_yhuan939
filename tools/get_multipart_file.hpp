@@ -7,6 +7,10 @@
  *
  * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+
+
+// Modified by Huiliang Xia, for the group project of CS3307 at Western Universtiy
+
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -17,11 +21,9 @@
 	outputs content-disposition
  */
 
-void get_multi_file(std::string line, std::string &outFile){
-
-	// std::string line;
-
-	std::string boundary;
+void get_multi_file(std::string &inFileContent, std::string &outFilePath){
+	std::string line;
+	std::istringstream inFile(inFileContent); 	std::string boundary;
 	std::string disp; /* content disposition string */
 	std::string type; /* content type string */
 	std::string file; /* actual file content */
@@ -29,7 +31,7 @@ void get_multi_file(std::string line, std::string &outFile){
 	
 	int i = 0;
 	
-	while (std::getline(std::cin, line))
+	while (std::getline(inFile, line))
 	{
 		if(i == 0){
 			// Get boundary
@@ -45,7 +47,7 @@ void get_multi_file(std::string line, std::string &outFile){
 		} else if(line.length() == 1){
 			// Time to get raw data
 			
-			std::ofstream outfile(outFile);
+			std::ofstream outfile(outFilePath);
 			char c;
 			int bl = boundary.length();
 			bool endfile = false;
