@@ -56,9 +56,10 @@ int Router::enroute(crow::SimpleApp &app)
             
             image_url=image_url.substr(pos + 1);
             std::string decodedUrl = urlDecode(image_url);       
-            std::string response = api.vision_openAI(decodedUrl);
+            Item response = api.vision_openAI(decodedUrl);
             // Do something with the response, maybe send it back to the client or process it further
-            return crow::response(200, response); // Example response
+            db.insert(response);
+            return crow::response(200, "Item inserted successfully"); // Example response
         });
 
         CROW_ROUTE(app, "/search")
