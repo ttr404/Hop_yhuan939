@@ -11,6 +11,7 @@ add_executable(Crow
         Webserver.cpp
         Router.cpp
         API.cpp
+        Voice.cpp
         Database.cpp)
 
 # Find the CURL library
