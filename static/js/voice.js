@@ -4,6 +4,8 @@
 // it just feels like i am trying to fit a square peg into a round hole
 // so i am pretty much stuck with js for now
 
+const SERVER_URL = 'http://localhost:8081/voiceUpload';
+
 // check if the browser supports the MediaDevices API
 if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
   console.error("MediaDevices API or getUserMedia method not supported.");
@@ -22,21 +24,37 @@ async function getAudio() {
     mediaRecorder.ondataavailable = event => {
       audioChunks.push(event.data);
     };
-    mediaRecorder.onstop = () => {
+    mediaRecorder.onstop = async () => {
       try {
-          const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
-          const audioUrl = URL.createObjectURL(audioBlob);
-          const recordedAudio = document.createElement("audio");
-          recordedAudio.src = audioUrl;
-          console.log('audioBlob:', audioBlob);
-          console.log('audioChunks:', audioChunks);
-          console.log('audioUrl:', audioUrl);
-          console.log('recordedAudio:', recordedAudio);
+        const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const recordedAudio = document.createElement("audio");
+        recordedAudio.src = audioUrl;
+        // console.log('audioBlob:', audioBlob);
+        // console.log('audioChunks:', audioChunks);
+        // console.log('audioUrl:', audioUrl);
+        console.log('recordedAudio:', recordedAudio);
+        // send the audio file to the server
+        const formData = new FormData();
+        formData.append('UserInputAudioFile', audioBlob);
+        console.log('formData:', formData);
+        try {
+          const response = await fetch(SERVER_URL, {
+            method: 'POST',
+            body: formData
+          });
+          const data = await response.json(); // Adjust as per your server response
+          console.log(data);
+        } catch (error) {
+          console.error('Error:', error);
+        }
+
+
       } catch (error) {
-          console.error('Error in onstop:', error);
+        console.error('Error in onstop:', error);
       }
     };
-    
+
   } catch (error) {
     console.error('Error accessing the microphone:', error);
     throw error; // Re-throw the error to be handled in toggleRecording

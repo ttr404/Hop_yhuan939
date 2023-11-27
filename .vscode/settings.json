@@ -97,6 +97,8 @@
         "typeindex": "cpp",
         "*.ipp": "cpp",
         "forward_list": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "cfenv": "cpp",
+        "shared_mutex": "cpp"
     }
 }

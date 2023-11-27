@@ -1,4 +1,7 @@
 #include "Router.h"
+#include <iostream>
+#include <fstream>
+#include "tools/get_multipart_file.hpp"
 
 Router::Router() : app(app)
 {
@@ -115,6 +118,20 @@ int Router::enroute(crow::SimpleApp &app)
              }
             json = std::move(crow::json::wvalue::list(items_list)); // wvalue of list of wvalue
             return crow::response(json); });
+
+        // to handle the POST request sent from the webpage
+        // that contains the blob object of the recorded voice
+        CROW_ROUTE(app, "/voiceUpload")
+            .methods("POST"_method)([&](const crow::request &req) {
+            auto blobFile = req.body;
+            std::string exportPath = "files/voiceRecordFile.mp3";
+            // std::cout << "blobsize: " << blobFile.size() << std::endl;
+            // std::cout << "blob: " << blobFile << std::endl;
+            // std::ofstream voiceRecordFile("files/voiceRecordFile.mp3", std::ios::out | std::ios::binary);
+            // voiceRecordFile.write(blobFile.data(), blobFile.size());
+            // voiceRecordFile.close();
+            get_multi_file(blobFile, exportPath);
+            return crow::response(crow::json::wvalue({"Hello."})); });
     }
     catch (const std::exception &e) // catch any exceptions
     {
@@ -129,7 +146,7 @@ crow::json::wvalue Router::handleQuery(std::string query)
     // Magic! Don't touch
     std::vector<crow::json::wvalue> items_list; // list of wvalue
     std::vector<Item> items = db.get(query);
-    if(items.size() == 0)
+    if (items.size() == 0)
     {
         return crow::json::wvalue({"No result found."});
     }
@@ -146,7 +163,7 @@ crow::json::wvalue Router::handleQuery(std::string query)
         item_json["summary"] = item.summary;
         items_list.push_back(item_json);
     }
-    
+
     json = std::move(crow::json::wvalue::list(items_list)); // wvalue of list of wvalue
     return json;
 }
