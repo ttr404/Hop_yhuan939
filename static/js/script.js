@@ -1,6 +1,6 @@
 "use strict";
 
-let initHome, initSearch, loadHistory;
+let initHome, initSearch, loadHistory, swiper, onSwiper;
 
 if (typeof initHome === "undefined") {
     initHome = () => {
@@ -75,11 +75,8 @@ if (typeof initHome === "undefined") {
     };
 }
 
-if (typeof initSearch === "undefined") {
-    initSearch = () => {
-        let url = new URL(window.location);
-        const urlParams = new URLSearchParams(url.search);
-        const collapse = document.querySelector('aside button');
+if (typeof swiper === "undefined") {
+    onSwiper = () => {
         const swiper = new Swiper(".swiper", {
             mousewheel: true,
             slidesPerView: "auto",
@@ -87,6 +84,46 @@ if (typeof initSearch === "undefined") {
                 el: ".swiper-scrollbar",
             }
         });
+    }
+    swiper = () => {
+        const swiperScript = document.createElement('script');
+        swiperScript.src = "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle";
+        document.body.appendChild(swiperScript);
+        swiperScript.onload = () => {
+            onSwiper();
+        };
+    };
+} else {
+    onSwiper();
+}
+
+if (typeof initSearch === "undefined") {
+    initSearch = () => {
+        let url = new URL(window.location);
+        const urlParams = new URLSearchParams(url.search);
+        const collapse = document.querySelector('aside button');
+        if (typeof Swiper === "undefined") {
+            const swiperScript = document.createElement('script');
+            swiperScript.src = "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js";
+            document.body.appendChild(swiperScript);
+            swiperScript.onload = () => {
+                const swiper = new Swiper(".swiper", {
+                    mousewheel: true,
+                    slidesPerView: "auto",
+                    scrollbar: {
+                        el: ".swiper-scrollbar",
+                    }
+                });
+            };
+        } else {
+            const swiper = new Swiper(".swiper", {
+                mousewheel: true,
+                slidesPerView: "auto",
+                scrollbar: {
+                    el: ".swiper-scrollbar",
+                }
+            });
+        }
 
         collapse.onclick = () => {
             document.querySelector('main').classList.toggle('collapsed');
@@ -130,12 +167,12 @@ if (typeof loadHistory === "undefined") {
         urlParams.set('h', 'test');
         url.search = urlParams;
         fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            for (let i = 0; i < data.length; i++) {
-                onCreateHistory({ data: data[i] });
-            }
-        });
+            .then(response => response.json())
+            .then(data => {
+                for (let i = 0; i < data.length; i++) {
+                    onCreateHistory({ data: data[i] });
+                }
+            });
     }
 }
 
