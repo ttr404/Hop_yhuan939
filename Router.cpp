@@ -38,9 +38,25 @@ int Router::enroute(crow::SimpleApp &app)
 
         CROW_ROUTE(app, "/admin")
         ([&](const crow::request &req)
-         {
+        {
             auto page = crow::mustache::load("dash.html");
             return page.render(ctx); });
+        
+        CROW_ROUTE(app, "/uploadImage")
+            .methods("POST"_method)([&](const crow::request &req) {
+            std::string image_url = req.body;
+            size_t pos = image_url.find('=');
+            if (pos == std::string::npos) {
+             // '=' not found, handle error
+                return crow::response(400, "Bad Request: URL not found");
+            }
+            
+            image_url=image_url.substr(pos + 1);
+            std::string decodedUrl = urlDecode(image_url);       
+            std::string response = api.vision_openAI(decodedUrl);
+            // Do something with the response, maybe send it back to the client or process it further
+            return crow::response(200, response); // Example response
+        });
 
         CROW_ROUTE(app, "/search")
         ([&](const crow::request &req)
@@ -164,4 +180,24 @@ crow::json::wvalue Router::handleQuery(std::string query)
 
     json = std::move(crow::json::wvalue::list(items_list)); // wvalue of list of wvalue
     return json;
+}
+
+
+std::string Router::urlDecode(const std::string &encoded) {
+    std::string decoded;
+    decoded.reserve(encoded.length());
+
+    for (size_t i = 0; i < encoded.length(); ++i) {
+        if (encoded[i] == '%' && i + 2 < encoded.length()) {
+            std::string hex = encoded.substr(i + 1, 2);
+            decoded += static_cast<char>(std::strtol(hex.c_str(), nullptr, 16));
+            i += 2;
+        } else if (encoded[i] == '+') {
+            decoded += ' ';
+        } else {
+            decoded += encoded[i];
+        }
+    }
+
+    return decoded;
 }
