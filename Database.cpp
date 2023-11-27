@@ -57,10 +57,12 @@ std::vector<Item> Database::get(std::string query)
 
 
 std::string vectorToString(const std::vector<std::string>& vec) {
-    std::string result;
+    std::string result = "{'tags': ['}";
     for (const auto& str : vec) {
         result += str; 
+        result += "','";
     }
+    result += "']}";
     return result;
 }
 
@@ -68,7 +70,7 @@ std::string vectorToString(const std::vector<std::string>& vec) {
 void Database::insert(Item newItem)
 {// INSERT INTO items (name, tags, summary, url) VALUES ('name', '{"tags": ["tag1", "tag2"]}', 'This is a description for the item.', "this is the url of the item");
 // INSERT INTO items (name, tags, summary) VALUES ('Modern Home Office Setup', 'home officedesk setupcomputerworkstationoffice suppliesproductivity', 'A well-organized home office setup featuring a desktop computer with statistical data displayed on the monitor. The desk is equipped with essential office supplies, including a note pad, smart phone, decorative plants, and stationery. This setup is ideal for professionals or students who require a dedicated space for work or study.');   
-// INSERT INTO items (name, tags, summary) VALUES ('Modern Home Office Setup', 'home officedesk setupcomputerworkstationoffice suppliesproductivity', 'A well-organized home office setup featuring a desktop computer with statistical data displayed on the monitor. The desk is equipped with essential office supplies, including a note pad, smart phone, decorative plants, and stationery. This setup is ideal for professionals or students who require a dedicated space for work or study.');   
+// INSERT INTO items (name, tags, summary) VALUES ('Modern Home Office Setup', '{"tags": ["home", "officedesk", "setupcomputerworkstationoffice", "suppliesproductivity"]}, 'A well-organized home office setup featuring a desktop computer with statistical data displayed on the monitor. The desk is equipped with essential office supplies, including a note pad, smart phone, decorative plants, and stationery. This setup is ideal for professionals or students who require a dedicated space for work or study.');   
    
     std::string inputStr = "INSERT INTO items (name, tags, summary) VALUES ('";
     inputStr += newItem.name;
