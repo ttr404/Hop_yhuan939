@@ -9,6 +9,7 @@
     --vanilla-blue: #c5cde8;
     --indigo: #7897fc;
     --midnight: #3242e2;
+    --pale-lavender: #ded1fe;
     --black: #000;
     --dark: #121212;
     --bg: url(../img/bg.webp);
@@ -356,7 +357,7 @@ main .form::after {
 }
 
 main textarea:focus {
-    box-shadow: rgb(74, 114, 245) 0px 0px 3px;
+    box-shadow: #4a72f5 0px 0px 3px;
 }
 
 main button {
@@ -373,10 +374,25 @@ main .form button {
     height: 2em;
     background-color: var(--light-grey);
     border-radius: 1em;
+    transition: .25s;
+}
+
+main .form button:hover {
+    background-color: var(--pale-lavender);
+    transform: scale(1.2);
 }
 
 main .form button:nth-child(3) {
     right: 3em;
+}
+
+main .form button:nth-child(3):hover {
+    background-color: var(--indigo);
+}
+
+main .form button.recording {
+    background-color: var(--indigo);
+    animation: pulse 2s cubic-bezier(0.18, 0.89, 0.32, 1.28) infinite;
 }
 
 main button i {
