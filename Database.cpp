@@ -112,7 +112,6 @@ void Database::insert(Item newItem)
     inputStr += "', '";
     inputStr += vectorToString(newItem.tags);
     inputStr += "', '";
-    newItem.summary.erase(std::remove(newItem.summary.begin(), newItem.summary.end(), "'"), newItem.summary.end());
     inputStr += newItem.summary;
     inputStr += "', '";
     inputStr += newItem.url;
