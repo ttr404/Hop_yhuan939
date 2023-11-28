@@ -155,6 +155,12 @@ int Router::enroute(crow::SimpleApp &app)
     return 0;
 }
 
+/**
+ * @brief handleQuery handles the query and returns the result in json format
+ *
+ * @param query
+ * @return crow::json::wvalue
+ */
 crow::json::wvalue Router::handleQuery(std::string query)
 {
     crow::json::wvalue json;
@@ -184,6 +190,12 @@ crow::json::wvalue Router::handleQuery(std::string query)
 }
 
 
+/**
+ * @brief urlDecode decodes the url
+ * 
+ * @param encoded 
+ * @return std::string 
+ */
 std::string Router::urlDecode(const std::string &encoded) {
     std::string decoded;
     decoded.reserve(encoded.length());

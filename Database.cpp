@@ -1,6 +1,11 @@
 #include "Database.h"
 #include <string>
 
+
+/**
+ * @brief Construct a new Database:: Database object
+ * 
+ */
 Database::Database()
 {
     driver = sql::mysql::get_mysql_driver_instance();
@@ -8,6 +13,10 @@ Database::Database()
     stmt = con->createStatement();
 }
 
+/**
+ * @brief Destroy the Database:: Database object
+ * 
+ */
 Database::~Database()
 {
     delete stmt;
@@ -15,6 +24,12 @@ Database::~Database()
     delete driver;
 }
 
+/**
+ * @brief get items from the database
+ * 
+ * @param query 
+ * @return std::vector<Item> 
+ */
 std::vector<Item> Database::get(std::string query)
 {
     int col;
@@ -55,7 +70,12 @@ std::vector<Item> Database::get(std::string query)
     return items;
 }
 
-
+/**
+ * @brief convert a vector of strings to a string
+ * 
+ * @param vec 
+ * @return std::string 
+ */
 std::string vectorToString(const std::vector<std::string>& vec) {
     std::string result = "{'tags': ['}";
     for (const auto& str : vec) {
@@ -66,12 +86,13 @@ std::string vectorToString(const std::vector<std::string>& vec) {
     return result;
 }
 
-
+/**
+ * @brief Insert a new item into the database
+ * 
+ * @param newItem 
+ */
 void Database::insert(Item newItem)
-{// INSERT INTO items (name, tags, summary, url) VALUES ('name', '{"tags": ["tag1", "tag2"]}', 'This is a description for the item.', "this is the url of the item");
-// INSERT INTO items (name, tags, summary) VALUES ('Modern Home Office Setup', 'home officedesk setupcomputerworkstationoffice suppliesproductivity', 'A well-organized home office setup featuring a desktop computer with statistical data displayed on the monitor. The desk is equipped with essential office supplies, including a note pad, smart phone, decorative plants, and stationery. This setup is ideal for professionals or students who require a dedicated space for work or study.');   
-// INSERT INTO items (name, tags, summary) VALUES ('Modern Home Office Setup', '{"tags": ["home", "officedesk", "setupcomputerworkstationoffice", "suppliesproductivity"]}, 'A well-organized home office setup featuring a desktop computer with statistical data displayed on the monitor. The desk is equipped with essential office supplies, including a note pad, smart phone, decorative plants, and stationery. This setup is ideal for professionals or students who require a dedicated space for work or study.');   
-   
+{  
     std::string inputStr = "INSERT INTO items (name, tags, summary) VALUES ('";
     inputStr += newItem.name;
     inputStr += "', '";

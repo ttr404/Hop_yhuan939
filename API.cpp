@@ -4,6 +4,11 @@
 #include <algorithm>
 using json = nlohmann::json;
 
+
+/**
+ * @brief Construct a new API:: API object
+ * 
+ */
 size_t write_callback(void *contents, size_t size, size_t nmemb, std::string *s)
 {
     size_t newLength = size * nmemb;
@@ -19,6 +24,12 @@ size_t write_callback(void *contents, size_t size, size_t nmemb, std::string *s)
     }
 }
 
+
+
+/**
+ * @brief Store API information
+ * 
+ */
 API::API()
 {
     OpenAI = {
@@ -42,6 +53,11 @@ API::API()
     // openAI_key="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";
 }
 
+
+/**
+ * @brief get response from API and store it
+ * 
+ */
 void API::extractResponseData(const std::string& responseData, std::vector<std::string>& allTags)
 {
     try {
@@ -86,6 +102,13 @@ void API::extractResponseData(const std::string& responseData, std::vector<std::
 
 
 
+/**
+ * @brief response from openAI
+ * 
+ * @param name 
+ * @param key 
+ * @param url 
+ */
 std::string API::response_openAI(std::string message)
 {
     CURL *curl;
@@ -143,6 +166,14 @@ std::string API::response_openAI(std::string message)
     return response;
 }
 
+
+/**
+ * @brief response from googleTrends
+ * 
+ * @param name 
+ * @param key 
+ * @param url 
+ */
 std::string API::googleTrends()
 {
     response = "";
@@ -159,6 +190,14 @@ std::string API::googleTrends()
     return response;
 }
 
+
+/**
+ * @brief response from bingSuggestion
+ * 
+ * @param name 
+ * @param key 
+ * @param url 
+ */
 std::string API::bingSuggestion(std::string query)
 {
     response = "";
@@ -175,6 +214,14 @@ std::string API::bingSuggestion(std::string query)
     return response;
 }
 
+
+/**
+ * @brief get item information from openAI
+ * 
+ * @param name 
+ * @param key 
+ * @param url 
+ */
 Item API::vision_openAI(std::string imageURL)
 {   
     Item item;
@@ -229,6 +276,14 @@ Item API::vision_openAI(std::string imageURL)
     return item;
 }
 
+
+/**
+ * @brief extract image data from openAI
+ * 
+ * @param name 
+ * @param key 
+ * @param url 
+ */
 void API::extractImageData(const std::string& responseData_vision, std::string& name, std::string& summary, std::vector<std::string>& tags)
 {
     try {

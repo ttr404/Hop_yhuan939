@@ -1,5 +1,9 @@
 #include "Voice.h"
 
+/**
+ * @brief Construct a new Voice:: Voice object
+ * 
+ */
 void Voice::decode_base64_and_write_to_file(const std::string& base64, const std::string& file_path) {
     using namespace boost::archive::iterators;
     using It = transform_width<binary_from_base64<std::string::const_iterator>, 8, 6>;
