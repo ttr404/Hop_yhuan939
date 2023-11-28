@@ -107,7 +107,7 @@ std::string vectorToString(const std::vector<std::string> &vec)
  */
 void Database::insert(Item newItem)
 {
-    std::string inputStr = "INSERT INTO items (name, tags, summary) VALUES ('";
+    std::string inputStr = "INSERT INTO items (name, tags, summary, url) VALUES ('";
     inputStr += newItem.name;
     inputStr += "', '";
     inputStr += vectorToString(newItem.tags);
