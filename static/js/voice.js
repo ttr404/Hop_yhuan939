@@ -27,6 +27,7 @@ function blobToBase64(blob) {
     });
 };
 
+// get the audio from the microphone
 async function getAudio() {
   console.log('Requesting microphone access...');
   try {
@@ -37,25 +38,28 @@ async function getAudio() {
     };
     mediaRecorder.onstop = async () => {
       try {
+        // convert the audio to a blob
         const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
+
+        // URLs are generated for debugging purposes only
         const audioUrl = URL.createObjectURL(audioBlob);
         const recordedAudio = document.createElement("audio");
         recordedAudio.src = audioUrl;
-        // console.log('audioBlob:', audioBlob);
-        // console.log('audioChunks:', audioChunks);
-        // console.log('audioUrl:', audioUrl);
-        console.log('recordedAudio:', recordedAudio);
-        // send the audio file to the server
+        // console.log('recordedAudio:', recordedAudio);
+
+        // send the audio to the server
         const formData = new FormData();
         const file = await blobToBase64(audioBlob);
         formData.append('file', file);
-        console.log('formData:', formData);
+        // console.log('formData:', formData);
+
+        // try to send the audio to the server
         try {
           const response = await fetch(SERVER_URL, {
             method: 'POST',
             body: formData
           });
-          const data = await response.json(); // Adjust as per your server response
+          const data = await response.json();
           console.log(data);
         } catch (error) {
           console.error('Error:', error);
