@@ -1,3 +1,13 @@
+/**
+ * @file Webserver.cpp
+ * @author Maxwell Ding (jding263)
+ * @brief Webserver class that works as the framework of the web server
+ * @date 2023-11-28
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #include "Webserver.h"
 
 /**

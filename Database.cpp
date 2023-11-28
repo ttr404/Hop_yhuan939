@@ -1,10 +1,19 @@
+/**
+ * @file Database.cpp
+ * @author Yulun Feng (yfeng445)
+ * @brief A database class that handles all the database operations
+ * @date 2023-11-28
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
+
 #include "Database.h"
 #include <string>
 
-
 /**
  * @brief Construct a new Database:: Database object
- * 
+ *
  */
 Database::Database()
 {
@@ -15,7 +24,7 @@ Database::Database()
 
 /**
  * @brief Destroy the Database:: Database object
- * 
+ *
  */
 Database::~Database()
 {
@@ -26,37 +35,39 @@ Database::~Database()
 
 /**
  * @brief get items from the database
- * 
- * @param query 
- * @return std::vector<Item> 
+ *
+ * @param query
+ * @return std::vector<Item>
  */
 std::vector<Item> Database::get(std::string query)
 {
     int col;
     std::vector<Item> items;
     stmt->execute("USE hop");
-    if (query.length() == 0) 
+    if (query.length() == 0)
     {
         res = stmt->executeQuery("SELECT * FROM items");
-    } else {
+    }
+    else
+    {
         res = stmt->executeQuery("SELECT * FROM items WHERE tags LIKE '%" + query + "%'");
     }
     col = res->getMetaData()->getColumnCount();
     while (res->next())
     {
         Item item;
-        item.name = res->getString(2); // Updated column index
-        item.summary = res->getString(4); // Updated column index
+        item.name = res->getString(2);        // Updated column index
+        item.summary = res->getString(4);     // Updated column index
         std::string tags = res->getString(3); // Updated column index
         std::string tag;
         for (int i = 0; i < tags.length(); i++)
         {
-            if (tags[i] == ',' || tags[i] == ']' )
+            if (tags[i] == ',' || tags[i] == ']')
             {
                 item.tags.push_back(tag);
                 tag = "";
             }
-            else if (tags[i] == '['|| tags[i] == '"')
+            else if (tags[i] == '[' || tags[i] == '"')
             {
                 continue;
             }
@@ -72,14 +83,16 @@ std::vector<Item> Database::get(std::string query)
 
 /**
  * @brief convert a vector of strings to a string
- * 
- * @param vec 
- * @return std::string 
+ *
+ * @param vec
+ * @return std::string
  */
-std::string vectorToString(const std::vector<std::string>& vec) {
+std::string vectorToString(const std::vector<std::string> &vec)
+{
     std::string result = "{'tags': ['}";
-    for (const auto& str : vec) {
-        result += str; 
+    for (const auto &str : vec)
+    {
+        result += str;
         result += "','";
     }
     result += "']}";
@@ -88,11 +101,11 @@ std::string vectorToString(const std::vector<std::string>& vec) {
 
 /**
  * @brief Insert a new item into the database
- * 
- * @param newItem 
+ *
+ * @param newItem
  */
 void Database::insert(Item newItem)
-{  
+{
     std::string inputStr = "INSERT INTO items (name, tags, summary) VALUES ('";
     inputStr += newItem.name;
     inputStr += "', '";
@@ -100,7 +113,7 @@ void Database::insert(Item newItem)
     inputStr += "', '";
     inputStr += newItem.summary;
     inputStr += "');";
-    std::cout<<inputStr<<std::endl;
+    std::cout << inputStr << std::endl;
     stmt->execute("USE hop");
     stmt->execute(inputStr);
     delete stmt;
@@ -127,4 +140,4 @@ void Database::insert(Item newItem)
 //     auto test = crow::response(items.dump());
 //     test.set_header("Content-Type", "application/json");
 //     return test;
-// }   
+// }

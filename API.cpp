@@ -1,13 +1,22 @@
+/**
+ * @file API.cpp
+ * @author Truman Huang (yhuan939) , Matthew Owen Tjhie (mtjhie)
+ * @brief API class that handles all the API calls and send data to database
+ * @date 2023-11-28
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
+
 #include "API.h"
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <algorithm>
 using json = nlohmann::json;
 
-
 /**
  * @brief Construct a new API:: API object
- * 
+ *
  */
 size_t write_callback(void *contents, size_t size, size_t nmemb, std::string *s)
 {
@@ -24,11 +33,9 @@ size_t write_callback(void *contents, size_t size, size_t nmemb, std::string *s)
     }
 }
 
-
-
 /**
  * @brief Store API information
- * 
+ *
  */
 API::API()
 {
@@ -53,14 +60,14 @@ API::API()
     // openAI_key="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";
 }
 
-
 /**
  * @brief get response from API and store it
- * 
+ *
  */
-void API::extractResponseData(const std::string& responseData, std::vector<std::string>& allTags)
+void API::extractResponseData(const std::string &responseData, std::vector<std::string> &allTags)
 {
-    try {
+    try
+    {
         auto responseJson = json::parse(responseData);
 
         auto choices = responseJson["choices"];
@@ -72,17 +79,22 @@ void API::extractResponseData(const std::string& responseData, std::vector<std::
             std::set<std::string> uniqueTags;
 
             size_t tagsStart = 0;
-            while ((tagsStart = content.find("[\"", tagsStart)) != std::string::npos) {
+            while ((tagsStart = content.find("[\"", tagsStart)) != std::string::npos)
+            {
                 size_t tagsEnd = content.find("\"]", tagsStart);
-                if (tagsEnd == std::string::npos) break; // Exit if no closing bracket found
+                if (tagsEnd == std::string::npos)
+                    break; // Exit if no closing bracket found
 
                 std::string tagsStr = content.substr(tagsStart + 2, tagsEnd - tagsStart - 2); // Extract tags string
 
                 // Split the tags and add to the set
                 std::istringstream tagStream(tagsStr);
                 std::string tag;
-                while (std::getline(tagStream, tag, ',')) {
-                    tag.erase(std::remove_if(tag.begin(), tag.end(), [](char c) { return c == ' ' || c == '\"'; }), tag.end()); // Remove spaces and double quotes
+                while (std::getline(tagStream, tag, ','))
+                {
+                    tag.erase(std::remove_if(tag.begin(), tag.end(), [](char c)
+                                             { return c == ' ' || c == '\"'; }),
+                              tag.end()); // Remove spaces and double quotes
                     uniqueTags.insert(tag);
                 }
 
@@ -93,26 +105,23 @@ void API::extractResponseData(const std::string& responseData, std::vector<std::
             allTags.assign(uniqueTags.begin(), uniqueTags.end());
         }
     }
-    catch (const std::exception& e)
+    catch (const std::exception &e)
     {
         std::cerr << "Error parsing response data: " << e.what() << std::endl;
     }
 }
 
-
-
-
 /**
  * @brief response from openAI
- * 
- * @param name 
- * @param key 
- * @param url 
+ *
+ * @param name
+ * @param key
+ * @param url
  */
 std::string API::response_openAI(std::string message)
 {
     CURL *curl;
-    CURLcode res ; // Default to an error code
+    CURLcode res; // Default to an error code
     std::string name;
     std::string summary;
     std::vector<std::string> tags;
@@ -143,11 +152,12 @@ std::string API::response_openAI(std::string message)
             extractResponseData(response, tags);
 
             // Output the extracted data for verification
-            //std::cout << response << std::endl;
-            //std::cout << "Name: " << name << std::endl;
-            //std::cout << "Summary: " << summary << std::endl;
+            // std::cout << response << std::endl;
+            // std::cout << "Name: " << name << std::endl;
+            // std::cout << "Summary: " << summary << std::endl;
             std::cout << "Tags: ";
-            for (const auto& tag : tags) {
+            for (const auto &tag : tags)
+            {
                 std::cout << tag << " ";
             }
             std::cout << std::endl;
@@ -166,13 +176,12 @@ std::string API::response_openAI(std::string message)
     return response;
 }
 
-
 /**
  * @brief response from googleTrends
- * 
- * @param name 
- * @param key 
- * @param url 
+ *
+ * @param name
+ * @param key
+ * @param url
  */
 std::string API::googleTrends()
 {
@@ -190,13 +199,12 @@ std::string API::googleTrends()
     return response;
 }
 
-
 /**
  * @brief response from bingSuggestion
- * 
- * @param name 
- * @param key 
- * @param url 
+ *
+ * @param name
+ * @param key
+ * @param url
  */
 std::string API::bingSuggestion(std::string query)
 {
@@ -214,79 +222,73 @@ std::string API::bingSuggestion(std::string query)
     return response;
 }
 
-
 /**
  * @brief get item information from openAI
- * 
- * @param name 
- * @param key 
- * @param url 
+ *
+ * @param name
+ * @param key
+ * @param url
  */
 Item API::vision_openAI(std::string imageURL)
-{   
+{
     Item item;
     std::string name;
     std::string summary;
     std::vector<std::string> tags;
-    response_vision="";
+    response_vision = "";
     CURL *curl;
     CURLcode res;
     curl = curl_easy_init();
-    if(curl) {
-    curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "POST");
-    curl_easy_setopt(curl, CURLOPT_URL, "https://api.openai.com/v1/chat/completions?Authorization=Bearer%20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&Content-Type=application%2Fjson");
-    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-    curl_easy_setopt(curl, CURLOPT_DEFAULT_PROTOCOL, "https");
-    struct curl_slist *headers = NULL;
-    //headers = curl_slist_append(headers, "Authorization: Bearer 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");
-    char header_string[256]; // Adjust the size as necessary
-    sprintf(header_string, "Authorization: Bearer %s", OpenAI_Vision.key.c_str());
-    headers = curl_slist_append(headers, header_string);
-    headers = curl_slist_append(headers, "Content-Type: application/json");
-    headers = curl_slist_append(headers, "Cookie: __cf_bm=h.pFjbb9HoNL1BPhLTPuk7McIEU4vJBuGxDjgprcejk-1700687871-0-Afy9GnYFrq+bLZg0laFb1BQ8znMhEpNwwv+kr+sHa0to3tL67n5jFiEMGFX2X3IWNaghreRzhqoT8jM/bRbXlT8=; _cfuvid=Qpi3Eam2TduP9HHXfuzsfiDW1RO20Sn_c8nGObMw260-1700687871631-0-604800000");
-    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-    char data[4096]; // Increase the buffer size if needed
-    sprintf(data, "{\n    \"model\": \"gpt-4-vision-preview\",\n    \"messages\": [\n      {\n        \"role\": \"user\",\n        \"content\": [\n          {\n            \"type\": \"text\",\n            \"text\": \"Analyze this image and generate a general product description in a structured JSON format with properties: id, name, summary, and tags.\"\n          },\n          {\n            \"type\": \"image_url\",\n            \"image_url\": {\n              \"url\": \"%s\"\n            }\n          }\n        ]\n      }\n    ],\n    \"max_tokens\": 300\n  }", imageURL.c_str());
+    if (curl)
+    {
+        curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_easy_setopt(curl, CURLOPT_URL, "https://api.openai.com/v1/chat/completions?Authorization=Bearer%20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&Content-Type=application%2Fjson");
+        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+        curl_easy_setopt(curl, CURLOPT_DEFAULT_PROTOCOL, "https");
+        struct curl_slist *headers = NULL;
+        // headers = curl_slist_append(headers, "Authorization: Bearer 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");
+        char header_string[256]; // Adjust the size as necessary
+        sprintf(header_string, "Authorization: Bearer %s", OpenAI_Vision.key.c_str());
+        headers = curl_slist_append(headers, header_string);
+        headers = curl_slist_append(headers, "Content-Type: application/json");
+        headers = curl_slist_append(headers, "Cookie: __cf_bm=h.pFjbb9HoNL1BPhLTPuk7McIEU4vJBuGxDjgprcejk-1700687871-0-Afy9GnYFrq+bLZg0laFb1BQ8znMhEpNwwv+kr+sHa0to3tL67n5jFiEMGFX2X3IWNaghreRzhqoT8jM/bRbXlT8=; _cfuvid=Qpi3Eam2TduP9HHXfuzsfiDW1RO20Sn_c8nGObMw260-1700687871631-0-604800000");
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        char data[4096]; // Increase the buffer size if needed
+        sprintf(data, "{\n    \"model\": \"gpt-4-vision-preview\",\n    \"messages\": [\n      {\n        \"role\": \"user\",\n        \"content\": [\n          {\n            \"type\": \"text\",\n            \"text\": \"Analyze this image and generate a general product description in a structured JSON format with properties: id, name, summary, and tags.\"\n          },\n          {\n            \"type\": \"image_url\",\n            \"image_url\": {\n              \"url\": \"%s\"\n            }\n          }\n        ]\n      }\n    ],\n    \"max_tokens\": 300\n  }", imageURL.c_str());
 
-    
-    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
 
-    
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_vision);
-        
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_vision);
 
-
-    res = curl_easy_perform(curl);
-    if (res == CURLE_OK)
+        res = curl_easy_perform(curl);
+        if (res == CURLE_OK)
         {
             extractImageData(response_vision, name, summary, tags);
             item.name = name;
             item.summary = summary;
             item.tags = tags;
-
         }
         else
         {
             std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;
         }
-
     }
     curl_easy_cleanup(curl);
     return item;
 }
 
-
 /**
  * @brief extract image data from openAI
- * 
- * @param name 
- * @param key 
- * @param url 
+ *
+ * @param name
+ * @param key
+ * @param url
  */
-void API::extractImageData(const std::string& responseData_vision, std::string& name, std::string& summary, std::vector<std::string>& tags)
+void API::extractImageData(const std::string &responseData_vision, std::string &name, std::string &summary, std::vector<std::string> &tags)
 {
-    try {
+    try
+    {
         auto responseJson = json::parse(responseData_vision);
 
         auto choices = responseJson["choices"];
@@ -296,7 +298,8 @@ void API::extractImageData(const std::string& responseData_vision, std::string& 
             std::string content = choices[0]["message"]["content"];
             size_t codeBlockStart = content.find("```json") + 7;
             size_t codeBlockEnd = content.rfind("```");
-            if (codeBlockEnd != std::string::npos && codeBlockStart < codeBlockEnd) {
+            if (codeBlockEnd != std::string::npos && codeBlockStart < codeBlockEnd)
+            {
                 content = content.substr(codeBlockStart, codeBlockEnd - codeBlockStart);
 
                 // Parse the JSON content
@@ -305,19 +308,18 @@ void API::extractImageData(const std::string& responseData_vision, std::string& 
                 // Extract name, summary, and tags
                 name = productJson["name"];
                 summary = productJson["summary"];
-                for (const auto& tag : productJson["tags"]) {
+                for (const auto &tag : productJson["tags"])
+                {
                     tags.push_back(tag.get<std::string>());
                 }
             }
         }
     }
-    catch (const std::exception& e)
+    catch (const std::exception &e)
     {
         std::cerr << "Error parsing response data: " << e.what() << std::endl;
     }
 }
-
-
 
 // int main(){
 //     API api;

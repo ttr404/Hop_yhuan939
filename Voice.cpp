@@ -1,3 +1,14 @@
+/**
+ * @file Voice.cpp
+ * @author Huiliang Xia (hxia47)
+ * @brief Voice class that allows voice input
+ * @version 0.1
+ * @date 2023-11-28
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #include "Voice.h"
 
 /**

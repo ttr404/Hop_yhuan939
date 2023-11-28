@@ -1,3 +1,13 @@
+/**
+ * @file Router.cpp
+ * @author 	Maxwell Ding (jding263)
+ * @brief Router class that works for the content of the web server
+ * @date 2023-11-28
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
+
 #include "Router.h"
 
 Router::Router() : app(app)
@@ -38,26 +48,28 @@ int Router::enroute(crow::SimpleApp &app)
 
         CROW_ROUTE(app, "/admin")
         ([&](const crow::request &req)
-        {
+         {
             auto page = crow::mustache::load("dash.html");
             return page.render(ctx); });
-        
+
         CROW_ROUTE(app, "/uploadImage")
-            .methods("POST"_method)([&](const crow::request &req) {
-            std::string image_url = req.body;
-            size_t pos = image_url.find('=');
-            if (pos == std::string::npos) {
-             // '=' not found, handle error
-                return crow::response(400, "Bad Request: URL not found");
-            }
-            
-            image_url=image_url.substr(pos + 1);
-            std::string decodedUrl = urlDecode(image_url);       
-            Item response = api.vision_openAI(decodedUrl);
-            // Do something with the response, maybe send it back to the client or process it further
-            db.insert(response);
-            return crow::response(200, "Item inserted successfully"); // Example response
-        });
+            .methods("POST"_method)([&](const crow::request &req)
+                                    {
+                                        std::string image_url = req.body;
+                                        size_t pos = image_url.find('=');
+                                        if (pos == std::string::npos)
+                                        {
+                                            // '=' not found, handle error
+                                            return crow::response(400, "Bad Request: URL not found");
+                                        }
+
+                                        image_url = image_url.substr(pos + 1);
+                                        std::string decodedUrl = urlDecode(image_url);
+                                        Item response = api.vision_openAI(decodedUrl);
+                                        // Do something with the response, maybe send it back to the client or process it further
+                                        db.insert(response);
+                                        return crow::response(200, "Item inserted successfully"); // Example response
+                                    });
 
         CROW_ROUTE(app, "/search")
         ([&](const crow::request &req)
@@ -137,7 +149,7 @@ int Router::enroute(crow::SimpleApp &app)
         // that contains the blob object of the recorded voice
         CROW_ROUTE(app, "/voiceUpload")
             .methods("POST"_method)([&](const crow::request &req)
-            {
+                                    {
                 std::time_t now = std::time(nullptr);
                 crow::multipart::message parts(req);
                 crow::multipart::part file = parts.get_part_by_name("file");
@@ -145,8 +157,7 @@ int Router::enroute(crow::SimpleApp &app)
                 std::string base64 = file.body.erase(0, 22);
                 std::cout << base64 << std::endl;
                 voice.decode_base64_and_write_to_file(file.body, file_path);
-                return crow::response(200);
-            });
+                return crow::response(200); });
     }
     catch (const std::exception &e) // catch any exceptions
     {
@@ -189,25 +200,31 @@ crow::json::wvalue Router::handleQuery(std::string query)
     return json;
 }
 
-
 /**
  * @brief urlDecode decodes the url
- * 
- * @param encoded 
- * @return std::string 
+ *
+ * @param encoded
+ * @return std::string
  */
-std::string Router::urlDecode(const std::string &encoded) {
+std::string Router::urlDecode(const std::string &encoded)
+{
     std::string decoded;
     decoded.reserve(encoded.length());
 
-    for (size_t i = 0; i < encoded.length(); ++i) {
-        if (encoded[i] == '%' && i + 2 < encoded.length()) {
+    for (size_t i = 0; i < encoded.length(); ++i)
+    {
+        if (encoded[i] == '%' && i + 2 < encoded.length())
+        {
             std::string hex = encoded.substr(i + 1, 2);
             decoded += static_cast<char>(std::strtol(hex.c_str(), nullptr, 16));
             i += 2;
-        } else if (encoded[i] == '+') {
+        }
+        else if (encoded[i] == '+')
+        {
             decoded += ' ';
-        } else {
+        }
+        else
+        {
             decoded += encoded[i];
         }
     }
