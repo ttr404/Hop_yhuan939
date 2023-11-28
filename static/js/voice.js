@@ -93,7 +93,8 @@ async function toggleRecording() {
       await mediaRecorder.stop();
       isRecording = false;
       // swap between the icon
-      document.getElementById('recordButton').innerHTML = '<i class="ri-mic-fill"></i>';
+      recordButton.classList.toggle('recording');
+      recordButton.innerHTML = '<i class="ri-mic-fill"></i>';
     } catch (error) {
       console.error('Error stopping recording:', error);
     }
@@ -106,7 +107,8 @@ async function toggleRecording() {
       await getAudio();
       console.log('mediaRecorder:', mediaRecorder);
       mediaRecorder.start();
-      document.getElementById('recordButton').innerHTML = '<i class="ri-stop-circle-fill"></i>';
+      recordButton.classList.toggle('recording');
+      recordButton.innerHTML = '<i class="ri-stop-circle-fill"></i>';
       isRecording = true;
     } catch (error) {
       console.error('Error starting recording:', error);
