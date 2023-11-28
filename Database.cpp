@@ -57,12 +57,12 @@ std::vector<Item> Database::get(std::string query)
 
 
 std::string vectorToString(const std::vector<std::string>& vec) {
-    std::string result = "{'tags': ['}";
+    std::string result = "['";
     for (const auto& str : vec) {
         result += str; 
         result += "','";
     }
-    result += "']}";
+    result += "']";
     return result;
 }
 

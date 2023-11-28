@@ -99,6 +99,7 @@
         "forward_list": "cpp",
         "valarray": "cpp",
         "cfenv": "cpp",
-        "shared_mutex": "cpp"
+        "shared_mutex": "cpp",
+        "regex": "cpp"
     }
 }
