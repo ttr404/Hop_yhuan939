@@ -266,6 +266,7 @@ Item API::vision_openAI(std::string imageURL)
             item.name = name;
             item.summary = summary;
             item.tags = tags;
+            item.url=imageURL;
         }
         else
         {

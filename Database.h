@@ -18,12 +18,14 @@ struct Item
     std::string name;
     std::vector<std::string> tags;
     std::string summary;
+    std::string url;
     Item(){};
     Item(std::string name, std::vector<std::string> tags, std::string summary)
     {
         this->name = name;
         this->tags = tags;
         this->summary = summary;
+        this->url = url;
     }
 } typedef Item;
 

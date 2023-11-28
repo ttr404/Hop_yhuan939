@@ -56,6 +56,7 @@ std::vector<Item> Database::get(std::string query)
     while (res->next())
     {
         Item item;
+        item.url = res->getString(5);         // Updated column index
         item.name = res->getString(2);        // Updated column index
         item.summary = res->getString(4);     // Updated column index
         std::string tags = res->getString(3); // Updated column index
@@ -106,12 +107,14 @@ std::string vectorToString(const std::vector<std::string> &vec)
  */
 void Database::insert(Item newItem)
 {
-    std::string inputStr = "INSERT INTO items (name, tags, summary) VALUES ('";
+    std::string inputStr = "INSERT INTO items (name, tags, summary, url) VALUES ('";
     inputStr += newItem.name;
     inputStr += "', '";
     inputStr += vectorToString(newItem.tags);
     inputStr += "', '";
     inputStr += newItem.summary;
+    inputStr += "', '";
+    inputStr += newItem.url;
     inputStr += "');";
     std::cout << inputStr << std::endl;
     stmt->execute("USE hop");
