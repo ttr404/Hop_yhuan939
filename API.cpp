@@ -61,8 +61,8 @@ API::API()
 }
 
 /**
- * @brief get response from API and store it
- *
+ * @brief Accept json file in string format from openAI API and extract the key words store in allTags vector.
+ * @param std::string &responseData(from API), std::vector<std::string> &allTags 
  */
 void API::extractResponseData(const std::string &responseData, std::vector<std::string> &allTags)
 {
@@ -112,11 +112,9 @@ void API::extractResponseData(const std::string &responseData, std::vector<std::
 }
 
 /**
- * @brief response from openAI
- *
- * @param name
- * @param key
- * @param url
+ * @brief Accept user input , link the openAI API to generate keywords tags
+ * @param User query(std::string message)
+ * @return tags
  */
 std::string API::response_openAI(std::string message)
 {
