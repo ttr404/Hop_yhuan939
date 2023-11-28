@@ -100,6 +100,18 @@ std::string vectorToString(const std::vector<std::string> &vec)
     return result;
 }
 
+std::string removeChar(std::string str){
+    char charToRemove = '\'';
+    std::string result;
+    for (char c : str) {
+        if (c != charToRemove) {
+            result += c;
+        }
+    }
+    return result;
+}
+
+
 /**
  * @brief Insert a new item into the database
  *
@@ -112,7 +124,7 @@ void Database::insert(Item newItem)
     inputStr += "', '";
     inputStr += vectorToString(newItem.tags);
     inputStr += "', '";
-    inputStr += newItem.summary;
+    inputStr += removeChar(newItem.summary);
     inputStr += "', '";
     inputStr += newItem.url;
     inputStr += "');";
