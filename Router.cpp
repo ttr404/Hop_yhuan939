@@ -54,14 +54,14 @@ int Router::enroute(crow::SimpleApp &app)
 
         CROW_ROUTE(app, "/uploadImage")
             .methods("POST"_method)([&](const crow::request &req)
-        {
-            crow::multipart::message parts(req);
-            crow::multipart::part image_url = parts.get_part_by_name("URL");
-            Item response = api.vision_openAI(image_url.body);
-            // Do something with the response, maybe send it back to the client or process it further
-            db.insert(response);
-            return crow::response(200, "Item inserted successfully"); // Example response
-        });
+                                    {
+                                        crow::multipart::message parts(req);
+                                        crow::multipart::part image_url = parts.get_part_by_name("URL");
+                                        Item response = api.vision_openAI(image_url.body);
+                                        // Do something with the response, maybe send it back to the client or process it further
+                                        db.insert(response);
+                                        return crow::response(200, "Item inserted successfully"); // Example response
+                                    });
 
         CROW_ROUTE(app, "/search")
         ([&](const crow::request &req)
@@ -138,6 +138,14 @@ int Router::enroute(crow::SimpleApp &app)
                 std::cout << base64 << std::endl;
                 voice.decode_base64_and_write_to_file(file.body, file_path);
                 return crow::response(200); });
+        CROW_ROUTE(app, "/docs")
+        ([&](const crow::request &req)
+         {
+            crow::response res;
+            res.add_header("Location", "/static/docs/html/index.html");
+            // redirect to /static/docs/html/index.html
+            res.code = 302;
+            return res; });
     }
     catch (const std::exception &e) // catch any exceptions
     {
