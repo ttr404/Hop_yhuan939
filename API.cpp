@@ -252,7 +252,7 @@ Item API::vision_openAI(std::string imageURL)
         headers = curl_slist_append(headers, "Cookie: __cf_bm=h.pFjbb9HoNL1BPhLTPuk7McIEU4vJBuGxDjgprcejk-1700687871-0-Afy9GnYFrq+bLZg0laFb1BQ8znMhEpNwwv+kr+sHa0to3tL67n5jFiEMGFX2X3IWNaghreRzhqoT8jM/bRbXlT8=; _cfuvid=Qpi3Eam2TduP9HHXfuzsfiDW1RO20Sn_c8nGObMw260-1700687871631-0-604800000");
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         char data[4096]; // Increase the buffer size if needed
-        sprintf(data, "{\n    \"model\": \"gpt-4-vision-preview\",\n    \"messages\": [\n      {\n        \"role\": \"user\",\n        \"content\": [\n          {\n            \"type\": \"text\",\n            \"text\": \"Analyze this image and generate a general product description in a structured JSON format with properties: id, name, summary, and tags.\"\n          },\n          {\n            \"type\": \"image_url\",\n            \"image_url\": {\n              \"url\": \"%s\"\n            }\n          }\n        ]\n      }\n    ],\n    \"max_tokens\": 300\n  }", imageURL.c_str());
+        sprintf(data, "{\n    \"model\": \"gpt-4-vision-preview\",\n    \"messages\": [\n      {\n        \"role\": \"user\",\n        \"content\": [\n          {\n            \"type\": \"text\",\n            \"text\": \"Analyze this image and generate a general product description in a structured JSON format with properties: id, name, summary, and tags. In summary don't use any single quotation or double guotations\"\n          },\n          {\n            \"type\": \"image_url\",\n            \"image_url\": {\n              \"url\": \"%s\"\n            }\n          }\n        ]\n      }\n    ],\n    \"max_tokens\": 300\n  }", imageURL.c_str());
 
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
 
