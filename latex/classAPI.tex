@@ -1,0 +1,141 @@
+\hypertarget{classAPI}{}\doxysection{API Class Reference}
+\label{classAPI}\index{API@{API}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classAPI_adb63c7166868fb7d32cd11d4a457701c}\label{classAPI_adb63c7166868fb7d32cd11d4a457701c}} 
+\mbox{\hyperlink{classAPI_adb63c7166868fb7d32cd11d4a457701c}{API}} ()
+\begin{DoxyCompactList}\small\item\em Store \mbox{\hyperlink{classAPI}{API}} information. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classAPI_ae4b22f7fb854a22cb5d80b2bfc5b8dbc}{response\+\_\+open\+AI}} (std\+::string message)
+\begin{DoxyCompactList}\small\item\em Accept user input , link the open\+AI \mbox{\hyperlink{classAPI}{API}} to generate keywords tags. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classAPI_a386d25eaeda8a8653e7897ba2953a82c}{google\+Trends}} ()
+\begin{DoxyCompactList}\small\item\em response from google\+Trends \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classAPI_ae75265414138c438aed7a1950cc1dd88}{bing\+Suggestion}} (std\+::string query)
+\begin{DoxyCompactList}\small\item\em response from bing\+Suggestion \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classAPI_a7762a25aa9a652e238e987809c98fd6d}\label{classAPI_a7762a25aa9a652e238e987809c98fd6d}} 
+\mbox{\hyperlink{structItem}{Item}} {\bfseries translate} (std\+::string str)
+\item 
+\mbox{\hyperlink{structItem}{Item}} \mbox{\hyperlink{classAPI_acce79c1f5eceda34a4acd92a2e888b7b}{vision\+\_\+open\+AI}} (std\+::string image\+URL)
+\begin{DoxyCompactList}\small\item\em get item information from open\+AI \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classAPI_a1f065687b26fd94911c1b3cc1751695d}{extract\+Response\+Data}} (const std\+::string \&response\+Data, std\+::vector$<$ std\+::string $>$ \&tags)
+\begin{DoxyCompactList}\small\item\em Accept json file in string format from open\+AI \mbox{\hyperlink{classAPI}{API}} and extract the key words store in all\+Tags vector. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classAPI_a7f7115afccb9304580c360529e4b27d1}{extract\+Image\+Data}} (const std\+::string \&response\+Data, std\+::string \&name, std\+::string \&summary, std\+::vector$<$ std\+::string $>$ \&tags)
+\begin{DoxyCompactList}\small\item\em extract image data from open\+AI \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classAPI_ae75265414138c438aed7a1950cc1dd88}\label{classAPI_ae75265414138c438aed7a1950cc1dd88}} 
+\index{API@{API}!bingSuggestion@{bingSuggestion}}
+\index{bingSuggestion@{bingSuggestion}!API@{API}}
+\doxysubsubsection{\texorpdfstring{bingSuggestion()}{bingSuggestion()}}
+{\footnotesize\ttfamily std\+::string API\+::bing\+Suggestion (\begin{DoxyParamCaption}\item[{std\+::string}]{query }\end{DoxyParamCaption})}
+
+
+
+response from bing\+Suggestion 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & \\
+\hline
+{\em key} & \\
+\hline
+{\em url} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classAPI_a7f7115afccb9304580c360529e4b27d1}\label{classAPI_a7f7115afccb9304580c360529e4b27d1}} 
+\index{API@{API}!extractImageData@{extractImageData}}
+\index{extractImageData@{extractImageData}!API@{API}}
+\doxysubsubsection{\texorpdfstring{extractImageData()}{extractImageData()}}
+{\footnotesize\ttfamily void API\+::extract\+Image\+Data (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{response\+Data\+\_\+vision,  }\item[{std\+::string \&}]{name,  }\item[{std\+::string \&}]{summary,  }\item[{std\+::vector$<$ std\+::string $>$ \&}]{tags }\end{DoxyParamCaption})}
+
+
+
+extract image data from open\+AI 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & \\
+\hline
+{\em key} & \\
+\hline
+{\em url} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classAPI_a1f065687b26fd94911c1b3cc1751695d}\label{classAPI_a1f065687b26fd94911c1b3cc1751695d}} 
+\index{API@{API}!extractResponseData@{extractResponseData}}
+\index{extractResponseData@{extractResponseData}!API@{API}}
+\doxysubsubsection{\texorpdfstring{extractResponseData()}{extractResponseData()}}
+{\footnotesize\ttfamily void API\+::extract\+Response\+Data (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{response\+Data,  }\item[{std\+::vector$<$ std\+::string $>$ \&}]{all\+Tags }\end{DoxyParamCaption})}
+
+
+
+Accept json file in string format from open\+AI \mbox{\hyperlink{classAPI}{API}} and extract the key words store in all\+Tags vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em std\+::string} & \&response\+Data(from API), std\+::vector$<$std\+::string$>$ \&all\+Tags \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classAPI_a386d25eaeda8a8653e7897ba2953a82c}\label{classAPI_a386d25eaeda8a8653e7897ba2953a82c}} 
+\index{API@{API}!googleTrends@{googleTrends}}
+\index{googleTrends@{googleTrends}!API@{API}}
+\doxysubsubsection{\texorpdfstring{googleTrends()}{googleTrends()}}
+{\footnotesize\ttfamily std\+::string API\+::google\+Trends (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+response from google\+Trends 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & \\
+\hline
+{\em key} & \\
+\hline
+{\em url} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classAPI_ae4b22f7fb854a22cb5d80b2bfc5b8dbc}\label{classAPI_ae4b22f7fb854a22cb5d80b2bfc5b8dbc}} 
+\index{API@{API}!response\_openAI@{response\_openAI}}
+\index{response\_openAI@{response\_openAI}!API@{API}}
+\doxysubsubsection{\texorpdfstring{response\_openAI()}{response\_openAI()}}
+{\footnotesize\ttfamily std\+::string API\+::response\+\_\+open\+AI (\begin{DoxyParamCaption}\item[{std\+::string}]{message }\end{DoxyParamCaption})}
+
+
+
+Accept user input , link the open\+AI \mbox{\hyperlink{classAPI}{API}} to generate keywords tags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em User} & query(std\+::string message) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+tags 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classAPI_acce79c1f5eceda34a4acd92a2e888b7b}\label{classAPI_acce79c1f5eceda34a4acd92a2e888b7b}} 
+\index{API@{API}!vision\_openAI@{vision\_openAI}}
+\index{vision\_openAI@{vision\_openAI}!API@{API}}
+\doxysubsubsection{\texorpdfstring{vision\_openAI()}{vision\_openAI()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structItem}{Item}} API\+::vision\+\_\+open\+AI (\begin{DoxyParamCaption}\item[{std\+::string}]{image\+URL }\end{DoxyParamCaption})}
+
+
+
+get item information from open\+AI 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & \\
+\hline
+{\em key} & \\
+\hline
+{\em url} & \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+API.\+h\item 
+\mbox{\hyperlink{API_8cpp}{API.\+cpp}}\end{DoxyCompactItemize}

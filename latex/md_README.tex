@@ -1,0 +1,114 @@
+Shop without Search, hop in shopping experience.
+
+\mbox{[}Hop is cross-\/platform store search engine powered by Crow Framework (Crowcpp/v1.\+0+5)\mbox{]}\hypertarget{md_README_autotoc_md1}{}\doxysection{Live Demo}\label{md_README_autotoc_md1}
+Main stream\+: \hypertarget{md_README_autotoc_md2}{}\doxysection{$<$a href=\char`\"{}https\+://hop.\+cheap\char`\"{}$>$https\+://hop.\+cheap$<$/a$>$}\label{md_README_autotoc_md2}
+Dev servers\+: (Only online when developers run the project)
+\begin{DoxyItemize}
+\item dev.\+hop.\+cheap
+\item dev-\/f.\+hop.\+cheap
+\item dev-\/o.\+hop.\+cheap
+\item dev-\/t.\+hop.\+cheap
+\item dev-\/x.\+hop.\+cheap
+\end{DoxyItemize}
+
+Task automation file\+:
+
+\href{.vscode/launch.json}{\texttt{ .vscode/launch.\+json}}\hypertarget{md_README_autotoc_md3}{}\doxysection{Dependencies}\label{md_README_autotoc_md3}
+
+\begin{DoxyItemize}
+\item gcc
+\item boost
+\item cmake
+\item libcurl
+\item Crowcpp/v1.\+0 or higher
+\item emscripten/v2.\+0 or higher
+\item nlohmann\+\_\+json/v3.\+0 or higher
+\item libmysqlcppconn-\/dev/v1.\+1 or higher
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md4}{}\doxysection{How to Install}\label{md_README_autotoc_md4}
+\hypertarget{md_README_autotoc_md5}{}\doxysubsection{Mac\+OS}\label{md_README_autotoc_md5}
+{\bfseries{Install Homebrew (if not already installed)}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{/bin/bash -\/c "{}\$(curl -\/fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"{}}
+
+\end{DoxyCode}
+
+
+{\bfseries{Install dependencies}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{brew install gcc boost libcurl cmake emscripten nlohmann\_json mysql-\/connector-\/c++}
+
+\end{DoxyCode}
+\hypertarget{md_README_autotoc_md6}{}\doxysubsection{Linux}\label{md_README_autotoc_md6}
+\hypertarget{md_README_autotoc_md7}{}\doxysubsubsection{apt based}\label{md_README_autotoc_md7}
+{\bfseries{Update package lists}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo apt-\/get update}
+
+\end{DoxyCode}
+
+
+{\bfseries{Install dependencies}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo apt-\/get install -\/y gcc libboost-\/all-\/dev libcurl4-\/openssl-\/dev cmake emscripten nlohmann-\/json-\/dev libmysqlcppconn-\/dev}
+
+\end{DoxyCode}
+\hypertarget{md_README_autotoc_md8}{}\doxysubsection{yum based}\label{md_README_autotoc_md8}
+{\bfseries{Update package lists}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo yum update}
+
+\end{DoxyCode}
+
+
+{\bfseries{Install dependencies}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo yum install -\/y gcc boost-\/devel libcurl-\/devel cmake emscripten nlohmann-\/json-\/devel mysql-\/connector-\/c++}
+
+\end{DoxyCode}
+\hypertarget{md_README_autotoc_md9}{}\doxysubsection{arch based}\label{md_README_autotoc_md9}
+{\bfseries{Update package lists}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo pacman -\/Syu}
+
+\end{DoxyCode}
+
+
+{\bfseries{Install dependencies}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo pacman -\/Syu gcc boost curl cmake emscripten jsoncpp mariadb-\/connector-\/c++}
+
+\end{DoxyCode}
+\hypertarget{md_README_autotoc_md10}{}\doxysection{How to RUN}\label{md_README_autotoc_md10}
+\begin{quote}
+Press {\ttfamily F5} to run the project in VSCode \end{quote}
+The server will be available at \href{http://localhost:8081}{\texttt{ http\+://localhost\+:8081}}
+
+\begin{quote}
+Or go to our live demo \end{quote}
+\href{https://hop.cheap}{\texttt{ https\+://hop.\+cheap}}\hypertarget{md_README_autotoc_md11}{}\doxysubsection{Manually run}\label{md_README_autotoc_md11}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd build}
+\DoxyCodeLine{cmake ..}
+\DoxyCodeLine{make}
+\DoxyCodeLine{./Crow}
+
+\end{DoxyCode}
+\hypertarget{md_README_autotoc_md12}{}\doxysection{UI}\label{md_README_autotoc_md12}
+         
+
+\href{screenshots/demo.mp4}{\texttt{ Demo Video}}\hypertarget{md_README_autotoc_md13}{}\doxysection{Web Stack}\label{md_README_autotoc_md13}
+
+\begin{DoxyItemize}
+\item Debian 11 Bullseye (OS)
+\item Caddy/v2.\+7.\+5 (web server)
+\item Argo Tunnel (reverse proxy)
+\item Cloudflare (DNS/\+CDN)
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md14}{}\doxysection{Database}\label{md_README_autotoc_md14}
+
+\begin{DoxyItemize}
+\item Maria\+DB/10.\+5.\+22
+\item php\+My\+Admin/5.\+0.\+4
+\end{DoxyItemize}
+
+Dashboard (php\+My\+Admin)\+: \href{https://db.hop.cheap}{\texttt{ https\+://db.\+hop.\+cheap}} 

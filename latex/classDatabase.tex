@@ -1,0 +1,63 @@
+\hypertarget{classDatabase}{}\doxysection{Database Class Reference}
+\label{classDatabase}\index{Database@{Database}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classDatabase_a4703c80e6969d33565ea340f768fdadf}\label{classDatabase_a4703c80e6969d33565ea340f768fdadf}} 
+\mbox{\hyperlink{classDatabase_a4703c80e6969d33565ea340f768fdadf}{Database}} ()
+\begin{DoxyCompactList}\small\item\em Construct a new \mbox{\hyperlink{classDatabase}{Database}}\+:\+: \mbox{\hyperlink{classDatabase}{Database}} object. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDatabase_a84d399a2ad58d69daab9b05330e1316d}\label{classDatabase_a84d399a2ad58d69daab9b05330e1316d}} 
+\mbox{\hyperlink{classDatabase_a84d399a2ad58d69daab9b05330e1316d}{$\sim$\+Database}} ()
+\begin{DoxyCompactList}\small\item\em Destroy the \mbox{\hyperlink{classDatabase}{Database}}\+:\+: \mbox{\hyperlink{classDatabase}{Database}} object. \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{structItem}{Item}} $>$ \mbox{\hyperlink{classDatabase_aa57222aa7766b557ea38fb1a674f69d4}{get}} (std\+::string query=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em get items from the database \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classDatabase_a8ad794649b458ad0551b7d69eee9ffee}{insert}} (\mbox{\hyperlink{structItem}{Item}} new\+Item)
+\begin{DoxyCompactList}\small\item\em Insert a new item into the database. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDatabase_a82232e11fb409fc69657c893d0c8dd82}\label{classDatabase_a82232e11fb409fc69657c893d0c8dd82}} 
+crow\+::response {\bfseries handle\+Query} (std\+::string query)
+\item 
+\mbox{\Hypertarget{classDatabase_a6f3b1d87d97b5908423587c78adc3279}\label{classDatabase_a6f3b1d87d97b5908423587c78adc3279}} 
+std\+::vector$<$ \mbox{\hyperlink{structItem}{Item}} $>$ {\bfseries get\+Result} (std\+::string query)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classDatabase_aa57222aa7766b557ea38fb1a674f69d4}\label{classDatabase_aa57222aa7766b557ea38fb1a674f69d4}} 
+\index{Database@{Database}!get@{get}}
+\index{get@{get}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{structItem}{Item}} $>$ Database\+::get (\begin{DoxyParamCaption}\item[{std\+::string}]{query = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})}
+
+
+
+get items from the database 
+
+
+\begin{DoxyParams}{Parameters}
+{\em query} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::vector$<$\+Item$>$ 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classDatabase_a8ad794649b458ad0551b7d69eee9ffee}\label{classDatabase_a8ad794649b458ad0551b7d69eee9ffee}} 
+\index{Database@{Database}!insert@{insert}}
+\index{insert@{insert}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}}
+{\footnotesize\ttfamily void Database\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structItem}{Item}}}]{new\+Item }\end{DoxyParamCaption})}
+
+
+
+Insert a new item into the database. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+Item} & \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Database.\+h\item 
+\mbox{\hyperlink{Database_8cpp}{Database.\+cpp}}\end{DoxyCompactItemize}

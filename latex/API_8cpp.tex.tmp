@@ -1,0 +1,39 @@
+\hypertarget{API_8cpp}{}\doxysection{API.\+cpp File Reference}
+\label{API_8cpp}\index{API.cpp@{API.cpp}}
+
+
+\mbox{\hyperlink{classAPI}{API}} class that handles all the \mbox{\hyperlink{classAPI}{API}} calls and send data to database.  
+
+
+{\ttfamily \#include \char`\"{}API.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$nlohmann/json.\+hpp$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+Include dependency graph for API.\+cpp\+:
+% FIG 0
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{API_8cpp_ab701e3ac61a85b337ec5c1abaad6742d}\label{API_8cpp_ab701e3ac61a85b337ec5c1abaad6742d}} 
+using {\bfseries json} = nlohmann\+::json
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{API_8cpp_a68d585b8db504285bc6a2097921befe0}\label{API_8cpp_a68d585b8db504285bc6a2097921befe0}} 
+size\+\_\+t \mbox{\hyperlink{API_8cpp_a68d585b8db504285bc6a2097921befe0}{write\+\_\+callback}} (void $\ast$contents, size\+\_\+t size, size\+\_\+t nmemb, std\+::string $\ast$s)
+\begin{DoxyCompactList}\small\item\em Construct a new \mbox{\hyperlink{classAPI}{API}}\+:\+: \mbox{\hyperlink{classAPI}{API}} object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{classAPI}{API}} class that handles all the \mbox{\hyperlink{classAPI}{API}} calls and send data to database. 
+
+\begin{DoxyAuthor}{Author}
+Truman Huang (yhuan939) , Matthew Owen Tjhie (mtjhie) 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2023-\/11-\/28
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2023 
+\end{DoxyCopyright}
