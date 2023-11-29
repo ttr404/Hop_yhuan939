@@ -81,7 +81,7 @@ int Router::enroute(crow::SimpleApp &app)
             if(history != "")
             {
                 /* demo data start */
-                return crow::response(crow::json::wvalue({"best seasonal fruits for autumn", "best deal in Blackfriday 2024", "what should I buy for my GF's birthday?"}));
+                return crow::response(crow::json::wvalue({"cake", "smart phone", "gaming"}));
                 /* demo data end */
             }
             auto page = crow::mustache::load("search.html");

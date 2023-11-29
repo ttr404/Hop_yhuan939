@@ -10,6 +10,8 @@
 #include <nlohmann/json.hpp>
 #include <error.h>
 #include <vector>
+#include <set>
+#include <algorithm>
 #include "include/crow_all.h"
 using json = nlohmann::json;
 
@@ -37,7 +39,7 @@ public:
     std::vector<Item> get(std::string query = "");
     void insert(Item newItem);
     crow::response handleQuery(std::string query);
-
+    std::vector<Item> getResult(std::string query);
 private:
     sql::mysql::MySQL_Driver *driver;
     sql::Connection *con;

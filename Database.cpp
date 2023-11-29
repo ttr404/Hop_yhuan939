@@ -41,8 +41,8 @@ Database::~Database()
  */
 std::vector<Item> Database::get(std::string query)
 {
-    int col;
-    std::vector<Item> items;
+    std::string originalQuery = query;
+    std::vector<Item> items, results;
     stmt->execute("USE hop");
     if (query.length() == 0)
     {
@@ -53,9 +53,10 @@ std::vector<Item> Database::get(std::string query)
         // split query into words
         std::vector<std::string> words;
         std::string word;
+        // split query by "+"
         for (int i = 0; i < query.length(); i++)
         {
-            if (query[i] == '+')
+            if (query[i] == '+' || query[i] == ' ' || i == query.length() - 1)
             {
                 words.push_back(word);
                 word = "";
@@ -63,9 +64,22 @@ std::vector<Item> Database::get(std::string query)
             else
             {
                 word += query[i];
-                words.push_back(word);
             }
         }
+
+
+        query = "";
+        for (int i = 0; i < words.size(); i++)
+        {
+            query += " name LIKE '%" + words[i] + "%'";
+            if (i != words.size() - 1)
+            {
+                query += " OR";
+            }
+        }
+        results = getResult(query);
+        items.insert(items.end(), results.begin(), results.end());
+
         // build query
         query = "";
         for (int i = 0; i < words.size(); i++)
@@ -76,9 +90,28 @@ std::vector<Item> Database::get(std::string query)
                 query += " OR";
             }
         }
-        res = stmt->executeQuery("SELECT * FROM items WHERE tags LIKE" + query);
+        results = getResult(query);
+        items.insert(items.end(), results.begin(), results.end());
     }
-    col = res->getMetaData()->getColumnCount();
+    // remove duplicates
+    for(int i = 0; i < items.size(); i++)
+    {
+        for(int j = i + 1; j < items.size(); j++)
+        {
+            if(items[i].name == items[j].name)
+            {
+                items.erase(items.begin() + j);
+                j--;
+            }
+        }
+    }
+    return items;
+}
+
+std::vector<Item> Database::getResult(std::string query)
+{
+    std::vector<Item> items;
+    res = stmt->executeQuery("SELECT * FROM items WHERE " + query);
     while (res->next())
     {
         Item item;
@@ -126,17 +159,19 @@ std::string vectorToString(const std::vector<std::string> &vec)
     return result;
 }
 
-std::string removeChar(std::string str){
+std::string removeChar(std::string str)
+{
     char charToRemove = '\'';
     std::string result;
-    for (char c : str) {
-        if (c != charToRemove) {
+    for (char c : str)
+    {
+        if (c != charToRemove)
+        {
             result += c;
         }
     }
     return result;
 }
-
 
 /**
  * @brief Insert a new item into the database
