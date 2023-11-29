@@ -1,6 +1,6 @@
 "use strict";
 
-let initHome, initSearch, loadHistory, swiper, onSwiper;
+let initHome, initSearch, loadHistory, handleQuery, swiper, onSwiper;
 
 if (typeof initHome === "undefined") {
     initHome = () => {
@@ -137,6 +137,41 @@ if (typeof initSearch === "undefined") {
                 console.log(data);
             });
 
+    };
+}
+
+if (typeof handleQuery === "undefined") {
+    handleQuery = () => {
+        const template = document.querySelector('template.card');
+        const container = document.querySelector('.swiper-wrapper');
+        let url = new URL(window.location);
+        const urlParams = new URLSearchParams(url.search);
+
+        const onSearch = ({ data }) => {
+            const clone = template.content.cloneNode(true);
+            const box = clone.querySelector('.card');
+            const title = clone.querySelector('.card h3');
+            const content = clone.querySelector('.card p');
+            const link = clone.querySelector('.card a');
+            const text = data.title.charAt(0).toUpperCase() + data.title.slice(1);
+            title.innerText = text;
+            content.innerText = data.content;
+            link.href = data.link;
+            box.onclick = () => {
+                pjax(data.link);
+            }
+            container.appendChild(clone);
+        }
+
+        urlParams.set('type', 'json');
+        url.search = urlParams;
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                for (let i = 0; i < data.result.length; i++) {
+                    onSearch({ data: data.result[i] });
+                }
+            });
     };
 }
 
