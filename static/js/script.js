@@ -1,6 +1,6 @@
 "use strict";
 
-let initHome, initSearch, loadHistory, swiper, onSwiper;
+let initHome, initSearch, loadHistory, handleQuery, swiper, onSwiper;
 
 if (typeof initHome === "undefined") {
     initHome = () => {
@@ -140,6 +140,41 @@ if (typeof initSearch === "undefined") {
     };
 }
 
+if (typeof handleQuery === "undefined") {
+    handleQuery = () => {
+        const template = document.querySelector('template.card');
+        const container = document.querySelector('.swiper-wrapper');
+        let url = new URL(window.location);
+        const urlParams = new URLSearchParams(url.search);
+
+        const onSearch = ({ data }) => {
+            const clone = template.content.cloneNode(true);
+            const box = clone.querySelector('.card');
+            const img = clone.querySelector('img');
+            const title = clone.querySelector('span');
+            const content = clone.querySelector('p');
+            const text = data.name.charAt(0).toUpperCase() + data.name.slice(1);
+            title.innerHTML = text;
+            content.innerText = data.summary;
+            img.src = data.url;
+            // box.onclick = () => {
+            //     pjax();
+            // }
+            container.appendChild(clone);
+        }
+
+        urlParams.set('type', 'json');
+        url.search = urlParams;
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                for (let i = 0; i < data.result.length; i++) {
+                    onSearch({ data: data.result[i] });
+                }
+            });
+    };
+}
+
 if (typeof loadHistory === "undefined") {
     loadHistory = () => {
         const template = document.querySelector('template.history');
@@ -182,6 +217,7 @@ window.onload = () => {
         initHome();
     } else if (s.pathname.startsWith("/search")) {
         initSearch();
+        handleQuery();
         loadHistory();
     } else if (s.pathname.startsWith("/admin")) {
         if (typeof dash === "undefined") {

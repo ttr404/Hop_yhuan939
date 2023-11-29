@@ -84,24 +84,12 @@ int Router::enroute(crow::SimpleApp &app)
                 return crow::response(crow::json::wvalue({"best seasonal fruits for autumn", "best deal in Blackfriday 2024", "what should I buy for my GF's birthday?"}));
                 /* demo data end */
             }
-            // if query includes deal
-            if(query.find("deal") != std::string::npos)
-            {
-                auto page = crow::mustache::load("search1.html");
-                ctx["title"] = query + " - HOP";
-                ctx["description"] = "Search results for " + query;
-                ctx["query"] = query;
-                auto response = page.render(ctx);
-                return crow::response(response);
-            } 
-            else {
-                auto page = crow::mustache::load("search.html");
-                ctx["title"] = query + " - HOP";
-                ctx["description"] = "Search results for " + query;
-                ctx["query"] = query;
-                auto response = page.render(ctx);
-                return crow::response(response); 
-            } });
+            auto page = crow::mustache::load("search.html");
+            ctx["title"] = query + " - HOP";
+            ctx["description"] = "Search results for " + query;
+            ctx["query"] = query;
+            auto response = page.render(ctx);
+            return crow::response(response); });
 
         CROW_ROUTE(app, "/openai/<string>")
         ([&](std::string query)
@@ -185,6 +173,7 @@ crow::json::wvalue Router::handleQuery(std::string query)
         }
         item_json["tags"] = crow::json::wvalue(tags_list); // wvalue of list of wvalue
         item_json["summary"] = item.summary;
+        item_json["url"] = item.url;
         items_list.push_back(item_json);
     }
 
