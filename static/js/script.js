@@ -218,5 +218,16 @@ window.onload = () => {
     } else if (s.pathname.startsWith("/search")) {
         initSearch();
         loadHistory();
+    } else if (s.pathname.startsWith("/admin")) {
+        if (typeof dash === "undefined") {
+            const dashScript = document.createElement('script');
+            dashScript.src = "/static/js/message.js";
+            document.body.appendChild(dashScript);
+            dashScript.onload = () => {
+                dash();
+            };
+        } else {
+            dash();
+        }
     }
 };

@@ -464,7 +464,7 @@ main .hero video {
 	margin-left: auto;
 	border-radius: 50%;
 }
-.profile form {
+.profile > div > div {
 	grid-column: span 2;
 }
 .profile > div ul, .list > div > ul {

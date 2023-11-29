@@ -1,28 +1,41 @@
-document.addEventListener('DOMContentLoaded', function () {
-    var uploadForm = document.querySelector('form[action="/uploadImage"]');
+let dash;
+// document.addEventListener('DOMContentLoaded', function () {
+if (typeof dash === "undefined") {
+    dash = () => {
+        // var uploadForm = document.querySelector('form[action="/uploadImage"]');
+        const subBtn = document.querySelector('.btn.round');
+        const urlInput = document.querySelector('[name="URL"]');
+        const uploadForm = document.querySelector('.urlForm')
 
-    uploadForm.addEventListener('submit', function (event) {
-        event.preventDefault(); // Prevent the default form submission
+        subBtn.onclick = () => {
+            // event.preventDefault(); // Prevent the default form submission
 
-        var formData = new FormData(uploadForm);
-        var xhr = new XMLHttpRequest();
+            // var formData = new FormData(uploadForm);
+            const data = new FormData();
+            data.append("URL", urlInput.value);
 
-        xhr.open('POST', '/uploadImage', true);
-
-        xhr.onload = function () {
-            if (this.status === 200) {
-                // If the request was successful, display the success message
-                var successMessage = document.createElement('p');
-                successMessage.textContent = 'Upload successful!';
-                uploadForm.appendChild(successMessage);
-            } else {
-                // If the request failed, display an error message
-                var errorMessage = document.createElement('p');
-                errorMessage.textContent = 'Upload failed. Please try again.';
-                uploadForm.appendChild(errorMessage);
-            }
+            fetch('/uploadImage', {
+                method: 'POST',
+                body: data
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    } else {
+                        throw new Error('Network response was not ok.');
+                    }
+                })
+                .then(text => {
+                    var successMessage = document.createElement('p');
+                    successMessage.textContent = 'Upload successful!';
+                    uploadForm.appendChild(successMessage);
+                })
+                .catch(error => {
+                    var errorMessage = document.createElement('p');
+                    errorMessage.textContent = 'Upload failed. Please try again.';
+                    uploadForm.appendChild(errorMessage);
+                    console.error('There has been a problem with your fetch operation:', error);
+                });
         };
-
-        xhr.send(formData);
-    });
-});
+    };
+}

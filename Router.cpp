@@ -54,22 +54,14 @@ int Router::enroute(crow::SimpleApp &app)
 
         CROW_ROUTE(app, "/uploadImage")
             .methods("POST"_method)([&](const crow::request &req)
-                                    {
-                                        std::string image_url = req.body;
-                                        size_t pos = image_url.find('=');
-                                        if (pos == std::string::npos)
-                                        {
-                                            // '=' not found, handle error
-                                            return crow::response(400, "Bad Request: URL not found");
-                                        }
-
-                                        image_url = image_url.substr(pos + 1);
-                                        std::string decodedUrl = urlDecode(image_url);
-                                        Item response = api.vision_openAI(decodedUrl);
-                                        // Do something with the response, maybe send it back to the client or process it further
-                                        db.insert(response);
-                                        return crow::response(200, "Item inserted successfully"); // Example response
-                                    });
+        {
+            crow::multipart::message parts(req);
+            crow::multipart::part image_url = parts.get_part_by_name("URL");
+            Item response = api.vision_openAI(image_url.body);
+            // Do something with the response, maybe send it back to the client or process it further
+            db.insert(response);
+            return crow::response(200, "Item inserted successfully"); // Example response
+        });
 
         CROW_ROUTE(app, "/search")
         ([&](const crow::request &req)

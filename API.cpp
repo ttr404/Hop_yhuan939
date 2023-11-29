@@ -253,7 +253,7 @@ Item API::vision_openAI(std::string imageURL)
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         char data[4096]; // Increase the buffer size if needed
         sprintf(data, "{\n    \"model\": \"gpt-4-vision-preview\",\n    \"messages\": [\n      {\n        \"role\": \"user\",\n        \"content\": [\n          {\n            \"type\": \"text\",\n            \"text\": \"Analyze this image and generate a general product description in a structured JSON format with properties: id, name, summary, and tags. In summary don't use any single quotation or double guotations\"\n          },\n          {\n            \"type\": \"image_url\",\n            \"image_url\": {\n              \"url\": \"%s\"\n            }\n          }\n        ]\n      }\n    ],\n    \"max_tokens\": 300\n  }", imageURL.c_str());
-
+        std::cout<<data<<std::endl;
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
 
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
@@ -261,7 +261,7 @@ Item API::vision_openAI(std::string imageURL)
 
         res = curl_easy_perform(curl);
         if (res == CURLE_OK)
-        {
+        {   
             extractImageData(response_vision, name, summary, tags);
             item.name = name;
             item.summary = summary;
