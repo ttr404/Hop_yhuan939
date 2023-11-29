@@ -6,6 +6,7 @@
 
 // handle port number 
 const SERVER_URL = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/" + "voiceUpload";
+const SERVER_URL2 = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/" + "refetch";
 
 // check if the browser supports the MediaDevices API
 if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -45,7 +46,7 @@ async function getAudio() {
         const audioUrl = URL.createObjectURL(audioBlob);
         const recordedAudio = document.createElement("audio");
         recordedAudio.src = audioUrl;
-        // console.log('recordedAudio:', recordedAudio);
+        console.log('recordedAudio:', recordedAudio);
 
         // send the audio to the server
         const formData = new FormData();
@@ -59,8 +60,14 @@ async function getAudio() {
             method: 'POST',
             body: formData
           });
-          const data = await response.json();
+          const data = response;
           console.log(data);
+
+          const response2 = await fetch(SERVER_URL2, {
+            method: 'GET',
+          });
+          const data2 = response2;
+          console.log(data2);
         } catch (error) {
           console.error('Error:', error);
         }

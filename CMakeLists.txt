@@ -12,7 +12,8 @@ add_executable(Crow
         Router.cpp
         API.cpp
         Voice.cpp
-        Database.cpp)
+        Database.cpp
+        VoiceAPI.cpp)
 
 # Find the CURL library
 find_package(CURL REQUIRED)

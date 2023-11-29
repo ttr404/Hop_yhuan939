@@ -7,6 +7,8 @@
 #include "API.h"
 #include "Voice.h"
 #include "Database.h"
+#include "VoiceAPI.h"
+#include <time.h>
 
 class Router {
     public:
@@ -22,6 +24,7 @@ class Router {
         Database db;
         std::string currRoute;
         std::string prevRoute;
+        std::string id;
         crow::mustache::context ctx;
 };
 #endif

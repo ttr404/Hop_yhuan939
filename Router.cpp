@@ -157,7 +157,18 @@ int Router::enroute(crow::SimpleApp &app)
                 std::string base64 = file.body.erase(0, 22);
                 std::cout << base64 << std::endl;
                 voice.decode_base64_and_write_to_file(file.body, file_path);
+                VoiceAPI api;
+                std::string fullPath = "https://dev-x.hop.cheap/" + file_path;
+                id = api.callAPI(fullPath);
                 return crow::response(200); });
+
+        CROW_ROUTE(app, "/refetch")
+        ([&]() {
+            std::string token = "r8_X1ErZq5FO5J4XZc00HphUvYTWLr3zdP1utzio";
+            VoiceAPI idk;
+            idk.refetch(token, id);
+            return crow::response(200);
+        });
     }
     catch (const std::exception &e) // catch any exceptions
     {
