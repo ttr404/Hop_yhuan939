@@ -154,8 +154,8 @@ if (typeof handleQuery === "undefined") {
             const title = clone.querySelector('span');
             const content = clone.querySelector('p');
             const text = data.name.charAt(0).toUpperCase() + data.name.slice(1);
-            title.innerHTML = text;
-            content.innerText = data.summary;
+            title.innerText = text;
+            content.innerHTML = data.summary;
             img.src = data.url;
             // box.onclick = () => {
             //     pjax();
@@ -171,6 +171,9 @@ if (typeof handleQuery === "undefined") {
                 for (let i = 0; i < data.result.length; i++) {
                     onSearch({ data: data.result[i] });
                 }
+            }).catch(error => {
+                onSearch({ data: { name: "No results found", summary: "<center>Try searching for something else</center>", url: "https://cdn.discordapp.com/attachments/1101017132482957363/1179244005259751544/365cent_no_found_error_image_modern_simple_52184e04-26ad-471b-b93a-231d91162668.png?ex=65791390&is=65669e90&hm=8e740d9db4cb94726c03be43af18c5726b8ce5085525dc73b69beefef452fb57&" } });
+                console.error('Failed to load result: ', error);
             });
     };
 }
