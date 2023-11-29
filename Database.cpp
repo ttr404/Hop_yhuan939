@@ -50,7 +50,33 @@ std::vector<Item> Database::get(std::string query)
     }
     else
     {
-        res = stmt->executeQuery("SELECT * FROM items WHERE tags LIKE '%" + query + "%'");
+        // split query into words
+        std::vector<std::string> words;
+        std::string word;
+        for (int i = 0; i < query.length(); i++)
+        {
+            if (query[i] == '+')
+            {
+                words.push_back(word);
+                word = "";
+            }
+            else
+            {
+                word += query[i];
+                words.push_back(word);
+            }
+        }
+        // build query
+        query = "";
+        for (int i = 0; i < words.size(); i++)
+        {
+            query += " tags LIKE '%" + words[i] + "%'";
+            if (i != words.size() - 1)
+            {
+                query += " OR";
+            }
+        }
+        res = stmt->executeQuery("SELECT * FROM items WHERE tags LIKE" + query);
     }
     col = res->getMetaData()->getColumnCount();
     while (res->next())

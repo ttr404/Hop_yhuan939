@@ -1,6 +1,6 @@
 "use strict";
 
-let initHome, initSearch, loadHistory, handleQuery, swiper, onSwiper;
+let initHome, initSearch, loadHistory, handleQuery, swiper, onSwiper, tts;
 
 if (typeof initHome === "undefined") {
     initHome = () => {
@@ -149,7 +149,7 @@ if (typeof handleQuery === "undefined") {
 
         const onSearch = ({ data }) => {
             const clone = template.content.cloneNode(true);
-            const box = clone.querySelector('.card');
+            const box = clone.querySelector('.swiper-slide');
             const img = clone.querySelector('img');
             const title = clone.querySelector('span');
             const content = clone.querySelector('p');
@@ -157,9 +157,9 @@ if (typeof handleQuery === "undefined") {
             title.innerText = text;
             content.innerHTML = data.summary;
             img.src = data.url;
-            // box.onclick = () => {
-            //     pjax();
-            // }
+            box.onclick = () => {
+                pjax("search?q=" + data.name);
+            }
             container.appendChild(clone);
         }
 
