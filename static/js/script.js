@@ -150,16 +150,16 @@ if (typeof handleQuery === "undefined") {
         const onSearch = ({ data }) => {
             const clone = template.content.cloneNode(true);
             const box = clone.querySelector('.card');
-            const title = clone.querySelector('.card h3');
-            const content = clone.querySelector('.card p');
-            const link = clone.querySelector('.card a');
-            const text = data.title.charAt(0).toUpperCase() + data.title.slice(1);
-            title.innerText = text;
-            content.innerText = data.content;
-            link.href = data.link;
-            box.onclick = () => {
-                pjax(data.link);
-            }
+            const img = clone.querySelector('img');
+            const title = clone.querySelector('span');
+            const content = clone.querySelector('p');
+            const text = data.name.charAt(0).toUpperCase() + data.name.slice(1);
+            title.innerHTML = text;
+            content.innerText = data.summary;
+            img.src = data.url;
+            // box.onclick = () => {
+            //     pjax();
+            // }
             container.appendChild(clone);
         }
 
@@ -217,6 +217,7 @@ window.onload = () => {
         initHome();
     } else if (s.pathname.startsWith("/search")) {
         initSearch();
+        handleQuery();
         loadHistory();
     } else if (s.pathname.startsWith("/admin")) {
         if (typeof dash === "undefined") {

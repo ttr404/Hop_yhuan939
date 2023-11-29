@@ -173,6 +173,7 @@ crow::json::wvalue Router::handleQuery(std::string query)
         }
         item_json["tags"] = crow::json::wvalue(tags_list); // wvalue of list of wvalue
         item_json["summary"] = item.summary;
+        item_json["url"] = item.url;
         items_list.push_back(item_json);
     }
 
