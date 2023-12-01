@@ -192,7 +192,6 @@ void Database::insert(Item newItem)
     std::cout << inputStr << std::endl;
     stmt->execute("USE hop");
     stmt->execute(inputStr);
-    delete stmt;
     return;
 }
 
