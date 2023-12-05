@@ -33,7 +33,6 @@
     <header>
         <nav>
             <div>
-                <i class="ri-function-line"></i>
                 <button onclick="pjax('admin')">Sign in</button>
                 <details>
                     <summary>
@@ -48,7 +47,7 @@
             </div>
         </nav>
     </header>
-    <main>
+    <main class="search">
         <aside>
             <a onclick="pjax('/')">
                 <img src="../static/img/logo.svg" alt="HOP.cheap logo">
@@ -68,14 +67,24 @@
                 </div>
             </li>
         </ul>
+        <div class="container">
+            <div class="form">
+                <textarea rows="1" list="suggestion" placeholder="⌘ + Enter to explore"
+                    onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                <button><i class="ri-send-plane-fill"></i></button>
+                <button id="recordButton"><i class="ri-mic-fill"></i></button>
+            </div>
+            <ul class="suggestion"></ul>
+        </div>
     </main>
     <footer>
         Made with <span>❤️</span> by group8
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="../static/js/LocalStorage.js" type="module"></script>
+    <script src="../static/js/history.js" type="module"></script>
     <script src="../static/js/pjax.js"></script>
     <script src="../static/js/script.js"></script>
-    <script src="LocalStorage.js" type="module"></script>
 </body>
 
 </html>

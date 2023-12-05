@@ -289,6 +289,11 @@ main object {
 main .container {
     position: relative;
     margin: auto auto 0 auto;
+    transition: padding .25s;
+}
+
+main.search:not(.collapsed) .container {
+    padding-left: 18em;
 }
 
 main .form {
@@ -483,6 +488,10 @@ ul.suggestion li:after {
     padding-top: .6em;
 }
 
+.swiper-slide div:last-child {
+    padding-top: 1em;
+}
+
 .swiper-slide span {
     font-size: 1.2em;
     font-weight: 600;
@@ -575,25 +584,29 @@ footer:hover span {
 }
 
 @media (max-width: 40em) {
-    aside {
-        width: 100%;
+    body {
+        grid-template-rows: 3em 1fr 0;
     }
 
-    aside button {
-        right: .6em;
+    main {
+        margin-bottom: 2em;
     }
 
-    main>ul {
+    main object {
+        top: 30%;
+    }
+
+    main:not(.collapsed)>ul, main.search:not(.collapsed) .container {
         display: none;
     }
 
-    main.collapsed>ul {
+    /* main>ul {
         display: grid;
     }
 
     main.collapsed aside button {
         right: -1.6em;
-    }
+    } */
 
     main textarea {
         width: 80vw;
@@ -604,7 +617,11 @@ footer:hover span {
         width: 60vw;
     }
 
-    body {
-        grid-template-rows: 3em 1fr 0;
+    aside {
+        width: 100%;
+    }
+
+    main:not(.collapsed) aside button {
+        right: .6em;
     }
 }
