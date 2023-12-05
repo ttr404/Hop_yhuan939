@@ -206,6 +206,13 @@ aside li:after {
     position: absolute;
 }
 
+aside li span {
+    display: inline-block;
+    padding-left: 0.6em;
+    margin-left: -0.6em;
+    width: 100%;
+}
+
 aside button {
     right: -1.6em;
     top: 50%;
@@ -460,13 +467,14 @@ ul.suggestion li:after {
 
 .swiper-slide img:hover {
     transform: scale(1.2);
+    border-radius: .6em;
     cursor: pointer;
 }
 
 .swiper-slide div {
     display: flex;
     flex-direction: column;
-    
+    padding-top: .6em;
 }
 
 .swiper-slide span {
