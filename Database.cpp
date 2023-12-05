@@ -33,112 +33,83 @@ Database::~Database()
     delete driver;
 }
 
-/**
- * @brief get items from the database
- *
- * @param query
- * @return std::vector<Item>
- */
-std::vector<Item> Database::get(std::string query)
+std::vector<Item> Database::get(const std::string query)
 {
-    std::string originalQuery = query;
-    std::vector<Item> items, results;
+    std::vector<Item> items;
     stmt->execute("USE hop");
-    if (query.length() == 0)
+
+    if (query.empty())
     {
         res = stmt->executeQuery("SELECT * FROM items");
+        // logic to add items from res to vector
+        while(res->next())
+        {
+            Item item;
+            item.name = res->getString(2);
+            item.tags = split(res->getString(3), ',');
+            item.summary = res->getString(4);
+            item.url = res->getString(5);
+            items.push_back(item);
+        }
     }
     else
     {
-        // split query into words
-        std::vector<std::string> words;
-        std::string word;
-        // split query by "+"
-        for (int i = 0; i < query.length(); i++)
+        std::vector<std::string> words = split(query, ' ');
+        std::string sqlQuery = buildQuery(words);
+        std::cout << sqlQuery << std::endl;
+        res = stmt->executeQuery(sqlQuery);
+        // logic to add items from res to vector
+        while(res->next())
         {
-            if (query[i] == '+' || query[i] == ' ' || i == query.length() - 1)
-            {
-                words.push_back(word);
-                word = "";
-            }
-            else
-            {
-                word += query[i];
-            }
-        }
-
-
-        query = "";
-        for (int i = 0; i < words.size(); i++)
-        {
-            query += " name LIKE '%" + words[i] + "%'";
-            if (i != words.size() - 1)
-            {
-                query += " OR";
-            }
-        }
-        results = getResult(query);
-        items.insert(items.end(), results.begin(), results.end());
-
-        // build query
-        query = "";
-        for (int i = 0; i < words.size(); i++)
-        {
-            query += " tags LIKE '%" + words[i] + "%'";
-            if (i != words.size() - 1)
-            {
-                query += " OR";
-            }
-        }
-        results = getResult(query);
-        items.insert(items.end(), results.begin(), results.end());
-    }
-    // remove duplicates
-    for(int i = 0; i < items.size(); i++)
-    {
-        for(int j = i + 1; j < items.size(); j++)
-        {
-            if(items[i].name == items[j].name)
-            {
-                items.erase(items.begin() + j);
-                j--;
-            }
+            Item item;
+            item.name = res->getString(2);
+            item.tags = split(res->getString(3), ',');
+            item.summary = res->getString(4);
+            item.url = res->getString(5);
+            items.push_back(item);
         }
     }
+
     return items;
 }
 
-std::vector<Item> Database::getResult(std::string query)
+/**
+ * @brief split a string by a delimiter
+ *
+ * @param s
+ * @param delimiter
+ * @return std::vector<std::string>
+ */
+std::vector<std::string> Database::split(const std::string &s, char delimiter)
 {
-    std::vector<Item> items;
-    res = stmt->executeQuery("SELECT * FROM items WHERE " + query);
-    while (res->next())
+    std::vector<std::string> tokens;
+    std::string token;
+    std::istringstream tokenStream(s);
+    while (std::getline(tokenStream, token, delimiter))
     {
-        Item item;
-        item.url = res->getString(5);         // Updated column index
-        item.name = res->getString(2);        // Updated column index
-        item.summary = res->getString(4);     // Updated column index
-        std::string tags = res->getString(3); // Updated column index
-        std::string tag;
-        for (int i = 0; i < tags.length(); i++)
-        {
-            if (tags[i] == ',' || tags[i] == ']')
-            {
-                item.tags.push_back(tag);
-                tag = "";
-            }
-            else if (tags[i] == '[' || tags[i] == '"')
-            {
-                continue;
-            }
-            else
-            {
-                tag += tags[i];
-            }
-        }
-        items.push_back(item);
+        tokens.push_back(token);
     }
-    return items;
+    return tokens;
+}
+
+/**
+ * @brief build a query from a vector of words
+ *
+ * @param words
+ * @return std::string
+ */
+std::string Database::buildQuery(const std::vector<std::string> &words)
+{
+    std::string query = "SELECT DISTINCT * FROM items WHERE ";
+    for (size_t i = 0; i < words.size(); ++i)
+    {
+        query += "(name LIKE '%" + words[i] + "%' OR tags LIKE '%" + words[i] + "%')";
+        if (i != words.size() - 1)
+        {
+            query += " OR ";
+        }
+    }
+    return query;
 }
 
 /**
@@ -194,25 +165,3 @@ void Database::insert(Item newItem)
     stmt->execute(inputStr);
     return;
 }
-
-// crow::response Database::handleQuery(std::string query)
-// {
-//     stmt->execute("USE hop");
-//     res = stmt->executeQuery(query);
-//     json items;
-//     while (res->next())
-//     {
-//         json object;
-//         object["id"] = res->getString(1);
-//         object["name"] = res->getString(2);
-//         object["tags"] = res->getString(3);
-//         object["summary"] = res->getString(4);
-//         items.push_back(object);
-//     }
-//     delete stmt;
-//     delete con;
-//     delete res;
-//     auto test = crow::response(items.dump());
-//     test.set_header("Content-Type", "application/json");
-//     return test;
-// }

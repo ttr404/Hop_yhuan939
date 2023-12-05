@@ -37,9 +37,9 @@ public:
     Database();
     ~Database();
     std::vector<Item> get(std::string query = "");
+    std::vector<std::string> split(const std::string &s, char delimiter);
+    std::string buildQuery(const std::vector<std::string> &words);
     void insert(Item newItem);
-    crow::response handleQuery(std::string query);
-    std::vector<Item> getResult(std::string query);
 private:
     sql::mysql::MySQL_Driver *driver;
     sql::Connection *con;
