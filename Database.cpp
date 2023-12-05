@@ -20,6 +20,7 @@ Database::Database()
     driver = sql::mysql::get_mysql_driver_instance();
     con = driver->connect("tcp://127.0.0.1:3306", "hop", "2^WsMm$3UA8uXcYn%U");
     stmt = con->createStatement();
+    stmt->execute("USE hop");
 }
 
 /**
@@ -36,7 +37,6 @@ Database::~Database()
 std::vector<Item> Database::get(const std::string query)
 {
     std::vector<Item> items;
-    stmt->execute("USE hop");
 
     if (query.empty())
     {
@@ -56,7 +56,6 @@ std::vector<Item> Database::get(const std::string query)
     {
         std::vector<std::string> words = split(query, ' ');
         std::string sqlQuery = buildQuery(words);
-        std::cout << sqlQuery << std::endl;
         res = stmt->executeQuery(sqlQuery);
         // logic to add items from res to vector
         while(res->next())
@@ -161,7 +160,6 @@ void Database::insert(Item newItem)
     inputStr += newItem.url;
     inputStr += "');";
     std::cout << inputStr << std::endl;
-    stmt->execute("USE hop");
     stmt->execute(inputStr);
     return;
 }
