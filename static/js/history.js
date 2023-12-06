@@ -57,6 +57,8 @@ else {
     const oldOnload = window.onload;
     window.onload = () => {
         oldOnload();
-        loadHistory();
+        if (window.location.pathname.startsWith("/search")) {
+            loadHistory();
+        }
     }
 }
