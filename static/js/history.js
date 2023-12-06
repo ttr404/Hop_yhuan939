@@ -1,5 +1,8 @@
 import LocalStorage from './LocalStorage.js';
 
+// LocalStorage onload run loadHistory
+
+
 let s = window.location, a = window.document, r = a.currentScript, loadHistory;
 
 if (typeof loadHistory === "undefined") {
@@ -30,9 +33,12 @@ if (typeof loadHistory === "undefined") {
             container.appendChild(clone);
         };
 
-        localHistory.forEach((data) => {
-            onCreateHistory({ data });
-        });
+        // localHistory.forEach((data) => {
+        //     onCreateHistory({ data });
+        // });
+        for (let i = 0; i < localHistory.length; i++) {
+            onCreateHistory({ data: localHistory[i] });
+        }
 
         if (query.length > 0) {
             const data = { query };
@@ -40,7 +46,34 @@ if (typeof loadHistory === "undefined") {
             onCreateHistory({ data });
         }
     }
+    if (localStorage.getItem("historyLoaded") === null || localStorage.getItem("historyLoaded") === "false") {
+        // run once
+        loadHistory();
+        localStorage.setItem("historyLoaded", true);
+    } else {
+        const oldOnload = window.onload;
+        window.onload = () => {
+            oldOnload();
+            if (window.location.pathname.startsWith("/search")) {
+                loadHistory();
+            }
+        }
+    }
 }
+
+// if (typeof window.onload === "undefined") {
+//     window.onload = () => {
+//         loadHistory();
+//         if (window.location.pathname.startsWith("/search")) {
+//             loadHistory();
+//         }
+//     }
+// }
+// else {
+
+// }
+
+
 
 // if (s.pathname.startsWith("/search")) {
 //     loadHistory();
@@ -48,17 +81,3 @@ if (typeof loadHistory === "undefined") {
 
 // copy current window.onload event addd add loadHistory
 
-if (typeof window.onload === "undefined") {
-    window.onload = () => {
-        loadHistory();
-    }
-}
-else {
-    const oldOnload = window.onload;
-    window.onload = () => {
-        oldOnload();
-        if (window.location.pathname.startsWith("/search")) {
-            loadHistory();
-        }
-    }
-}

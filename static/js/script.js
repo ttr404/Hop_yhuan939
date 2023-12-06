@@ -158,8 +158,8 @@ if (typeof handleQuery === "undefined") {
             .then(response => response.json())
             .then(data => {
                 if(data.result == "No result found.") {
-                    // throw error
-                    throw new Error(urlParams.get('q'));
+                    onSearch({ data: { name: "No results found", summary: "<center>Try searching for something else</center>", url: "https://cdn.discordapp.com/attachments/1101017132482957363/1179244005259751544/365cent_no_found_error_image_modern_simple_52184e04-26ad-471b-b93a-231d91162668.png?ex=65791390&is=65669e90&hm=8e740d9db4cb94726c03be43af18c5726b8ce5085525dc73b69beefef452fb57&" } });
+                    return;
                 }
                 for (let i = 0; i < data.result.length; i++) {
                     onSearch({ data: data.result[i] });
@@ -197,6 +197,7 @@ window.onload = () => {
     let s = window.location, a = window.document, r = a.currentScript;
     if (s.pathname === "/") {
         initHome();
+        localStorage.removeItem("historyLoaded");
     } else if (s.pathname.startsWith("/search")) {
         initSearch();
         initHome();
