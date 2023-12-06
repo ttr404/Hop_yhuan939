@@ -18,25 +18,31 @@ const pjax = (url) => {
             const oldHead = document.head;
 
             // Remove any existing stylesheets
-            Array.from(oldHead.querySelectorAll('link[rel="stylesheet"], style')).forEach(el => el.remove());
+            // Array.from(oldHead.querySelectorAll('link[rel="stylesheet"], style')).forEach(el => el.remove());
 
             // Append new stylesheets from the new page
-            Array.from(newHead.querySelectorAll('link[rel="stylesheet"], style')).forEach(newStyle => {
-                oldHead.appendChild(newStyle);
+            // Array.from(newHead.querySelectorAll('link[rel="stylesheet"], style')).forEach(newStyle => {
+            //     oldHead.appendChild(newStyle);
+            // });
+            
+            const newStyles = Array.from(newHead.querySelectorAll('link[rel="stylesheet"], style'));
+            const oldStyles = Array.from(oldHead.querySelectorAll('link[rel="stylesheet"], style'));
+
+            oldStyles.forEach(style => {
+                if (!newStyles.includes(style)) {
+                    style.remove();
+                }
             });
 
-            // Replace the entire body's content
-            const oldBody = document.body;
-            const newBody = doc.body;
-            oldBody.innerHTML = newBody.innerHTML;
+            newStyles.forEach(style => {
+                if (!oldStyles.includes(style)) {
+                    oldHead.appendChild(style);
+                }
+            });
 
-            // Update the browser's URL and history
+            document.body.innerHTML = doc.body.innerHTML;
             history.pushState({}, '', url);
-
-            // Update the title of the page
             document.title = doc.title;
-
-            // Store the new URL as the next page
             localStorage.setItem('nextPage', url);
 
             // Emit the onload event
