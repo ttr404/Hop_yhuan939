@@ -19,8 +19,7 @@ Database::Database()
 {
     driver = sql::mysql::get_mysql_driver_instance();
     con = driver->connect("tcp://127.0.0.1:3306", "hop", "2^WsMm$3UA8uXcYn%U");
-    stmt = con->createStatement();
-    stmt->execute("USE hop");
+    con->setSchema("hop");
 }
 
 /**
@@ -29,7 +28,7 @@ Database::Database()
  */
 Database::~Database()
 {
-    delete stmt;
+    // deconstruct the database
     delete con;
     delete driver;
 }
@@ -37,10 +36,13 @@ Database::~Database()
 std::vector<Item> Database::get(const std::string query)
 {
     std::vector<Item> items;
+    sql::PreparedStatement *stmt;
 
     if (query.empty())
     {
-        res = stmt->executeQuery("SELECT * FROM items");
+        stmt = con->prepareStatement("SELECT * FROM items");
+        res = stmt->executeQuery();
+        // res = stmt->executeQuery("SELECT * FROM items");
         // logic to add items from res to vector
         while(res->next())
         {
@@ -56,7 +58,9 @@ std::vector<Item> Database::get(const std::string query)
     {
         std::vector<std::string> words = split(query, ' ');
         std::string sqlQuery = buildQuery(words);
-        res = stmt->executeQuery(sqlQuery);
+        // res = stmt->executeQuery(sqlQuery);
+        stmt = con->prepareStatement(sqlQuery);
+        res = stmt->executeQuery();
         // logic to add items from res to vector
         while(res->next())
         {
@@ -69,6 +73,8 @@ std::vector<Item> Database::get(const std::string query)
         }
     }
 
+    // free up memory
+    delete stmt;
     return items;
 }
 
@@ -151,6 +157,7 @@ std::string removeChar(std::string str)
 void Database::insert(Item newItem)
 {
     std::string inputStr = "INSERT INTO items (name, tags, summary, url) VALUES ('";
+    sql::PreparedStatement *stmt;
     inputStr += newItem.name;
     inputStr += "', '";
     inputStr += vectorToString(newItem.tags);
@@ -160,6 +167,9 @@ void Database::insert(Item newItem)
     inputStr += newItem.url;
     inputStr += "');";
     std::cout << inputStr << std::endl;
-    stmt->execute(inputStr);
+    stmt = con->prepareStatement(inputStr);
+    stmt->execute();
+    // free up memory
+    delete stmt;
     return;
 }
