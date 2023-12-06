@@ -68,7 +68,6 @@ int Router::enroute(crow::SimpleApp &app)
          {
             // get query
             std::string query = req.url_params.get("q") ? req.url_params.get("q") : "",
-                        history = req.url_params.get("h") ? req.url_params.get("h") : "",
                         type = req.url_params.get("type") ? req.url_params.get("type") : "";
             if(type == "json")
             {
@@ -77,12 +76,6 @@ int Router::enroute(crow::SimpleApp &app)
                 json["query"] = query;
                 json["result"] = handleQuery(query);
                 return crow::response(json);
-            }
-            if(history != "")
-            {
-                /* demo data start */
-                return crow::response(crow::json::wvalue({"cake", "smart phone", "gaming"}));
-                /* demo data end */
             }
             auto page = crow::mustache::load("search.html");
             ctx["title"] = query + " - HOP";

@@ -1,6 +1,4 @@
-"use strict";
-
-let initHome, initSearch, loadHistory, handleQuery, swiper, onSwiper, tts;
+let initHome, initSearch, handleQuery, onHistory, swiper, onSwiper, tts;
 
 if (typeof initHome === "undefined") {
     initHome = () => {
@@ -34,7 +32,7 @@ if (typeof initHome === "undefined") {
                     fetch('/suggestion/' + value)
                         .then(response => response.json()).then(data => {
                             suggestion.innerHTML = '';
-                            for (let i = 0; i < 5; i++) {
+                            for (let i = 0; i < 3; i++) {
                                 const option = document.createElement('li');
                                 option.innerText = data[1][i];
                                 option.onclick = () => {
@@ -73,28 +71,6 @@ if (typeof initHome === "undefined") {
 
         trending();
     };
-}
-
-if (typeof swiper === "undefined") {
-    onSwiper = () => {
-        const swiper = new Swiper(".swiper", {
-            mousewheel: true,
-            slidesPerView: "auto",
-            scrollbar: {
-                el: ".swiper-scrollbar",
-            }
-        });
-    }
-    swiper = () => {
-        const swiperScript = document.createElement('script');
-        swiperScript.src = "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle";
-        document.body.appendChild(swiperScript);
-        swiperScript.onload = () => {
-            onSwiper();
-        };
-    };
-} else {
-    onSwiper();
 }
 
 if (typeof initSearch === "undefined") {
@@ -140,6 +116,19 @@ if (typeof initSearch === "undefined") {
     };
 }
 
+if (typeof onHistory === "undefined") {
+    onHistory = () => {
+        const storageScript = document.createElement('script');
+        const historyScript = document.createElement('script');
+        storageScript.src = "../static/js/LocalStorage.js";
+        historyScript.src = "../static/js/history.js";
+        storageScript.type = "module";
+        historyScript.type = "module";
+        document.body.appendChild(storageScript);
+        document.body.appendChild(historyScript);
+    };
+}
+
 if (typeof handleQuery === "undefined") {
     handleQuery = () => {
         const template = document.querySelector('template.card');
@@ -168,6 +157,10 @@ if (typeof handleQuery === "undefined") {
         fetch(url)
             .then(response => response.json())
             .then(data => {
+                if(data.result == "No result found.") {
+                    // throw error
+                    throw new Error(urlParams.get('q'));
+                }
                 for (let i = 0; i < data.result.length; i++) {
                     onSearch({ data: data.result[i] });
                 }
@@ -178,40 +171,26 @@ if (typeof handleQuery === "undefined") {
     };
 }
 
-if (typeof loadHistory === "undefined") {
-    loadHistory = () => {
-        const template = document.querySelector('template.history');
-        const container = document.querySelector('aside ul');
-        let url = new URL(window.location);
-        const urlParams = new URLSearchParams(url.search);
-
-        const onCreateHistory = ({ data }) => {
-            const clone = template.content.cloneNode(true);
-            const box = clone.querySelector('li');
-            const span = clone.querySelector('span');
-            const text = data.charAt(0).toUpperCase() + data.slice(1);
-            span.innerText = text;
-            span.onclick = (event) => {
-                // don't allow click through
-                event.stopPropagation();
-                pjax("search?q=" + data);
-            };
-            box.onclick = () => {
-                box.parentNode.removeChild(box);
+if (typeof swiper === "undefined") {
+    onSwiper = () => {
+        const swiper = new Swiper(".swiper", {
+            mousewheel: true,
+            slidesPerView: "auto",
+            scrollbar: {
+                el: ".swiper-scrollbar",
             }
-            container.appendChild(clone);
-        };
-
-        urlParams.set('h', 'test');
-        url.search = urlParams;
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                for (let i = 0; i < data.length; i++) {
-                    onCreateHistory({ data: data[i] });
-                }
-            });
+        });
     }
+    swiper = () => {
+        const swiperScript = document.createElement('script');
+        swiperScript.src = "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle";
+        document.body.appendChild(swiperScript);
+        swiperScript.onload = () => {
+            onSwiper();
+        };
+    };
+} else {
+    onSwiper();
 }
 
 window.onload = () => {
@@ -220,8 +199,9 @@ window.onload = () => {
         initHome();
     } else if (s.pathname.startsWith("/search")) {
         initSearch();
+        initHome();
         handleQuery();
-        loadHistory();
+        onHistory();
     } else if (s.pathname.startsWith("/admin")) {
         if (typeof dash === "undefined") {
             const dashScript = document.createElement('script');

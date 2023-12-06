@@ -268,6 +268,8 @@ main>ul {
     gap: 1em;
     margin: 1em 2em 1em 16em;
     padding-left: 2em;
+    max-height: calc(100vh - 14em);
+    overflow-y: auto;
 }
 
 main.collapsed>ul {
@@ -322,12 +324,12 @@ main>ul li {
     background-color: var(--quarter-white);
 }
 
-main>ul li:nth-child(odd) {
+main>ul li:nth-child(1) {
     margin-left: auto;
     border-radius: 1em 1em 0 1em;
 }
 
-main>ul li:nth-child(even) {
+main>ul li:nth-child(2) {
     margin-right: auto;
     width: calc(100% - 2em);
     border-radius: 0 1em 1em 1em;
