@@ -84,7 +84,6 @@ async function refetch(id) {
     attempt++;
   }
 
-  return "Fetching Failed. Max retries reached."
 }
 
 // get the audio from the microphone
