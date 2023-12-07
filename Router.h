@@ -9,6 +9,7 @@
 #include "Database.h"
 #include "VoiceAPI.h"
 #include <time.h>
+#include <future>
 
 class Router {
     public:
@@ -26,5 +27,6 @@ class Router {
         std::string prevRoute;
         std::string id;
         crow::mustache::context ctx;
+        VoiceAPI voiceAPI;
 };
 #endif

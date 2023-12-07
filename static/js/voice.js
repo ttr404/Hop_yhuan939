@@ -5,8 +5,8 @@
 // so i am pretty much stuck with js for now
 
 // handle port number 
-const SERVER_URL = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/" + "voiceUpload";
-const SERVER_URL2 = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/" + "refetch";
+const SERVER_URL = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/";
+const TOKEN = "r8_X1ErZq5FO5J4XZc00HphUvYTWLr3zdP1utzio"
 
 // check if the browser supports the MediaDevices API
 if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -19,13 +19,13 @@ let audioChunks = [];
 let isRecording = false;
 
 function blobToBase64(blob) {
-    const reader = new FileReader();
-    reader.readAsDataURL(blob);
-    return new Promise(resolve => {
-        reader.onloadend = () => {
-            resolve(reader.result);
-        };
-    });
+  const reader = new FileReader();
+  reader.readAsDataURL(blob);
+  return new Promise(resolve => {
+    reader.onloadend = () => {
+      resolve(reader.result);
+    };
+  });
 };
 
 // get the audio from the microphone
@@ -56,22 +56,65 @@ async function getAudio() {
 
         // try to send the audio to the server
         try {
-          const response = await fetch(SERVER_URL, {
+          const response = await fetch(SERVER_URL + "voiceUpload", {
             method: 'POST',
             body: formData
           });
-          const data = response;
-          console.log(data);
+          // the data should be 
+          const data = await response.json();
+          const id = data.Rep_id;
+          console.log('id:', id);
 
-          const response2 = await fetch(SERVER_URL2, {
-            method: 'GET',
+          // fuck this bullshit
+          // FUCK
+          async function refetch(id) {
+            let maxRetries = 4;
+            let attempt = 0;
+            let delay = 1500; 
+          
+            while (attempt < maxRetries) {
+              try {
+                const response = await fetch(SERVER_URL + 'refetch/' + id);
+                console.log('Attempt:', attempt, 'HTTP Response:', response);
+          
+                if (!response.ok) {
+                  throw new Error('Network response was not ok');
+                }
+          
+                const responseText = await response.text(); 
+                const jsonResponse = JSON.parse(JSON.parse(responseText)); 
+                console.log('JSON Response:', jsonResponse);
+
+                if (jsonResponse['status'] === 'succeeded') {
+                  console.log('Success:', jsonResponse);
+                  console.log('Final result:', jsonResponse['output']['transcription']);
+                  return jsonResponse['output']['transcription']; 
+                } else {
+                  console.log('Status not succeeded, retrying...');
+                }
+              } catch (error) {
+                console.error('Fetch error:', error);
+              }
+          
+              await new Promise(resolve => setTimeout(resolve, delay)); 
+              attempt++;
+            }
+          
+            throw new Error('Max retries reached');
+          }                    
+
+          refetch(id).then(result => {
+            console.log('Final result:', result);
+          }).catch(error => {
+            console.error('Refetch error:', error);
           });
-          const data2 = response2;
-          console.log(data2);
+
+
+          // console.log(data);
+          // console.log("id is ", id);
         } catch (error) {
           console.error('Error:', error);
         }
-
 
       } catch (error) {
         console.error('Error in onstop:', error);

@@ -157,18 +157,26 @@ int Router::enroute(crow::SimpleApp &app)
                 std::string base64 = file.body.erase(0, 22);
                 std::cout << base64 << std::endl;
                 voice.decode_base64_and_write_to_file(file.body, file_path);
-                VoiceAPI api;
                 std::string fullPath = "https://dev-x.hop.cheap/" + file_path;
-                id = api.callAPI(fullPath);
-                return crow::response(200); });
+                std::string id = voiceAPI.callAPI(fullPath);
+                nlohmann::json jsonResponse;
+                jsonResponse["Rep_id"] = id;
+                // Convert JSON object to string
+                std::string jsonString = jsonResponse.dump();
 
-        CROW_ROUTE(app, "/refetch")
-        ([&]() {
-            std::string token = "r8_X1ErZq5FO5J4XZc00HphUvYTWLr3zdP1utzio";
-            VoiceAPI idk;
-            idk.refetch(token, id);
-            return crow::response(200);
+                return crow::response(200, jsonString); });
+
+        // used for refetching the result from the API
+        CROW_ROUTE(app, "/refetch/<string>")
+        ([&](std::string id) {
+            nlohmann::json jsonResponse = voiceAPI.refetch(id);
+            std::string jsonString = jsonResponse.dump(); // Convert JSON object to string
+            crow::response res(200, jsonString);
+            res.add_header("Content-Type", "application/json"); // Set the Content-Type header to 'application/json'
+            return res;
         });
+
+
     }
     catch (const std::exception &e) // catch any exceptions
     {

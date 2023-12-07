@@ -14,6 +14,6 @@ class VoiceAPI {
 public:
     static std::string callAPI(std::string &filePath);
     static size_t WriteCallback(void *contents, size_t size, size_t nmemb, std::string *s);
-    static std::string refetch(std::string &token, std::string &id);
+    static std::string refetch(std::string &id);
 };
 #endif

@@ -16,7 +16,6 @@ std::string VoiceAPI::callAPI(std::string &filePath)
     std::string postFields = "{\"input\": {\"audio\": \"" + filePath + "\"}}";
     std::string token = "r8_X1ErZq5FO5J4XZc00HphUvYTWLr3zdP1utzio";
     // std::string headers = "Authorization: Token " + token;
-    // this is fucking culprit fuck fuck FUCKKKKKKKKKKK
     struct curl_slist *headers = NULL;
     headers = curl_slist_append(headers, ("Authorization: Token " + token).c_str());
 
@@ -26,6 +25,8 @@ std::string VoiceAPI::callAPI(std::string &filePath)
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
     curl_easy_setopt(curl, CURLOPT_FORBID_REUSE, 1);
+    curl_easy_setopt(curl, CURLOPT_TCP_FASTOPEN, 1L);
+    // curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
 
 
     // execute the CURL command
@@ -39,16 +40,18 @@ std::string VoiceAPI::callAPI(std::string &filePath)
         // cleanup
         curl_slist_free_all(headers);
         curl_easy_cleanup(curl);
+        curl = NULL;
 
         try {   
             auto jsonResponse = nlohmann::json::parse(readBuffer);
             std::cout << "Response: " << jsonResponse.dump(4) << std::endl;
-            if (jsonResponse["status"] != "succeeded") {
+            return jsonResponse["id"];
+            // if (jsonResponse["status"] != "succeeded") {
                 // const std::chrono::milliseconds retryDelay(3000); 
                 // sleep(5);
-                std::string id = jsonResponse["id"];
-                // std::string ret;
-                return id;
+                // std::string id = jsonResponse["id"];
+                // std::thread t1(reFetchThread, token, id);
+                // return id;
                 // for (int i = 0; i < 5; i ++) {
                 //     // std::this_thread::sleep_for(retryDelay);
                 //     sleep(3);
@@ -57,7 +60,7 @@ std::string VoiceAPI::callAPI(std::string &filePath)
                 //         return ret;
                 //     }
                 // }
-            }
+            // }
         }
         catch (nlohmann::json::parse_error &e)
         {
@@ -68,13 +71,27 @@ std::string VoiceAPI::callAPI(std::string &filePath)
     return "qwertyuiopasdfghjklzxcvbnm";
 }
 
+// std::string VoiceAPI::reFetchThread(std::string &id) {
+//     std::string ret;
+//     // delay for a bit
+//     std::this_thread::sleep_for(std::chrono::seconds(2));
+//     for (int i = 0; i < 5; i ++) {
+//         sleep(1);
+//         ret = VoiceAPI::refetch(token, id);
+//         if (ret != "qwertyuiopasdfghjklzxcvbnm") {
+//             return ret;
+//         }
+//     }
+//     return ret;
+// }
+
 // function for refetching the response
 // as it might take a couple seconds to
-std::string VoiceAPI::refetch(std::string &token, std::string &id) {
+std::string VoiceAPI::refetch(std::string &id) {
+    std::string token = "r8_X1ErZq5FO5J4XZc00HphUvYTWLr3zdP1utzio";
     CURL *curlRe = curl_easy_init();
     std::string readBuffer;
     std::string url = "https://api.replicate.com/v1/predictions/" + id;
-    std::cout << "Refetching..." << std::endl;
     
     struct curl_slist *headers = NULL;
     headers = curl_slist_append(headers, ("Authorization: Token " + token).c_str());
@@ -83,6 +100,8 @@ std::string VoiceAPI::refetch(std::string &token, std::string &id) {
     curl_easy_setopt(curlRe, CURLOPT_WRITEFUNCTION, WriteCallback);
     curl_easy_setopt(curlRe, CURLOPT_WRITEDATA, &readBuffer);
     curl_easy_setopt(curlRe, CURLOPT_FORBID_REUSE, 1);
+    curl_easy_setopt(curlRe, CURLOPT_TCP_FASTOPEN, 1L);
+    // curl_easy_setopt(curlRe, CURLOPT_VERBOSE, 1L);
 
     CURLcode res = curl_easy_perform(curlRe);
 
@@ -93,17 +112,14 @@ std::string VoiceAPI::refetch(std::string &token, std::string &id) {
         try {
             auto jsonResponse = nlohmann::json::parse(readBuffer);
             std::cout << "Refetched Response: " << jsonResponse.dump(4) << std::endl;
-            if (jsonResponse["status"] == "succeeded")
-            {
-                auto output = jsonResponse["output"];
-                auto transcript = output["transcript"];
-                std::cout << "Refetch succeeded" << std::endl;
-                std::cout << "Response: " << jsonResponse.dump(4) << std::endl;
-                std::cout << "Response: " << transcript << std::endl;
-                curl_slist_free_all(headers);
-                curl_easy_cleanup(curlRe);
-                return transcript;
-            }
+            // auto output = jsonResponse["output"];
+            // auto transcript = output["transcript"];
+            // std::cout << "Refetch succeeded" << std::endl;
+            // std::cout << "Response: " << jsonResponse.dump(4) << std::endl;
+            // std::cout << "Response: " << transcript << std::endl;
+            curl_slist_free_all(headers);
+            curl_easy_cleanup(curlRe);
+            return jsonResponse.dump();
         }
         catch (nlohmann::json::parse_error &e) {
             std::cerr << "JSON parse error: " << e.what() << std::endl;
@@ -111,6 +127,7 @@ std::string VoiceAPI::refetch(std::string &token, std::string &id) {
     }
     curl_slist_free_all(headers);
     curl_easy_cleanup(curlRe);
+    curlRe = NULL;
     return "qwertyuiopasdfghjklzxcvbnm";
 }
 
@@ -132,6 +149,10 @@ size_t VoiceAPI::WriteCallback(void *contents, size_t size, size_t nmemb, std::s
 
 // https://dev-x.hop.cheap/static/upload/57.mp3
 // curl -s -X POST \
-  -d '{"input": {"audio": "..."}}' \
-  -H "Authorization: Token $REPLICATE_API_TOKEN" \
+  -d '{"input": {"audio": "https://dev-x.hop.cheap/static/upload/57.mp3"}}' \
+  -H "Authorization: Token " \
   "https://api.replicate.com/v1/deployments/mdyude/whisper-3307/predictions"
+
+// curl -s -H "Authorization: Token r8_X1ErZq5FO5J4XZc00HphUvYTWLr3zdP1utzio" \
+//   "https://api.replicate.com/v1/predictions/xewhrijbc33mwg2d2mygecjiku"
+
