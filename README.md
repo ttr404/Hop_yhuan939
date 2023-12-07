@@ -28,7 +28,6 @@ Task automation file:
 * cmake
 * libcurl
 * Crowcpp/v1.0 or higher
-* emscripten/v2.0 or higher
 * nlohmann_json/v3.0 or higher
 * libmysqlcppconn-dev/v1.1 or higher
 
@@ -48,7 +47,7 @@ Task automation file:
 
 **Install dependencies**
 ```
-brew install gcc boost libcurl cmake emscripten nlohmann_json mysql-connector-c++
+brew install gcc boost libcurl cmake nlohmann_json mysql-connector-c++
 ```
 
 ### Linux
@@ -60,7 +59,7 @@ sudo apt-get update
 
 **Install dependencies**
 ```
-sudo apt-get install -y gcc libboost-all-dev libcurl4-openssl-dev cmake emscripten nlohmann-json-dev libmysqlcppconn-dev
+sudo apt-get install -y gcc libboost-all-dev libcurl4-openssl-dev cmake nlohmann-json-dev libmysqlcppconn-dev
 ```
 
 
@@ -72,7 +71,7 @@ sudo yum update
 
 **Install dependencies**
 ```
-sudo yum install -y gcc boost-devel libcurl-devel cmake emscripten nlohmann-json-devel mysql-connector-c++
+sudo yum install -y gcc boost-devel libcurl-devel cmake nlohmann-json-devel mysql-connector-c++
 ```
 
 ### arch based
@@ -83,7 +82,7 @@ sudo pacman -Syu
 
 **Install dependencies**
 ```
-sudo pacman -Syu gcc boost curl cmake emscripten jsoncpp mariadb-connector-c++
+sudo pacman -Syu gcc boost curl cmake jsoncpp mariadb-connector-c++
 ```
 
 ## How to RUN
