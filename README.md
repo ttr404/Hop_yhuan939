@@ -36,7 +36,7 @@ Task automation file:
 * Bing Suggestions API: [https://www.bing.com/](https://www.bing.com/)
 * OpenAI Vision API: [https://openai.com/product/](https://openai.com/product/)
 * OpenAI Text generation API (GPT 4): [https://openai.com/product/](https://openai.com/product/)
-* Replicate GPU runtime platform: [https://replicate.com/](https://replicate.com/)
+* Replicate GPU runtime platform (for voice recognition): [https://replicate.com/](https://replicate.com/)
 
 ## How to Install
 ### MacOS

@@ -1,0 +1,13 @@
+[Unit]
+Description=Crow Application
+
+[Service]
+Restart=on-failure
+RestartSec=5s
+ExecStart=/var/www/project/build/Crow
+WorkingDirectory=/var/www/project/build
+User=ox
+Group=ox
+
+[Install]
+WantedBy=multi-user.target
