@@ -89,7 +89,7 @@ sudo pacman -Syu gcc boost curl cmake jsoncpp mariadb-connector-c++
 
 > Press `F5` to run the project in VSCode
 
-The server will be available at [http://localhost:8081](http://localhost:8081)
+The server will be available at [http://localhost:8080](http://localhost:8080)
 
 > Or go to our live demo
 
