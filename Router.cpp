@@ -129,15 +129,21 @@ int Router::enroute(crow::SimpleApp &app)
 
         // used for refetching the result from the API
         CROW_ROUTE(app, "/refetch/<string>")
-        ([&](std::string id) {
+        ([&](std::string id)
+         {
             nlohmann::json jsonResponse = voiceAPI.refetch(id);
             std::string jsonString = jsonResponse.dump(); // Convert JSON object to string
             crow::response res(200, jsonString);
             res.add_header("Content-Type", "application/json"); // Set the Content-Type header to 'application/json'
-            return res;
-        });
-
-
+            return res; });
+        CROW_ROUTE(app, "/docs")
+        ([&](const crow::request &req)
+         {
+            crow::response res;
+            res.add_header("Location", "/static/docs/html/index.html");
+            // redirect to /static/docs/html/index.html
+            res.code = 302;
+            return res; });
     }
     catch (const std::exception &e) // catch any exceptions
     {
