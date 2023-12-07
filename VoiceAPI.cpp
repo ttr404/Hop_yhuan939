@@ -44,23 +44,8 @@ std::string VoiceAPI::callAPI(std::string &filePath)
 
         try {   
             auto jsonResponse = nlohmann::json::parse(readBuffer);
-            std::cout << "Response: " << jsonResponse.dump(4) << std::endl;
+            // std::cout << "Response: " << jsonResponse.dump(4) << std::endl;
             return jsonResponse["id"];
-            // if (jsonResponse["status"] != "succeeded") {
-                // const std::chrono::milliseconds retryDelay(3000); 
-                // sleep(5);
-                // std::string id = jsonResponse["id"];
-                // std::thread t1(reFetchThread, token, id);
-                // return id;
-                // for (int i = 0; i < 5; i ++) {
-                //     // std::this_thread::sleep_for(retryDelay);
-                //     sleep(3);
-                //     ret = refetch(token, id);
-                //     if (ret != "qwertyuiopasdfghjklzxcvbnm") {
-                //         return ret;
-                //     }
-                // }
-            // }
         }
         catch (nlohmann::json::parse_error &e)
         {
@@ -71,19 +56,6 @@ std::string VoiceAPI::callAPI(std::string &filePath)
     return "qwertyuiopasdfghjklzxcvbnm";
 }
 
-// std::string VoiceAPI::reFetchThread(std::string &id) {
-//     std::string ret;
-//     // delay for a bit
-//     std::this_thread::sleep_for(std::chrono::seconds(2));
-//     for (int i = 0; i < 5; i ++) {
-//         sleep(1);
-//         ret = VoiceAPI::refetch(token, id);
-//         if (ret != "qwertyuiopasdfghjklzxcvbnm") {
-//             return ret;
-//         }
-//     }
-//     return ret;
-// }
 
 // function for refetching the response
 // as it might take a couple seconds to
@@ -111,12 +83,6 @@ std::string VoiceAPI::refetch(std::string &id) {
     else {
         try {
             auto jsonResponse = nlohmann::json::parse(readBuffer);
-            std::cout << "Refetched Response: " << jsonResponse.dump(4) << std::endl;
-            // auto output = jsonResponse["output"];
-            // auto transcript = output["transcript"];
-            // std::cout << "Refetch succeeded" << std::endl;
-            // std::cout << "Response: " << jsonResponse.dump(4) << std::endl;
-            // std::cout << "Response: " << transcript << std::endl;
             curl_slist_free_all(headers);
             curl_easy_cleanup(curlRe);
             return jsonResponse.dump();
