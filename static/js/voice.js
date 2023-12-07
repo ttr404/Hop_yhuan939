@@ -67,8 +67,12 @@ async function refetch(id) {
       if (jsonResponse['status'] === 'succeeded') {
         console.log('Success:', jsonResponse);
         // console.log('Final result:', jsonResponse['output']['transcription']);
+        // punctuations to be removed
+        var punctuation = /[\.,?!]/g;
+        var strpRet = jsonResponse['output']['transcription'].trim().replace(punctuation, "");
+
         // return the transcription of what the user said
-        return jsonResponse['output']['transcription'].trim();
+        return strpRet;
       } else {
         console.log('Status not succeeded, retrying...');
       }
@@ -80,7 +84,7 @@ async function refetch(id) {
     attempt++;
   }
 
-  throw new Error('Max retries reached');
+  return "Fetching Failed. Max retries reached."
 }
 
 // get the audio from the microphone
