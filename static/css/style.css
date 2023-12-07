@@ -263,7 +263,7 @@ aside button:hover:after {
     transform: rotate(10deg) translateY(-.1em);
 }
 
-main>ul {
+main>ul, main section {
     grid-auto-rows: max-content;
     gap: 1em;
     margin: 1em 2em 1em 16em;
@@ -276,7 +276,6 @@ main.collapsed>ul {
     margin-left: 0;
     transition: .25s;
 }
-
 
 main object {
     position: fixed;
@@ -493,7 +492,7 @@ ul.suggestion li:after {
     transition: .25s;
 }
 
-.swiper-slide img:hover {
+.search .swiper-slide img:hover {
     transform: scale(1.2);
     border-radius: .6em;
     cursor: pointer;
@@ -509,7 +508,7 @@ ul.suggestion li:after {
     padding-top: 1em;
 }
 
-.swiper-slide span {
+.search .swiper-slide span {
     font-size: 1.2em;
     font-weight: 600;
     margin: 0;
@@ -526,6 +525,90 @@ ul.suggestion li:after {
     height: 8em;
     overflow-y: hidden;
     text-overflow: ellipsis;
+}
+
+.product .swiper-wrapper {
+    flex-direction: column;
+}
+
+.product .swiper-slide {
+    display: grid;
+    grid-template-columns: 6em auto;
+    height: 4em;
+    width: calc(100% - 22em);
+    background-color: var(--quarter-white);
+}
+
+.product .swiper-slide:first-child {
+    display: grid;
+    margin: 4em 0;
+    height: auto;
+    grid-template-columns: auto auto;
+}
+
+.product .swiper-slide:first-child div:first-child {
+    position: relative;
+}
+
+.product .swiper-slide:first-child div:last-child {
+    margin-left: 2em;
+}
+
+.product .swiper-slide:first-child div:first-child:after {
+    content: "Buy Now";
+    position: absolute;
+    display: block;
+    font-weight: 600;
+    right: -50%;
+    bottom: 2em;
+    padding: 0.3em 0.6em;
+    color: var(--white);
+    background-color: var(--indigo);
+    border-radius: 0.6em;
+    transition: .25s;
+}
+
+.product .swiper-slide:first-child div:first-child:hover:after {
+    background-color: var(--pale-lavender);
+    cursor: pointer;
+}
+
+.product .swiper-slide:first-child:after {
+    content: "Product Suggestions";
+    position: absolute;
+    font-weight: 600;
+    bottom: -4em;
+    color: var(--indigo);
+}
+
+.product .swiper-slide:first-child span {
+    position: absolute;
+    font-size: 1.6em;
+    font-weight: 600;
+    left: 0;
+    top: -2em;
+}
+
+.product .swiper-slide:first-child p {
+    display: block;
+    font-size: 1.1em;
+}
+
+.swiper-slide p {
+    display: none;
+}
+
+.product .swiper-slide img {
+    margin: 0;
+    padding: 0;
+    width: 3.2em;
+    height: auto;
+    max-width: none;
+    border-radius: .6em;
+}
+
+.product .swiper-slide:first-child img {
+    width: 16em;
 }
 
 footer {
@@ -616,14 +699,6 @@ footer:hover span {
     main:not(.collapsed)>ul, main.search:not(.collapsed) .container {
         display: none;
     }
-
-    /* main>ul {
-        display: grid;
-    }
-
-    main.collapsed aside button {
-        right: -1.6em;
-    } */
 
     main textarea {
         width: 80vw;

@@ -56,29 +56,8 @@
             </ul>
             <button></button>
         </aside>
-        <ul>
-            <li>{{ query }}</li>
-            <li>
-                <div>
-                    <span>Here is what I found for "{{ query }}"</span>
-                    <i class="ri-volume-down-fill"></i>
-                </div>
-                <div class="swiper">
-                    <div class="swiper-wrapper">
-                    </div>
-                    <div class="swiper-scrollbar"></div>
-                </div>
-            </li>
-        </ul>
-        <div class="container">
-            <div class="form">
-                <textarea rows="1" list="suggestion" placeholder="⌘ + Enter to explore"
-                    onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
-                <button><i class="ri-send-plane-fill"></i></button>
-                <button id="recordButton"><i class="ri-mic-fill"></i></button>
-            </div>
-            <ul class="suggestion"></ul>
-        </div>
+        <section class="swiper-wrapper">
+        </section>
     </main>
     <footer>
         Made with <span>❤️</span> by group8

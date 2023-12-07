@@ -69,6 +69,7 @@ int Router::enroute(crow::SimpleApp &app)
             // get query
             std::string query = req.url_params.get("q") ? req.url_params.get("q") : "",
                         type = req.url_params.get("type") ? req.url_params.get("type") : "";
+                        crow::mustache::template_t page = crow::mustache::load("search.html");
             if(type == "json")
             {
                 crow::json::wvalue json;
@@ -76,8 +77,16 @@ int Router::enroute(crow::SimpleApp &app)
                 json["query"] = query;
                 json["result"] = handleQuery(query);
                 return crow::response(json);
+            } 
+            else if (type == "keyword")
+            {
+                crow::json::wvalue json;
+                return crow::response(api.response_openAI(query));
             }
-            auto page = crow::mustache::load("search.html");
+            else if (type == "product")
+            {
+                page = crow::mustache::load("product.html");
+            }
             ctx["title"] = query + " - HOP";
             ctx["description"] = "Search results for " + query;
             ctx["query"] = query;
@@ -95,28 +104,6 @@ int Router::enroute(crow::SimpleApp &app)
         CROW_ROUTE(app, "/suggestion/<string>")
         ([&](std::string query)
          { return crow::response(api.bingSuggestion(query)); });
-
-        CROW_ROUTE(app, "/db")
-        ([&]()
-         {
-             crow::json::wvalue json;
-             // Magic! Don't touch
-             std::vector<crow::json::wvalue> items_list; // list of wvalue
-             for (Item item : db.get())
-             {
-                 crow::json::wvalue item_json; // new wvalue
-                 item_json["name"] = item.name;
-                 std::vector<crow::json::wvalue> tags_list; // list of wvalue
-                 for (std::string tag : item.tags) // iterate through tags
-                 {
-                     tags_list.push_back(tag); // push wvalue
-                 }
-                 item_json["tags"] = crow::json::wvalue(tags_list); // wvalue of list of wvalue
-                 item_json["summary"] = item.summary;
-                 items_list.push_back(item_json);
-             }
-            json = std::move(crow::json::wvalue::list(items_list)); // wvalue of list of wvalue
-            return crow::response(json); });
 
         // to handle the POST request sent from the webpage
         // that contains the blob object of the recorded voice
