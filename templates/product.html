@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <meta name="description" content="{{ description }}">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+</head>
+
+<body>
+    <template class="history">
+        <li>
+            <span></span>
+        </li>
+    </template>
+    <template class="card">
+        <div class="swiper-slide">
+            <div>
+                <img src="">
+            </div>
+            <div>
+                <span></span>
+                <p></p>
+            </div>
+        </div>
+    </template>
+    </template>
+    <div class="bg"></div>
+    <header>
+        <nav>
+            <div>
+                <button onclick="pjax('admin')">Sign in</button>
+                <details>
+                    <summary>
+                        <i class="ri-settings-line"></i>
+                    </summary>
+                    <ul aria-label="Settings">
+                        <li data-src="on" id="suggestion"><i class="ri-bard-line"></i> Suggestions</li>
+                        <li data-src="on" id="dark"><i class=" ri-moon-line"></i> Dark mode</li>
+                        <li data-src="on" id="history"><i class="ri-history-line"></i> History</li>
+                    </ul>
+                </details>
+            </div>
+        </nav>
+    </header>
+    <main class="search">
+        <aside>
+            <a onclick="pjax('/')">
+                <img src="../static/img/logo.svg" alt="HOP.cheap logo">
+            </a>
+            <ul>
+            </ul>
+            <button></button>
+        </aside>
+        <ul>
+            <li>{{ query }}</li>
+            <li>
+                <span>Here is what I found for "{{ query }}"</span>
+                <div class="swiper">
+                    <div class="swiper-wrapper">
+                    </div>
+                    <div class="swiper-scrollbar"></div>
+                </div>
+            </li>
+        </ul>
+        <div class="container">
+            <div class="form">
+                <textarea rows="1" list="suggestion" placeholder="⌘ + Enter to explore"
+                    onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                <button><i class="ri-send-plane-fill"></i></button>
+                <button id="recordButton"><i class="ri-mic-fill"></i></button>
+            </div>
+            <ul class="suggestion"></ul>
+        </div>
+    </main>
+    <footer>
+        Made with <span>❤️</span> by group8
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="../static/js/LocalStorage.js" type="module"></script>
+    <script src="../static/js/history.js" type="module"></script>
+    <script src="../static/js/pjax.js"></script>
+    <script src="../static/js/script.js"></script>
+</body>
+
+</html>
