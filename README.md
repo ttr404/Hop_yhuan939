@@ -2,14 +2,14 @@
 
 Shop without Search, hop in shopping experience.
 
-[Hop is cross-platform store search engine powered by Crow Framework (Crowcpp/v1.0+5)]
+[Hop is cross-platform nested API based  search engine powered by Crow Framework (Crowcpp/v1.0+5)]
 
 ## Live Demo
 
 Main stream:
 ## [https://hop.cheap](https://hop.cheap)
 
-Dev servers: (Only online when developers run the project)
+Dev servers: (Only available when developers run the project)
 * dev.hop.cheap
 * dev-f.hop.cheap
 * dev-o.hop.cheap
