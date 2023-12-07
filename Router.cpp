@@ -140,8 +140,7 @@ int Router::enroute(crow::SimpleApp &app)
         ([&](const crow::request &req)
          {
             crow::response res;
-            res.add_header("Location", "/static/docs/html/index.html");
-            // redirect to /static/docs/html/index.html
+            res.add_header("Location", "/static/docs/html/annotated.html");
             res.code = 302;
             return res; });
     }
