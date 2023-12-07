@@ -3,9 +3,11 @@
 // i REALLY tried to get everything work using C++ but it doesn't seem to be worth the effort
 // it just feels like i am trying to fit a square peg into a round hole
 // so i am pretty much stuck with js for now
+// javascript is fucking retarded
 
 // handle port number 
-const SERVER_URL = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/" + "voiceUpload";
+const SERVER_URL = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port;
+const TOKEN = "r8_X1ErZq5FO5J4XZc00HphUvYTWLr3zdP1utzio"
 
 // check if the browser supports the MediaDevices API
 if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -17,15 +19,59 @@ let mediaRecorder;
 let audioChunks = [];
 let isRecording = false;
 
+// a helper function for saving the blob object
 function blobToBase64(blob) {
-    const reader = new FileReader();
-    reader.readAsDataURL(blob);
-    return new Promise(resolve => {
-        reader.onloadend = () => {
-            resolve(reader.result);
-        };
-    });
+  const reader = new FileReader();
+  reader.readAsDataURL(blob);
+  return new Promise(resolve => {
+    reader.onloadend = () => {
+      resolve(reader.result);
+    };
+  });
 };
+
+// fuck this bullshit
+// FUCK
+async function refetch(id) {
+  // if we have tried more than 5 times then fuck it 
+  let maxRetries = 5;
+  let attempt = 0;
+  // the interval between each attempt
+  let interval = 1500;
+
+  // we probably have to try to refetch the result multiple times
+  while (attempt < maxRetries) {
+    try {
+      const response = await fetch(SERVER_URL + '/refetch/' + id);
+      console.log('Attempt:', attempt, 'HTTP Response:', response);
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const responseText = await response.text();
+      const jsonResponse = JSON.parse(JSON.parse(responseText));
+      console.log('JSON Response:', jsonResponse);
+
+      // if it is succeeded
+      if (jsonResponse['status'] === 'succeeded') {
+        console.log('Success:', jsonResponse);
+        // console.log('Final result:', jsonResponse['output']['transcription']);
+        // return the transcription of what the user said
+        return jsonResponse['output']['transcription'];
+      } else {
+        console.log('Status not succeeded, retrying...');
+      }
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+
+    await new Promise(resolve => setTimeout(resolve, interval));
+    attempt++;
+  }
+
+  throw new Error('Max retries reached');
+}
 
 // get the audio from the microphone
 async function getAudio() {
@@ -45,7 +91,7 @@ async function getAudio() {
         const audioUrl = URL.createObjectURL(audioBlob);
         const recordedAudio = document.createElement("audio");
         recordedAudio.src = audioUrl;
-        // console.log('recordedAudio:', recordedAudio);
+        console.log('recordedAudio:', recordedAudio);
 
         // send the audio to the server
         const formData = new FormData();
@@ -55,16 +101,24 @@ async function getAudio() {
 
         // try to send the audio to the server
         try {
-          const response = await fetch(SERVER_URL, {
+          const response = await fetch(SERVER_URL + "/voiceUpload", {
             method: 'POST',
             body: formData
           });
+          // the data should be 
           const data = await response.json();
-          console.log(data);
+          const id = data.Rep_id;
+          console.log('id:', id);
+
+          refetch(id).then(result => {
+            console.log('Final result:', result);
+          }).catch(error => {
+            console.error('Refetch error:', error);
+          });
+
         } catch (error) {
           console.error('Error:', error);
         }
-
 
       } catch (error) {
         console.error('Error in onstop:', error);
@@ -73,7 +127,7 @@ async function getAudio() {
 
   } catch (error) {
     console.error('Error accessing the microphone:', error);
-    throw error; // Re-throw the error to be handled in toggleRecording
+    throw error;
   }
 }
 
