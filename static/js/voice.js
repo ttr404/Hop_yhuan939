@@ -1,7 +1,17 @@
-// the js file for the voice input feature 
+// the js file for the whole voice input feature 
 // https://web.dev/articles/media-recording-audio
 // i REALLY tried to get everything work using C++ but it doesn't seem to be worth the effort
 // it just feels like i am trying to fit a square peg into a round hole
+// and use that square peg to hammer a nail into a wall
+// and use that nail to hang a picture frame
+// and use that picture frame to cover a hole in the wall
+// and use that hole in the wall to hide a safe
+// and use that safe to store a key
+// and use that key to open a door
+// and use that door to enter a room
+// and use that room to store a box
+// and use that box to store a square peg
+// and use that square peg to hammer a nail into a wall
 // so i am pretty much stuck with js for now
 // javascript is fucking retarded
 
@@ -51,21 +61,21 @@ async function refetch(id) {
 
       const responseText = await response.text();
       const jsonResponse = JSON.parse(JSON.parse(responseText));
-      console.log('JSON Response:', jsonResponse);
+      // console.log('JSON Response:', jsonResponse);
 
       // if it is succeeded
       if (jsonResponse['status'] === 'succeeded') {
         console.log('Success:', jsonResponse);
         // console.log('Final result:', jsonResponse['output']['transcription']);
         // return the transcription of what the user said
-        return jsonResponse['output']['transcription'];
+        return jsonResponse['output']['transcription'].trim();
       } else {
         console.log('Status not succeeded, retrying...');
       }
     } catch (error) {
       console.error('Fetch error:', error);
     }
-
+    // wait for a while before trying again because this shit is retarded and i cannot find a better way of doing it
     await new Promise(resolve => setTimeout(resolve, interval));
     attempt++;
   }
@@ -110,8 +120,11 @@ async function getAudio() {
           const id = data.Rep_id;
           console.log('id:', id);
 
+          // refetch the result
           refetch(id).then(result => {
+            // we are getting the final output hoorayyyyyyy!
             console.log('Final result:', result);
+            document.getElementById('voiceResultInput').value = result;
           }).catch(error => {
             console.error('Refetch error:', error);
           });
