@@ -115,7 +115,6 @@ int Router::enroute(crow::SimpleApp &app)
                 crow::multipart::part file = parts.get_part_by_name("file");
                 std::string file_path = "static/upload/" + std::to_string(std::localtime(&now)->tm_sec) + ".mp3";
                 std::string base64 = file.body.erase(0, 22);
-                std::cout << base64 << std::endl;
                 voice.decode_base64_and_write_to_file(file.body, file_path);
                 // get domain from the request
                 std::string domain = req.get_header_value("Host");

@@ -32,6 +32,13 @@ Task automation file:
 * nlohmann_json/v3.0 or higher
 * libmysqlcppconn-dev/v1.1 or higher
 
+## APIs
+Google Trending API: [https://trends.google.com/trends/](https://trends.google.com/trends/)
+Bing Suggestions API: [https://www.bing.com/](https://www.bing.com/)
+OpenAI Vision API: [https://openai.com/product/](https://openai.com/product/)
+OpenAI Text generation API (GPT 4): [https://openai.com/product/](https://openai.com/product/)
+Replicated GPU runtime platform: [https://www.replicated.com/](https://www.replicated.com/)
+
 ## How to Install
 ### MacOS
 **Install Homebrew (if not already installed)**
