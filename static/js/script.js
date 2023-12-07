@@ -78,6 +78,8 @@ if (typeof initSearch === "undefined") {
         let url = new URL(window.location);
         const urlParams = new URLSearchParams(url.search);
         const collapse = document.querySelector('aside button');
+        const tButton = document.querySelector('.prompt i');
+        const prompt = document.querySelector('.prompt span');
         if (typeof Swiper === "undefined") {
             const swiperScript = document.createElement('script');
             swiperScript.src = "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js";
@@ -104,6 +106,11 @@ if (typeof initSearch === "undefined") {
         collapse.onclick = () => {
             document.querySelector('main').classList.toggle('collapsed');
         };
+        tButton.onclick = () => {
+            let text = prompt.innerText;
+            var utterance = new SpeechSynthesisUtterance(text);
+            speechSynthesis.speak(utterance);
+        }
         urlParams.set('type', 'json');
         url.search = urlParams;
         fetch(url)

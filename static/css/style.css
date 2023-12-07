@@ -594,7 +594,7 @@ ul.suggestion li:after {
     font-size: 1.1em;
 }
 
-.swiper-slide p {
+.product .swiper-slide:not(:first-child) p {
     display: none;
 }
 
