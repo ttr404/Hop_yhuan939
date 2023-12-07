@@ -117,7 +117,9 @@ int Router::enroute(crow::SimpleApp &app)
                 std::string base64 = file.body.erase(0, 22);
                 std::cout << base64 << std::endl;
                 voice.decode_base64_and_write_to_file(file.body, file_path);
-                std::string fullPath = "https://dev-x.hop.cheap/" + file_path;
+                // get domain from the request
+                std::string domain = req.get_header_value("Host");
+                std::string fullPath = "https://" + domain + "/" + file_path;
                 std::string id = voiceAPI.callAPI(fullPath);
                 nlohmann::json jsonResponse;
                 jsonResponse["Rep_id"] = id;
