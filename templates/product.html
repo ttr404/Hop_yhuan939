@@ -47,7 +47,7 @@
             </div>
         </nav>
     </header>
-    <main class="search">
+    <main class="product">
         <aside>
             <a onclick="pjax('/')">
                 <img src="../static/img/logo.svg" alt="HOP.cheap logo">
@@ -59,7 +59,10 @@
         <ul>
             <li>{{ query }}</li>
             <li>
-                <span>Here is what I found for "{{ query }}"</span>
+                <div>
+                    <span>Here is what I found for "{{ query }}"</span>
+                    <i class="ri-volume-down-fill"></i>
+                </div>
                 <div class="swiper">
                     <div class="swiper-wrapper">
                     </div>

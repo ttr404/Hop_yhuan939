@@ -335,6 +335,21 @@ main>ul li:nth-child(2) {
     border-radius: 0 1em 1em 1em;
 }
 
+main .prompt {
+    display: grid;
+    grid-template-columns: auto 1.2em;
+}
+
+main .prompt i {
+    font-size: 1.2em;
+    color: var(--dark);
+}
+
+main .prompt i:hover {
+    color: var(--indigo);
+    cursor: pointer;
+}
+
 main .form div {
     position: absolute;
     top: -6em;
